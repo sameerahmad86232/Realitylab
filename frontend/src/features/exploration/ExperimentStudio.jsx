@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, lazy, Suspense } from "react";
 import ObjectOverview from "./ObjectOverview";
 import PhysicsBench from "./PhysicsBench";
 import EvidenceNotebook from "./EvidenceNotebook";
+import CameraCapture from "../../components/CameraCapture";
 import {
   updateObservation,
   withReview,
@@ -47,6 +48,8 @@ const initial = {
 };
 export default function ExperimentStudio() {
   const [activeTool, setActiveTool] = useState("objects");
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const deviceCamera = useRef(null);
   const [physicsReport, setPhysicsReport] = useState(null);
   const [health, setHealth] = useState(null),
     [healthError, setHealthError] = useState("");
@@ -386,6 +389,18 @@ export default function ExperimentStudio() {
           </div>
           <fieldset disabled={!!busy}>
             <input
+              ref={deviceCamera}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              capture="environment"
+              className="visually-hidden"
+              aria-label="Take a photo with device camera"
+              onChange={(e) => {
+                addFiles(e.target.files);
+                e.target.value = "";
+              }}
+            />
+            <input
               className="visually-hidden"
               type="file"
               ref={fileInput}
@@ -411,12 +426,21 @@ export default function ExperimentStudio() {
                 Photograph an object clearly: a tool, appliance, vehicle, piece
                 of furniture, natural object or something unfamiliar.
               </p>
-              <button
-                className="quiet-button"
-                onClick={() => fileInput.current?.click()}
-              >
-                <Plus size={13} /> Choose photos
-              </button>
+              <div className="capture-actions">
+                <button
+                  className="button-lime"
+                  disabled={files.length >= 3}
+                  onClick={() => setCameraOpen(true)}
+                >
+                  <Camera size={16} /> Take a photo
+                </button>
+                <button
+                  className="quiet-button"
+                  onClick={() => fileInput.current?.click()}
+                >
+                  <Plus size={13} /> Choose photos
+                </button>
+              </div>
               <small>1–3 IMAGES · JPEG, PNG, WEBP · 5 MB EACH</small>
             </div>
             <details className="capture-guide">
@@ -495,6 +519,13 @@ export default function ExperimentStudio() {
               Analyze my photos <ArrowUpRight size={16} />
             </button>
           </fieldset>
+          {cameraOpen && (
+            <CameraCapture
+              onPhoto={(file) => addFiles([file])}
+              onClose={() => setCameraOpen(false)}
+              onDevicePhoto={() => deviceCamera.current?.click()}
+            />
+          )}
           {busy === "analysis" && (
             <button className="quiet-button lab-cancel" onClick={cancel}>
               Cancel analysis

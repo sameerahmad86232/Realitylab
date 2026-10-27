@@ -4,7 +4,7 @@ A general object exploration studio: **observe → map → correct → test supp
 
 ## Run
 
-Node 24.5+ is required; Node 24.19 is validated here. The API startup enables Node’s environment-proxy routing and system certificate store, preserving TLS verification for proxy-backed secrets.
+Node 24.5+ is required; Node 24.19 is validated here. Python 3 is used by the mesh-statistics test and optional CLI; no native CAD kernel is required. The API startup enables Node’s environment-proxy routing and system certificate store, preserving TLS verification for proxy-backed secrets.
 
 ```bash
 npm ci
@@ -133,3 +133,23 @@ After `npm run build`, run `npm run test:shader` with an installed Chromium
 (or set `CHROMIUM_PATH`). It checks actual animated rendering, stable pause,
 reduced-motion defaults, no-WebGL fallback and desktop/mobile layouts against
 an isolated keyless app. It makes no AI requests.
+
+### Camera and model inspector
+
+**Object explorer → Take a photo** opens a local camera preview with capture,
+retake, camera switching and explicit review. It requests video only and stops
+camera tracks on capture or close. Photos use the existing upload limits and
+consent gate; no video is sent to the provider. Use HTTPS or localhost for live
+preview, with a device-photo fallback for unsupported browsers.
+
+The new **3D model inspector** opens local static GLB/STL meshes, including
+Text23D exports, and offers mesh selection, measured bounds, wireframe,
+visual assembly separation, open section views and PNG/JSON export. It includes a
+Text23D cube-study adaptation and an actual PiCar reference chassis. CAD Showcase
+Studio provides viewer patterns and a reused mesh-statistics utility; Loböle's
+separately CC0 lighting remains in the existing design study. Full sources,
+licenses and scope are in [open-source credits](docs/OPEN_SOURCE.md).
+
+Run `npm run test:camera-cad` after building to check capture and model viewing
+without real AI calls. See [camera/model documentation](docs/CAMERA_AND_CAD.md)
+for limits. These features do not reconstruct CAD from photos or control hardware.

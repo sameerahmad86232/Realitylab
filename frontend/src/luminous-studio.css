@@ -549,3 +549,551 @@ body,
     transform: none;
   }
 }
+
+.capture-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 17px 0;
+}
+.capture-actions .button-lime {
+  min-height: 43px;
+}
+.camera-dialog {
+  border: 1px solid #d6e1d6;
+  border-radius: 18px;
+  background: #fbfcf8;
+  color: #304a3b;
+  padding: 25px;
+  width: min(720px, calc(100vw - 28px));
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  box-shadow: 0 30px 100px #10251933;
+}
+.camera-dialog::backdrop {
+  background: #14271d80;
+  backdrop-filter: blur(6px);
+}
+.camera-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.camera-heading h3 {
+  font: 400 32px/1.1 var(--serif);
+  margin: 10px 0 0;
+}
+.camera-heading > .quiet-button {
+  min-width: 40px;
+  padding: 9px;
+}
+.camera-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: #13251b;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  max-height: 52dvh;
+}
+.camera-stage video,
+.camera-stage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  min-height: 0;
+}
+.camera-stage > p {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #646c64;
+  padding: 30px;
+  text-align: center;
+  font-size: 14px;
+}
+.camera-guide {
+  position: absolute;
+  inset: 10%;
+  border: 1px solid #ffffff60;
+  border-radius: 14px;
+  pointer-events: none;
+}
+.camera-disclosure {
+  font: 13px/1.65 var(--font-body);
+  color: #5d7060;
+  margin: 15px 0 20px;
+}
+.camera-error {
+  background: #fff3e6;
+  border: 1px solid #ead4b3;
+  border-radius: 7px;
+  color: #8a6338;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 12px;
+}
+.camera-actions,
+.camera-recovery {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.camera-actions button {
+  min-height: 44px;
+}
+.camera-recovery {
+  justify-content: center;
+  margin-top: 15px;
+}
+.camera-dialog .eyebrow {
+  font-size: 9px;
+}
+@media (max-width: 500px) {
+  .camera-dialog {
+    padding: 18px;
+    border-radius: 14px;
+  }
+  .camera-heading h3 {
+    font-size: 27px;
+  }
+  .camera-actions button {
+    font-size: 12px;
+    gap: 7px;
+  }
+  .camera-disclosure {
+    font-size: 12px;
+  }
+  .camera-stage {
+    max-height: 47dvh;
+  }
+}
+
+.model-studio {
+  border: 1px solid #dce5d7;
+  border-radius: 16px;
+  background: #fcfdf9;
+  overflow: hidden;
+}
+.model-studio-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 30px;
+}
+.model-studio-heading .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.model-studio-heading h3 {
+  font: 400 38px/1.15 var(--serif);
+  margin: 15px 0 10px;
+  color: #35513d;
+}
+.model-studio-heading p {
+  font: 14px/1.7 var(--font-body);
+  max-width: 60ch;
+  color: #60715d;
+  margin: 0;
+}
+.model-studio-heading > .button-lime {
+  white-space: nowrap;
+}
+.model-source-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 16px 25px;
+  border-top: 1px solid #e5ebdf;
+  border-bottom: 1px solid #e5ebdf;
+  background: #f5f8ef;
+}
+.model-source-row > span:first-child,
+.model-local-badge {
+  font: 8px var(--mono);
+  letter-spacing: 0.7px;
+  color: #61715c;
+}
+.model-local-badge {
+  margin-left: auto;
+}
+.model-source-row .quiet-button {
+  font-size: 12px;
+}
+.model-workspace {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr) 225px;
+}
+.model-part-list {
+  background: #f9fbf5;
+  border-right: 1px solid #e3eadb;
+  padding: 23px 13px;
+  max-height: 600px;
+  overflow: auto;
+}
+.model-part-list > .micro-label {
+  font-size: 9px;
+  display: block;
+  margin-bottom: 20px;
+}
+.model-part-list button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: #597356;
+  padding: 11px 10px;
+  text-align: left;
+  font-size: 12px;
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+}
+.model-part-list button.selected {
+  background: #edf4e4;
+  border-color: #cfdfc2;
+  color: #42643b;
+}
+.model-part-list small {
+  display: block;
+  font-size: 10px;
+  color: #616e59;
+  margin-top: 5px;
+}
+.model-viewport {
+  position: relative;
+  min-height: 540px;
+  background: #f2f6ef;
+  overflow: hidden;
+  min-width: 0;
+}
+.model-canvas {
+  position: absolute;
+  inset: 0;
+}
+.model-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+.model-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #f2f6efde;
+  padding: 40px;
+  text-align: center;
+  color: #5c7053;
+  font-size: 14px;
+  z-index: 3;
+}
+.model-viewport-note {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  font: 8px var(--mono);
+  letter-spacing: 0.6px;
+  color: #5f7056;
+  pointer-events: none;
+}
+.model-view-controls {
+  position: absolute;
+  top: 45px;
+  left: 18px;
+  display: flex;
+  gap: 5px;
+}
+.model-view-controls button {
+  background: #ffffffbb;
+  border: 1px solid #dce6d3;
+  border-radius: 5px;
+  padding: 8px 10px;
+  font-size: 10px;
+  color: #5c7254;
+  backdrop-filter: blur(8px);
+}
+.model-view-controls button.selected {
+  background: #e8f2df;
+  color: #4e753e;
+  border-color: #c7deb5;
+}
+.model-zoom {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  display: flex;
+  gap: 5px;
+}
+.model-zoom button {
+  min-width: 37px;
+  padding: 8px;
+}
+.model-inspector {
+  padding: 23px 18px;
+  border-left: 1px solid #e0e8d8;
+  background: #fbfcf8;
+}
+.model-inspector > .micro-label {
+  font-size: 9px;
+}
+.model-inspector .lab-check {
+  margin-top: 20px;
+}
+.model-inspector .lab-check span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.model-inspector .lab-label {
+  font-size: 12px;
+  margin-top: 22px;
+}
+.model-inspector .lab-label > span {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.model-inspector .lab-label input[type="range"] {
+  padding: 0;
+  min-height: 25px;
+  accent-color: #6e9756;
+  width: 100%;
+}
+.model-inspector select {
+  font-size: 13px;
+  min-height: 39px;
+  padding: 8px;
+}
+.model-inspector .lab-help {
+  font-size: 11px;
+  line-height: 1.7;
+}
+.model-measurements {
+  border-top: 1px solid #e0e8d7;
+  margin-top: 23px;
+  padding-top: 19px;
+}
+.model-measurements > strong {
+  font: 400 30px var(--serif);
+  color: #557549;
+}
+.model-measurements > span {
+  display: block;
+  font: 8px var(--mono);
+  letter-spacing: 0.7px;
+  color: #607056;
+  margin-top: 5px;
+}
+.model-measurements h4 {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 22px 0 10px;
+  color: #5c7351;
+}
+.model-measurements p {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #626e58;
+  margin: 5px 0;
+}
+.model-measurements small {
+  display: block;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #616e54;
+  margin-top: 12px;
+}
+.model-summary {
+  border-top: 1px solid #e0e8d7;
+  padding: 22px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+.model-summary strong {
+  font: 400 21px var(--serif);
+  color: #557148;
+}
+.model-summary p {
+  font-size: 12px;
+  line-height: 1.7;
+  max-width: 65ch;
+  color: #617256;
+}
+.model-downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.model-downloads button {
+  font-size: 12px;
+  white-space: nowrap;
+}
+.model-provenance {
+  padding: 15px 25px;
+  border-top: 1px solid #e2ead9;
+  background: #f8fbf2;
+  font-size: 11px;
+  line-height: 1.8;
+  color: #606e55;
+}
+.model-provenance a {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #5b7449;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.model-error {
+  margin: 10px 25px;
+  padding: 13px;
+  background: #fff5e9;
+  border: 1px solid #ead8bc;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #896337;
+}
+.studio-mode-tabs {
+  flex-wrap: wrap;
+}
+@media (max-width: 1050px) {
+  .model-workspace {
+    grid-template-columns: minmax(0, 1fr) 210px;
+  }
+  .model-part-list {
+    grid-column: 1/-1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    border-right: 0;
+    border-bottom: 1px solid #e0e8d7;
+    max-height: 150px;
+    flex-wrap: wrap;
+  }
+  .model-part-list > .micro-label {
+    margin: 0 8px 0 0;
+  }
+  .model-part-list button {
+    width: auto;
+    margin: 0;
+  }
+  .model-part-list small {
+    display: none;
+  }
+  .model-viewport {
+    min-height: 460px;
+  }
+  .model-local-badge {
+    display: none;
+  }
+  .model-summary {
+    display: block;
+  }
+  .model-downloads {
+    margin-top: 15px;
+  }
+}
+@media (max-width: 600px) {
+  .model-studio-heading {
+    padding: 22px 18px;
+    display: block;
+  }
+  .model-studio-heading h3 {
+    font-size: 30px;
+  }
+  .model-studio-heading > .button-lime {
+    margin-top: 20px;
+  }
+  .model-source-row {
+    padding: 14px;
+    gap: 9px;
+  }
+  .model-source-row > span:first-child {
+    flex-basis: 100%;
+  }
+  .model-source-row .quiet-button {
+    font-size: 11px;
+    padding: 9px;
+  }
+  .model-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .model-part-list {
+    max-height: 170px;
+    overflow: auto;
+  }
+  .model-part-list button {
+    font-size: 11px;
+    padding: 8px;
+  }
+  .model-viewport {
+    min-height: 360px;
+  }
+  .model-inspector {
+    border-left: 0;
+    border-top: 1px solid #e0e8d7;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  .model-inspector > .micro-label {
+    grid-column: 1/-1;
+  }
+  .model-inspector .lab-label,
+  .model-inspector .lab-check {
+    margin-top: 0;
+  }
+  .model-inspector .lab-help {
+    font-size: 10px;
+  }
+  .model-measurements {
+    grid-column: 1/-1;
+    margin-top: 0;
+  }
+  .model-summary {
+    padding: 20px 18px;
+  }
+  .model-summary strong {
+    font-size: 20px;
+  }
+  .model-provenance {
+    padding: 15px 18px;
+    font-size: 10px;
+  }
+  .model-viewport-note {
+    font-size: 7px;
+  }
+  .model-view-controls button {
+    font-size: 9px;
+  }
+}
+/* The camera waiting state sits over a dark video surface. */
+.camera-stage > p {
+  color: #eff5ed;
+}
+/* Keep primary actions readable in hover states, including modal actions. */
+.button-lime:hover:not(:disabled),
+.camera-actions .button-lime:hover:not(:disabled) {
+  background: #35543e;
+  border-color: #35543e;
+  color: #fff;
+}

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
+const CadWorkspace = lazy(() => import("./features/cad/CadWorkspace"));
 import {
   ArrowUpRight,
   ScanLine,
@@ -227,6 +228,15 @@ export default function App() {
               <span>LIVE & MANUAL TOOLS</span>
             </button>
             <button
+              id="cad-tab"
+              role="tab"
+              aria-selected={studioMode === "cad"}
+              aria-controls="cad-panel"
+              onClick={() => setStudioMode("cad")}
+            >
+              <Box size={15} /> 3D model inspector <span>GLB / STL</span>
+            </button>
+            <button
               id="sample-tab"
               role="tab"
               aria-selected={studioMode === "sample"}
@@ -243,6 +253,22 @@ export default function App() {
             hidden={studioMode !== "mechanism"}
           >
             <ExperimentStudio />
+          </div>
+          <div
+            id="cad-panel"
+            role="tabpanel"
+            aria-labelledby="cad-tab"
+            hidden={studioMode !== "cad"}
+          >
+            {studioMode === "cad" && (
+              <Suspense
+                fallback={
+                  <p className="lab-help">Preparing the model inspector…</p>
+                }
+              >
+                <CadWorkspace />
+              </Suspense>
+            )}
           </div>
           <div
             id="sample-panel"
