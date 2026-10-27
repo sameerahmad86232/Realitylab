@@ -1,408 +1,349 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { 
-  Eye, 
-  Hammer, 
-  Sparkles, 
-  CheckCircle2, 
-  Cpu, 
-  Box, 
-  Clock, 
-  Wrench, 
-  Zap, 
-  AlertTriangle 
-} from 'lucide-react';
-import BlueprintVisualizer from './BlueprintVisualizer';
+import carPlanImage from "../assets/reality-gt-plan.png";
+import PropTypes from "prop-types";
+import { useEffect, useRef, useState } from "react";
+import {
+  ArrowDownToLine,
+  ArrowUpRight,
+  Layers3,
+  Box,
+  Eye,
+  Plus,
+  Minus,
+  RotateCcw,
+  Check,
+  Lightbulb,
+  MoveUpRight,
+} from "lucide-react";
 
 export default function ResultsSection({ blueprintData, isVisible }) {
-  const [activeTab, setActiveTab] = useState('discover'); // 'discover' or 'build'
-  const [selectedPartId, setSelectedPartId] = useState('obs-1');
-  const resultsRef = useRef(null);
-
+  const [tab, setTab] = useState("discover");
+  const [part, setPart] = useState("obs-1");
+  const [layer, setLayer] = useState("all");
+  const [zoom, setZoom] = useState(1);
+  const [complete, setComplete] = useState([]);
+  const target = useRef(null);
   useEffect(() => {
-    if (isVisible && resultsRef.current) {
-      resultsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    if (isVisible)
+      target.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [isVisible]);
-
   if (!isVisible || !blueprintData) return null;
-
+  const observed = blueprintData.observedParts;
+  const inferred = blueprintData.inferredParts;
+  const visibleParts =
+    layer === "observed"
+      ? observed
+      : layer === "inferred"
+        ? inferred
+        : [...observed, ...inferred];
+  const selected = [...observed, ...inferred].find((p) => p.id === part);
+  const steps = [
+    {
+      title: "Sketch the structure",
+      text: "Sketch the side profile of a coupe. Label the body shell, cabin and four wheel positions. Treat all proportions as illustrative.",
+    },
+    {
+      title: "Make a static frame",
+      text: "Fold paper or cardboard into an unpowered body model. Use simple cardboard circles for the wheels. This activity demonstrates form, not a roadworthy vehicle.",
+    },
+    {
+      title: "Map the connections",
+      text: "Mark possible positions for an electric motor, battery and cooling system. Keep these clearly labeled as packaging hypotheses.",
+    },
+    {
+      title: "Compare and reflect",
+      text: "Compare the model with the diagram. Note which features are observable and which would require inspection or testing to confirm.",
+    },
+  ];
+  function exportReport() {
+    const report = {
+      title: blueprintData.objectName,
+      mode: "curated-sample",
+      notice:
+        "Illustrative educational sample; not a live image analysis or verified construction plan.",
+      observedParts: observed.map((p) => ({
+        name: p.name,
+        location: p.location,
+      })),
+      hypotheses: inferred.map((p) => ({
+        name: p.name,
+        reason: p.inferenceReason,
+      })),
+      learningProject: steps,
+    };
+    const url = URL.createObjectURL(
+      new Blob([JSON.stringify(report, null, 2)], { type: "application/json" }),
+    );
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "realitylab-sample-exploration.json";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
   return (
-    <section 
-      ref={resultsRef}
-      className="w-full max-w-6xl mx-auto px-6 pb-24 transition-all duration-500 select-none"
-    >
-      
-      {/* 1. Header Card with Generous Padding */}
-      <div className="p-6 md:p-10 rounded-2xl bg-slate-900/60 backdrop-blur-xl border border-white/10 mb-8 transition-all duration-300 hover:border-cyan-500/50">
-        
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div>
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span className="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono tracking-wider text-cyan-400 font-medium uppercase">
-                ID: {blueprintData.id}
-              </span>
-              <span className="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-xs font-mono tracking-wider text-purple-400 font-medium uppercase flex items-center space-x-1">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>AI Confidence: {blueprintData.confidence}%</span>
-              </span>
-              <span className="text-xs text-slate-400 font-medium">
-                {blueprintData.detectedCategory}
-              </span>
-            </div>
-
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-2">
-              {blueprintData.objectName}
-            </h2>
-
-            <p className="text-sm md:text-base text-slate-400 max-w-3xl leading-relaxed">
-              {blueprintData.summary}
-            </p>
-          </div>
-
-          {/* Quick Spec Badges */}
-          <div className="flex flex-wrap sm:flex-nowrap gap-3">
-            <div className="px-4 py-3 rounded-xl bg-slate-950/60 border border-white/5 text-left min-w-[110px]">
-              <span className="block text-[11px] font-mono tracking-wider text-slate-400 uppercase">Dimensions</span>
-              <span className="text-sm font-semibold text-slate-200">{blueprintData.dimensions}</span>
-            </div>
-
-            <div className="px-4 py-3 rounded-xl bg-slate-950/60 border border-white/5 text-left min-w-[100px]">
-              <span className="block text-[11px] font-mono tracking-wider text-slate-400 uppercase">Weight</span>
-              <span className="text-sm font-semibold text-slate-200">{blueprintData.estimatedWeight}</span>
-            </div>
-
-            <div className="px-4 py-3 rounded-xl bg-slate-950/60 border border-white/5 text-left min-w-[110px]">
-              <span className="block text-[11px] font-mono tracking-wider text-slate-400 uppercase">Build Time</span>
-              <span className="text-sm font-semibold text-cyan-400">{blueprintData.estimatedBuildTime}</span>
-            </div>
-          </div>
-        </div>
-
+    <section className="exploration-results" ref={target}>
+      <div className="results-top">
+        <span className="eyebrow">
+          <span className="live-dot" /> YOUR EXPLORATION / 001
+        </span>
+        <button className="quiet-button" onClick={exportReport}>
+          <ArrowDownToLine size={14} /> Export report
+        </button>
       </div>
-
-      {/* 2. Tab Navigation */}
-      <div className="flex items-center justify-between border-b border-white/10 mb-8 pb-4">
-        
-        <div className="flex items-center space-x-3">
-          
-          <button
-            type="button"
-            onClick={() => setActiveTab('discover')}
-            className={`flex items-center space-x-2 px-6 py-2.5 rounded-xl font-medium text-sm transition-all duration-300
-              ${activeTab === 'discover'
-                ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400 text-cyan-300 shadow-[0_0_15px_rgba(0,240,255,0.2)]'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/40 border border-transparent'
-              }
-            `}
-          >
-            <Eye className="w-4 h-4 text-cyan-400" />
-            <span>Discover Mode</span>
-            <span className="text-xs px-2 py-0.5 rounded-full bg-slate-900 border border-white/10 text-slate-300">
-              {blueprintData.observedParts.length + blueprintData.inferredParts.length}
-            </span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('build')}
-            className={`flex items-center space-x-2 px-6 py-2.5 rounded-xl font-medium text-sm transition-all duration-300
-              ${activeTab === 'build'
-                ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-400 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800/40 border border-transparent'
-              }
-            `}
-          >
-            <Hammer className="w-4 h-4 text-purple-400" />
-            <span>Build Mode</span>
-            <span className="text-xs px-2 py-0.5 rounded-full bg-slate-900 border border-white/10 text-slate-300">
-              {blueprintData.buildSteps.length}
-            </span>
-          </button>
-
+      <div className="result-title">
+        <div>
+          <span className="sample-label">
+            CURATED SAMPLE · NOT LIVE ANALYSIS
+          </span>
+          <h2>{blueprintData.objectName}</h2>
+          <p>An original design. A new perspective on motion.</p>
         </div>
-
-        <p className="hidden sm:block text-xs text-slate-400">
-          {activeTab === 'discover' ? 'CAD Blueprint & Component Breakdown' : 'Household Materials & Build Instructions'}
-        </p>
-
+        <span className="result-seal">
+          <Box size={24} />
+          <small>
+            OBJECT
+            <br />
+            STUDY 001
+          </small>
+        </span>
       </div>
-
-      {/* 3. Tab 1: DISCOVER MODE */}
-      {activeTab === 'discover' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Left: Generated Blueprint Image Placeholder */}
-          <div className="lg:col-span-6">
-            <BlueprintVisualizer 
-              selectedPart={selectedPartId} 
-              onSelectPart={(id) => setSelectedPartId(id)} 
-            />
-          </div>
-
-          {/* Right: Observed & Inferred Parts */}
-          <div className="lg:col-span-6 space-y-6">
-            
-            {/* Observed Parts */}
-            <div className="p-6 md:p-8 rounded-2xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:-translate-y-1 hover:border-cyan-500/50 transition-all duration-300">
-              
-              <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
-                <div className="flex items-center space-x-2">
-                  <span className="w-2 h-2 rounded-full bg-cyan-400" />
-                  <h3 className="text-base font-semibold text-white tracking-tight">
-                    Observed Parts
-                  </h3>
-                </div>
-                <span className="text-xs font-mono tracking-wider text-slate-400">
-                  {blueprintData.observedParts.length} DETECTED
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                {blueprintData.observedParts.map((part) => {
-                  const isSelected = selectedPartId === part.id;
-                  return (
-                    <div
-                      key={part.id}
-                      onClick={() => setSelectedPartId(part.id)}
-                      className={`p-4 rounded-xl border transition-all duration-300 cursor-pointer text-left
-                        ${isSelected
-                          ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_15px_rgba(0,240,255,0.15)]'
-                          : 'bg-slate-950/40 border-white/5 hover:border-cyan-500/40 hover:bg-slate-800/30'
-                        }
-                      `}
-                    >
-                      <div className="flex items-start justify-between gap-3 mb-1.5">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-xs font-mono tracking-wider px-1.5 py-0.5 rounded bg-slate-800 border border-white/10 text-cyan-300 font-medium">
-                            {part.tag}
-                          </span>
-                          <h4 className="text-sm font-semibold text-white">
-                            {part.name}
-                          </h4>
-                        </div>
-                        <span className="text-xs font-mono text-emerald-400 flex items-center space-x-1 flex-shrink-0 font-medium">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
-                          <span>{part.confidence}%</span>
-                        </span>
-                      </div>
-
-                      <p className="text-xs text-slate-400 leading-relaxed mb-2">
-                        {part.specs}
-                      </p>
-
-                      <div className="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-white/5">
-                        <span>{part.location}</span>
-                        <span className="text-cyan-400 font-medium">{part.category}</span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-            </div>
-
-            {/* Inferred Parts */}
-            <div className="p-6 md:p-8 rounded-2xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:-translate-y-1 hover:border-purple-500/50 transition-all duration-300">
-              
-              <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
-                <div className="flex items-center space-x-2">
-                  <span className="w-2 h-2 rounded-full bg-purple-400" />
-                  <h3 className="text-base font-semibold text-white tracking-tight">
-                    Inferred Parts
-                  </h3>
-                </div>
-                <span className="text-xs font-mono tracking-wider text-purple-400 flex items-center space-x-1">
-                  <Sparkles className="w-3 h-3" />
-                  <span>DEDUCTIVE AI</span>
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                {blueprintData.inferredParts.map((part) => {
-                  const isSelected = selectedPartId === part.id;
-                  return (
-                    <div
-                      key={part.id}
-                      onClick={() => setSelectedPartId(part.id)}
-                      className={`p-4 rounded-xl border transition-all duration-300 cursor-pointer text-left
-                        ${isSelected
-                          ? 'bg-purple-950/40 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.15)]'
-                          : 'bg-slate-950/40 border-white/5 hover:border-purple-500/40 hover:bg-slate-800/30'
-                        }
-                      `}
-                    >
-                      <div className="flex items-start justify-between gap-3 mb-1.5">
-                        <div className="flex items-center space-x-2">
-                          <span className="text-xs font-mono tracking-wider px-1.5 py-0.5 rounded bg-slate-800 border border-white/10 text-purple-300 font-medium">
-                            {part.tag}
-                          </span>
-                          <h4 className="text-sm font-semibold text-white">
-                            {part.name}
-                          </h4>
-                        </div>
-                        <span className="text-xs font-mono text-purple-400 flex items-center space-x-1 flex-shrink-0 font-medium">
-                          <Cpu className="w-3.5 h-3.5" />
-                          <span>{part.confidence}%</span>
-                        </span>
-                      </div>
-
-                      <p className="text-xs text-slate-400 leading-relaxed mb-2">
-                        {part.specs}
-                      </p>
-
-                      {/* AI Inference Reasoning */}
-                      <div className="p-2.5 rounded-lg bg-purple-950/30 border border-purple-500/20 text-xs text-purple-200 mb-2">
-                        <span className="text-purple-400 font-semibold mr-1">Why Inferred:</span>
-                        {part.inferenceReason}
-                      </div>
-
-                      <div className="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-white/5">
-                        <span>{part.internalLocation}</span>
-                        <span className="text-purple-400 font-medium">{part.category}</span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-      )}
-
-      {/* 4. Tab 2: BUILD MODE */}
-      {activeTab === 'build' && (
-        <div className="space-y-8">
-          
-          {/* Household Materials Card */}
-          <div className="p-6 md:p-10 rounded-2xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:-translate-y-1 hover:border-cyan-500/50 transition-all duration-300">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-white/10">
-              <div>
-                <h3 className="text-lg font-bold text-white tracking-tight flex items-center space-x-2">
-                  <Box className="w-5 h-5 text-purple-400" />
-                  <span>Household Materials & Substitutes</span>
-                </h3>
-                <p className="text-sm text-slate-400 mt-1">
-                  Accessible maker alternatives for upcycled prototyping.
-                </p>
-              </div>
-
-              <span className="px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono tracking-wider font-semibold">
-                EST. COST: ~$8.70
+      <div
+        className="result-tabs"
+        role="tablist"
+        aria-label="Exploration views"
+      >
+        <button
+          role="tab"
+          aria-selected={tab === "discover"}
+          onClick={() => setTab("discover")}
+        >
+          <Eye size={16} /> Discover <span>01</span>
+        </button>
+        <button
+          role="tab"
+          aria-selected={tab === "build"}
+          onClick={() => setTab("build")}
+        >
+          <Box size={16} /> Make a model <span>02</span>
+        </button>
+      </div>
+      {tab === "discover" ? (
+        <div className="discover-grid">
+          <div className="result-viewer">
+            <div className="result-viewer-top">
+              <span>
+                <Layers3 size={14} /> COMPONENT MAP
               </span>
+              <span>ILLUSTRATIVE / PLAN VIEW</span>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {blueprintData.householdMaterials.map((mat) => (
-                <div 
-                  key={mat.id}
-                  className="p-5 rounded-xl bg-slate-950/60 border border-white/5 hover:border-purple-500/40 transition-all duration-300 flex flex-col justify-between"
+            <div className="schematic-stage">
+              <div
+                className="schematic"
+                style={{ transform: `scale(${zoom})` }}
+              >
+                <img
+                  className="car-plan-image"
+                  src={carPlanImage}
+                  alt="AI-generated top-down illustration of the Reality GT concept, with interactive component markers"
+                />
+                <button
+                  className={`map-pin pin-frame ${part === "obs-1" ? "selected" : ""}`}
+                  aria-label="Select body shell"
+                  onClick={() => setPart("obs-1")}
                 >
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="text-sm font-semibold text-white">{mat.name}</h4>
-                      <span className="text-[10px] font-mono tracking-wider px-2 py-0.5 rounded bg-slate-800 border border-white/10 text-purple-300">
-                        {mat.difficulty}
-                      </span>
-                    </div>
-
-                    <div className="space-y-2 text-xs mb-4">
-                      <div>
-                        <span className="text-slate-400 uppercase text-[10px] font-mono tracking-wider block">Standard Spec</span>
-                        <span className="text-slate-300">{mat.standardSpec}</span>
-                      </div>
-                      <div className="p-2.5 rounded-lg bg-purple-950/30 border border-purple-500/20">
-                        <span className="text-purple-400 uppercase text-[10px] font-mono tracking-wider font-semibold block mb-0.5">Household Alternative</span>
-                        <span className="text-purple-200">{mat.householdAlternative}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs text-slate-400">
-                    <span>Source: {mat.source}</span>
-                    <span className="text-emerald-400 font-semibold">{mat.estimatedCost}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Step-by-Step Instructions Card */}
-          <div className="p-6 md:p-10 rounded-2xl bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:-translate-y-1 hover:border-cyan-500/50 transition-all duration-300">
-            <div className="flex items-center space-x-3 mb-8 pb-4 border-b border-white/10">
-              <Wrench className="w-5 h-5 text-cyan-400" />
-              <div>
-                <h3 className="text-lg font-bold text-white tracking-tight">
-                  Step-by-Step Assembly Instructions
-                </h3>
-                <p className="text-sm text-slate-400 mt-1">
-                  Sequential protocol to build and calibrate the prototype.
-                </p>
+                  01
+                </button>
+                <button
+                  className={`map-pin pin-rotor ${part === "obs-2" ? "selected" : ""}`}
+                  aria-label="Select wheel"
+                  onClick={() => setPart("obs-2")}
+                >
+                  02
+                </button>
+                <button
+                  className={`map-pin pin-control ${part === "inf-2" ? "selected" : ""}`}
+                  aria-label="Select hypothetical battery"
+                  onClick={() => setPart("inf-2")}
+                >
+                  03
+                </button>
+                <span className="map-axis">X — HORIZONTAL AXIS</span>
+              </div>
+              <div className="schematic-tools">
+                <button
+                  aria-label="Zoom out diagram"
+                  onClick={() => setZoom((z) => Math.max(0.7, z - 0.1))}
+                >
+                  <Minus size={14} />
+                </button>
+                <button
+                  aria-label="Reset diagram zoom"
+                  onClick={() => setZoom(1)}
+                >
+                  <RotateCcw size={13} />
+                </button>
+                <button
+                  aria-label="Zoom in diagram"
+                  onClick={() => setZoom((z) => Math.min(1.4, z + 0.1))}
+                >
+                  <Plus size={14} />
+                </button>
               </div>
             </div>
-
-            <div className="space-y-6">
-              {blueprintData.buildSteps.map((step) => (
-                <div key={step.step} className="flex items-start space-x-4">
-                  
-                  {/* Step Number */}
-                  <div className="w-9 h-9 rounded-xl bg-slate-800 border border-cyan-400/40 text-cyan-400 flex items-center justify-center font-mono font-bold text-sm flex-shrink-0 shadow-sm">
-                    0{step.step}
-                  </div>
-
-                  <div className="flex-1 p-5 rounded-xl bg-slate-950/60 border border-white/5 text-left">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                      <h4 className="text-base font-semibold text-white">
-                        {step.title}
-                      </h4>
-                      <div className="flex items-center space-x-1.5 text-xs text-slate-400 font-mono">
-                        <Clock className="w-3.5 h-3.5 text-cyan-400" />
-                        <span>{step.duration}</span>
-                      </div>
-                    </div>
-
-                    <p className="text-sm text-slate-400 leading-relaxed mb-4">
-                      {step.description}
-                    </p>
-
-                    {/* Tools */}
-                    <div className="flex flex-wrap items-center gap-1.5 mb-2">
-                      <span className="text-[10px] font-mono tracking-wider uppercase text-slate-400 mr-1">Tools:</span>
-                      {step.tools.map((tool, i) => (
-                        <span key={i} className="px-2 py-0.5 rounded bg-slate-800 border border-white/5 text-xs text-slate-300">
-                          {tool}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Pro Tip */}
-                    {step.tip && (
-                      <div className="p-2.5 rounded-lg bg-blue-950/30 border border-blue-500/20 text-xs text-blue-200 mt-3 flex items-start space-x-2">
-                        <Zap className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
-                        <span><strong className="text-cyan-300">Pro Tip:</strong> {step.tip}</span>
-                      </div>
-                    )}
-
-                    {/* Safety Notice */}
-                    {step.safetyWarning && (
-                      <div className="p-2.5 rounded-lg bg-amber-950/30 border border-amber-500/30 text-xs text-amber-200 mt-2 flex items-start space-x-2">
-                        <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                        <span><strong className="text-amber-300">Safety Notice:</strong> {step.safetyWarning}</span>
-                      </div>
-                    )}
-
-                  </div>
-
-                </div>
-              ))}
+            <div className="selected-insight" aria-live="polite">
+              <span className="micro-label">
+                {part.startsWith("obs")
+                  ? "VISIBLE COMPONENT"
+                  : "INTERNAL HYPOTHESIS"}
+              </span>
+              <h3>{selected?.name}</h3>
+              <p>
+                {part.startsWith("obs")
+                  ? selected?.visualCue
+                  : selected?.inferenceReason}
+              </p>
             </div>
           </div>
-
+          <div className="component-list">
+            <div className="component-list-heading">
+              <h3>The sum of its parts.</h3>
+              <p>Choose a component to look a little closer.</p>
+            </div>
+            <div className="filter-pills" aria-label="Filter components">
+              {["all", "observed", "inferred"].map((l) => (
+                <button
+                  aria-pressed={layer === l}
+                  className={layer === l ? "active" : ""}
+                  key={l}
+                  onClick={() => setLayer(l)}
+                >
+                  {l === "all"
+                    ? "All parts"
+                    : l === "observed"
+                      ? "Visible"
+                      : "Inferred"}
+                </button>
+              ))}
+            </div>
+            <div className="parts-scroll">
+              {visibleParts.map((p, i) => (
+                <button
+                  className={`component-row ${part === p.id ? "selected" : ""}`}
+                  key={p.id}
+                  onClick={() => setPart(p.id)}
+                >
+                  <span className="part-index">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span>
+                    <strong>{p.name}</strong>
+                    <small>
+                      {p.id.startsWith("obs") ? "VISIBLE · " : "HYPOTHESIS · "}
+                      {p.category}
+                    </small>
+                  </span>
+                  <ArrowUpRight size={15} />
+                </button>
+              ))}
+            </div>
+            <div className="inference-note">
+              <Lightbulb size={15} />
+              <p>
+                What we can see is evidence. What might be inside is a
+                hypothesis, waiting to be tested.
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="learning-project">
+          <div className="project-overview">
+            <span className="eyebrow">LEARN BY MAKING</span>
+            <h3>
+              Big ideas.
+              <br />
+              Small-scale beginnings.
+            </h3>
+            <p>
+              Make a simple, unpowered model to explore the car concept’s
+              proportions. This is a learning activity, not a drivable vehicle.
+            </p>
+            <div className="materials-tags">
+              <span>Paper or cardboard</span>
+              <span>Pencil</span>
+              <span>Ruler</span>
+              <span>Colored thread</span>
+            </div>
+            <div className="project-progress">
+              <div>
+                <span>YOUR PROGRESS</span>
+                <strong>
+                  {complete.length} / {steps.length}
+                </strong>
+              </div>
+              <div className="progress-track">
+                <span
+                  style={{
+                    width: `${(complete.length / steps.length) * 100}%`,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="project-steps">
+            {steps.map((step, i) => (
+              <button
+                aria-pressed={complete.includes(i)}
+                className={`project-step ${complete.includes(i) ? "complete" : ""}`}
+                key={step.title}
+                onClick={() =>
+                  setComplete((c) =>
+                    c.includes(i) ? c.filter((v) => v !== i) : [...c, i],
+                  )
+                }
+              >
+                <span className="step-check">
+                  {complete.includes(i) ? (
+                    <Check size={15} />
+                  ) : (
+                    String(i + 1).padStart(2, "0")
+                  )}
+                </span>
+                <span>
+                  <strong>{step.title}</strong>
+                  <p>{step.text}</p>
+                  <small>
+                    {complete.includes(i) ? "COMPLETED" : "MARK AS COMPLETE"}{" "}
+                    <MoveUpRight size={10} />
+                  </small>
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       )}
-
+      <div className="result-footnote">
+        <span>
+          Curiosity is the starting point. Verification is the next step.
+        </span>
+        <span>REALITYLAB / EXPLORATION NOTES</span>
+      </div>
     </section>
   );
 }
+
+const componentType = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  category: PropTypes.string,
+  location: PropTypes.string,
+  visualCue: PropTypes.string,
+  inferenceReason: PropTypes.string,
+});
+ResultsSection.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
+  blueprintData: PropTypes.shape({
+    objectName: PropTypes.string.isRequired,
+    observedParts: PropTypes.arrayOf(componentType).isRequired,
+    inferredParts: PropTypes.arrayOf(componentType).isRequired,
+  }),
+};

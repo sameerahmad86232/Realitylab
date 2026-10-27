@@ -225,3 +225,12 @@ node_modules/
 dist/
 dist-ssr/
 *.local
+
+# RealityLab server credentials
+.env
+.env.*
+!.env.example
+
+# Browser source helpers are application code, not Python build output.
+!frontend/src/lib/
+!frontend/src/lib/**
