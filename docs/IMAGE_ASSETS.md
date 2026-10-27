@@ -20,3 +20,19 @@ generated output is retained at
 It remains an AI-generated presentation study, not a real car photograph or a
 reconstruction from a user's upload. The original dark asset remains available
 for the earlier validation record; the overhead concept view is unchanged.
+
+## Field Guide / direction 05
+
+The selected Field Guide direction uses two original generated illustrations:
+
+- `field-guide-chair.png`: an unbranded walnut bentwood chair on warm ivory.
+  Original output: `/workspace/generated_images/exec-eff93435-d764-4faf-9a55-4b1781896b91.png`.
+- `field-guide-objects.png`: a three-part catalog image containing a task lamp,
+  hammer and desk fan. Three CSS background positions present its panels without
+  modifying the source image. Original output:
+  `/workspace/generated_images/exec-f1670fa3-0dfe-456d-b560-2a8931c88777.png`.
+
+These are explicitly illustrative editorial studies. Clicking a catalog item
+opens the explorer for the user's own photo; it does not claim to analyze the
+illustration or reveal verified internals. The car concept remains a separate
+labeled sample inside the studio.

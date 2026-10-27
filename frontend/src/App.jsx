@@ -5,130 +5,31 @@ import {
   Layers3,
   MoveUpRight,
   Plus,
-  Minus,
-  Crosshair,
   Box,
   Menu,
   X,
   Check,
-  RotateCcw,
   Camera,
-  Aperture,
   Compass,
-  ArrowDown,
   ShieldCheck,
-  Eye,
   Settings2,
 } from "lucide-react";
 import carImage from "./assets/reality-gt-white.png";
 import carPlanImage from "./assets/reality-gt-plan.png";
 import StudioShowcase from "./components/StudioShowcase";
-import ShaderAtmosphere from "./components/ShaderAtmosphere";
+import FieldGuideHero from "./components/FieldGuideHero";
 import UploadZone from "./components/UploadZone";
 import ActionArea from "./components/ActionArea";
 import ExperimentStudio from "./features/exploration/ExperimentStudio";
 import ResultsSection from "./components/ResultsSection";
 import { sampleBlueprintData } from "./data/sampleBlueprintData";
 
-function carDrawing(exploded, overhead) {
-  return (
-    <div className={`car-art ${exploded ? "exploded" : ""}`}>
-      <img
-        className="car-photograph"
-        src={overhead ? carPlanImage : carImage}
-        alt={
-          overhead
-            ? "AI-generated overhead concept study of the original Reality GT coupe"
-            : "Original silver Reality GT electric coupe concept in a bright white design studio"
-        }
-        fetchPriority="high"
-      />
-      <svg
-        className="car-wireframe"
-        viewBox="0 0 800 440"
-        fill="none"
-        aria-label="Illustrative side-view automotive concept schematic"
-      >
-        <g stroke="#cfeeac" strokeWidth="1.2" strokeLinejoin="round">
-          <path d="M92 286L110 247L203 222L293 153Q317 137 370 137H471Q506 140 543 177L596 211L688 236L716 270L710 301H666Q658 244 615 244Q568 244 562 301H252Q247 244 198 244Q151 244 146 301H97Z" />
-          <path d="M221 219L305 157L359 153V212Z M375 153H469L535 210H375Z M269 233L548 232L553 285H270Z" />
-          <path
-            d="M378 231V283M109 255L159 249M642 231L694 250M286 301H552"
-            strokeDasharray="4 4"
-          />
-          <circle cx="198" cy="299" r="43" />
-          <circle cx="198" cy="299" r="28" />
-          <circle cx="615" cy="299" r="43" />
-          <circle cx="615" cy="299" r="28" />
-          <path d="M198 271V327M170 299H226M615 271V327M587 299H643" />
-        </g>
-        <g
-          className="car-internal-layer"
-          stroke="#cfeeac"
-          strokeDasharray="4 5"
-        >
-          <path d="M276 344H550V368H276Z" fill="#cfeeac0d" />
-          <path d="M290 349V363M320 349V363M350 349V363M380 349V363M410 349V363M440 349V363M470 349V363M500 349V363M530 349V363" />
-          <path d="M280 315V340M550 315V340" />
-        </g>
-        <g stroke="#cfeeac80" strokeWidth=".6">
-          <path d="M85 390H720M85 382V398M720 382V398M750 137V342M742 137H758M742 342H758" />
-        </g>
-        <text
-          x="400"
-          y="413"
-          textAnchor="middle"
-          fill="#b5ca9c"
-          fontSize="8"
-          fontFamily="monospace"
-        >
-          CONCEPTUAL SCHEMATIC / NOT TO SCALE
-        </text>
-      </svg>
-      <span className="car-image-credit">
-        ORIGINAL AI-GENERATED DESIGN STUDY
-      </span>
-    </div>
-  );
-}
-
 export default function App() {
   const [studioMode, setStudioMode] = useState("mechanism");
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [generated, setGenerated] = useState(false);
-  const [exploded, setExploded] = useState(false);
-  const [zoom, setZoom] = useState(1);
   const [menu, setMenu] = useState(false);
-  const [part, setPart] = useState(0);
-  const [wireframe, setWireframe] = useState(false);
-  const [overhead, setOverhead] = useState(false);
-  const components = [
-    {
-      name: "Body architecture",
-      code: "01 / FORM & STRUCTURE",
-      detail:
-        "Sculptural surfaces. A flowing roofline. Explore the exterior design of an original electric grand tourer concept.",
-      value: "GT",
-      unit: "ORIGINAL DESIGN STUDY",
-    },
-    {
-      name: "Wheel assemblies",
-      code: "02 / MOTION & CONTACT",
-      detail:
-        "Precision wheel forms anchor the silhouette. Tire specifications and performance remain unverified in this concept study.",
-      value: "4×",
-      unit: "WHEEL POSITIONS",
-    },
-    {
-      name: "Energy platform",
-      code: "03 / INTERNAL HYPOTHESIS",
-      detail:
-        "An underfloor battery is a possible packaging approach. This is an illustrative hypothesis, not a view inside a working vehicle.",
-      value: "EV",
-      unit: "CONCEPT ARCHITECTURE",
-    },
-  ];
   const loadSample = () => {
     setGenerated(false);
     const preview = carImage;
@@ -149,11 +50,6 @@ export default function App() {
       },
     ]);
   };
-  const demo = () => {
-    setStudioMode("sample");
-    loadSample();
-    document.getElementById("studio").scrollIntoView({ behavior: "smooth" });
-  };
   const generate = () => {
     if (!files.length) return;
     setLoading(true);
@@ -167,21 +63,31 @@ export default function App() {
       <header className="site-header">
         <a href="#" className="wordmark">
           <ScanLine size={26} />
-          realitylab<span>LAB / 01</span>
+          RealityLab<span>THE FIELD GUIDE</span>
         </a>
         <nav className={menu ? "nav-links open" : "nav-links"}>
+          <a href="#objects" onClick={() => setMenu(false)}>
+            Objects
+          </a>
           <a href="#process" onClick={() => setMenu(false)}>
-            How it works
+            Discover
           </a>
-          <a href="#studio" onClick={() => setMenu(false)}>
-            The studio
-          </a>
-          <a href="#about" onClick={() => setMenu(false)}>
-            The idea <ArrowUpRight size={13} />
+          <a
+            href="#studio"
+            onClick={() => {
+              setMenu(false);
+              setStudioMode("mechanism");
+            }}
+          >
+            Notebook <ArrowUpRight size={13} />
           </a>
         </nav>
-        <a className="nav-cta" href="#studio">
-          Start exploring <ArrowUpRight size={16} />
+        <a
+          className="nav-cta"
+          href="#studio"
+          onClick={() => setStudioMode("mechanism")}
+        >
+          Upload a photo <ArrowUpRight size={16} />
         </a>
         <button
           className="mobile-menu"
@@ -192,196 +98,7 @@ export default function App() {
         </button>
       </header>
       <main>
-        <section className="hero hero-premiere">
-          <ShaderAtmosphere />
-          <div className="hero-copy">
-            <div className="hackathon-pill">
-              <span className="meta-symbol">∞</span> AN EXPERIMENT IN EVERYDAY
-              INGENUITY <span>VOL. 001</span>
-            </div>
-            <div className="eyebrow">
-              <span className="live-dot" /> THE WORLD IS YOUR WORKSHOP
-            </div>
-            <h1>
-              Look closer.
-              <br />
-              <span className="serif-accent">Discover more.</span>
-            </h1>
-            <p>
-              Turn a photo into a clearer understanding. Explore the parts,
-              trace the connections, and test your ideas—with the evidence
-              always in view.
-            </p>
-            <div className="hero-actions">
-              <a className="button-lime" href="#studio">
-                Enter the studio <ArrowUpRight size={19} />
-              </a>
-              <button className="text-button" onClick={demo}>
-                <span className="play-icon">▶</span> Try the sample demo
-              </button>
-            </div>
-            <div className="hero-note">
-              <span className="mini-icons">
-                <ScanLine size={14} />
-                <Layers3 size={14} />
-                <Box size={14} />
-              </span>{" "}
-              Made for curious minds. Designed for hands-on discovery.
-            </div>
-          </div>
-          <div
-            className={`hero-visual premiere-stage ${wireframe ? "wireframe-mode" : ""}`}
-          >
-            <span className="specimen-watermark" aria-hidden="true">
-              004
-            </span>
-            <div className="orbital-glow" />
-            <div className="visual-top">
-              <span>
-                <span className="live-dot" /> OBJECT EXPLORER
-              </span>
-              <span>REALITY GT / DESIGN STUDY</span>
-            </div>
-            <div className="drawing-container">
-              <span className="canvas-badge">
-                <Aperture size={13} /> THE ANATOMY OF MOTION
-              </span>
-              <div className="scan-sweep" />
-              <span className="viewer-coordinate">
-                ORIGINAL DESIGN
-                <br />
-                AI-GENERATED
-                <br />
-                CONCEPT STUDY
-              </span>
-              <div
-                className="drawing-scale"
-                style={{ transform: `scale(${zoom})` }}
-              >
-                {carDrawing(exploded, overhead)}
-              </div>
-              <div className="floating-label">
-                <span className="live-dot" />{" "}
-                {exploded
-                  ? "CONCEPT VIEW / POSSIBLE BATTERY PACKAGING"
-                  : "DESIGN STUDY / EXPLORE THE COMPONENTS"}
-              </div>
-            </div>
-            <div className="component-tabs" aria-label="Explore components">
-              {components.map((item, i) => (
-                <button
-                  key={item.code}
-                  aria-pressed={part === i}
-                  className={part === i ? "selected" : ""}
-                  onClick={() => setPart(i)}
-                >
-                  <span>0{i + 1}</span>
-                  {item.name}
-                  <Plus size={12} />
-                </button>
-              ))}
-            </div>
-            <div className="part-inspector" aria-live="polite">
-              <div>
-                <span className="micro-label">{components[part].code}</span>
-                <p>{components[part].detail}</p>
-              </div>
-              <div className="part-value">
-                {components[part].value}
-                <span>{components[part].unit}</span>
-              </div>
-            </div>
-            <div className="visual-bottom">
-              <div>
-                <span className="micro-label">CURRENT EXPLORATION</span>
-                <h3>Reality GT / Electric grand tourer</h3>
-                <p>
-                  SAMPLE SPECIMEN <span>·</span> INTERACTIVE VIEW
-                </p>
-              </div>
-              <button
-                className="round-button"
-                aria-label="Explore car concept demo"
-                onClick={demo}
-              >
-                <ArrowUpRight />
-              </button>
-            </div>
-            <div className="viewer-toolbar">
-              <button
-                className={!exploded ? "active" : ""}
-                onClick={() => setExploded(false)}
-              >
-                <Box size={13} /> Assembled
-              </button>
-              <button
-                className={exploded ? "active" : ""}
-                onClick={() => setExploded(true)}
-              >
-                <Layers3 size={13} /> Concept layers
-              </button>
-              <button
-                className={wireframe ? "active" : ""}
-                aria-pressed={wireframe}
-                onClick={() => setWireframe((w) => !w)}
-              >
-                <ScanLine size={13} /> Wireframe
-              </button>
-              <button
-                className={overhead ? "active" : ""}
-                aria-pressed={overhead}
-                onClick={() => {
-                  setOverhead((v) => !v);
-                  setWireframe(false);
-                  setExploded(false);
-                }}
-              >
-                <Eye size={13} /> Overhead
-              </button>
-              <span />
-              <button
-                aria-label="Zoom out"
-                onClick={() => setZoom(Math.max(0.75, zoom - 0.1))}
-              >
-                <Minus size={15} />
-              </button>
-              <button
-                aria-label="Zoom in"
-                onClick={() => setZoom(Math.min(1.3, zoom + 0.1))}
-              >
-                <Plus size={15} />
-              </button>
-              <button
-                aria-label="Reset view"
-                onClick={() => {
-                  setZoom(1);
-                  setExploded(false);
-                  setWireframe(false);
-                  setOverhead(false);
-                }}
-              >
-                <RotateCcw size={13} />
-              </button>
-            </div>
-          </div>
-        </section>
-        <div className="explore-cue">
-          <span>LESS SCROLLING. MORE DISCOVERING.</span>
-          <a href="#process" aria-label="Discover how RealityLab works">
-            <ArrowDown size={16} />
-          </a>
-          <span>DESIGNED FOR THE NATURALLY CURIOUS</span>
-        </div>
-        <div className="mission-strip">
-          <span>A WORKSPACE FOR WONDER.</span>
-          <p>
-            The makers. The tinkerers. The <em>“how does that work?”</em>{" "}
-            people.
-          </p>
-          <div className="strip-tag">
-            <Crosshair size={15} /> LOOK CLOSER.
-          </div>
-        </div>
+        <FieldGuideHero onExplore={() => setStudioMode("mechanism")} />
         <section className="process-section" id="process">
           <div className="section-heading">
             <div>
@@ -472,7 +189,7 @@ export default function App() {
             ))}
           </div>
         </section>
-        <StudioShowcase/>
+        <StudioShowcase />
         <section className="studio-section" id="studio">
           <div className="section-heading">
             <div>
@@ -683,7 +400,7 @@ export default function App() {
       <footer className="site-footer">
         <a href="#" className="wordmark">
           <ScanLine size={22} />
-          realitylab<span>LAB / 01</span>
+          RealityLab<span>THE FIELD GUIDE</span>
         </a>
         <p>Independent minds. Shared possibilities. / Meta Hackathon 2026</p>
         <a href="#">

@@ -1,6 +1,6 @@
 # RealityLab
 
-A general object exploration studio: **observe → map → correct → test supported models → export**. Image analysis covers broad everyday-object categories, including vehicles, electronics, appliances, furniture, tools and natural objects. Recognition may be uncertain. Numerical predictions are limited to explicit ideal models with user-confirmed inputs; the app does not promise exact internals, universal recognition or automatic CAD. The landing page includes an original AI-generated automotive design study.
+A general object exploration studio: **observe → map → correct → test supported models → export**. Image analysis covers broad everyday-object categories, including vehicles, electronics, appliances, furniture, tools and natural objects. Recognition may be uncertain. Numerical predictions are limited to explicit ideal models with user-confirmed inputs; the app does not promise exact internals, universal recognition or automatic CAD. The landing page uses the Field Guide design: warm paper tones, Newsreader and DM Sans typography, and original AI-generated object studies. The car concept remains a separate labeled sample in the studio.
 
 ## Run
 

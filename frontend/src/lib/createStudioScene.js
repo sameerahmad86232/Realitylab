@@ -61,7 +61,7 @@ export function createStudioScene(host, { onLighting, onFailure }) {
   renderer.toneMappingExposure = 1.2;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.setClearColor("#f3f5fa");
+  renderer.setClearColor("#f2efe7");
   host.appendChild(canvas);
   const scene = new THREE.Scene();
   scene.up.set(0, 0, 1);
@@ -91,21 +91,21 @@ export function createStudioScene(host, { onLighting, onFailure }) {
   key.shadow.camera.far = 20;
   key.shadow.bias = -0.0005;
   scene.add(key);
-  const rim = new THREE.DirectionalLight("#d4ddff", 2);
+  const rim = new THREE.DirectionalLight("#ece9d5", 2);
   rim.position.set(5, 4, 6);
   scene.add(rim);
   const bodyA = new THREE.MeshStandardMaterial({
-    color: "#889cc8",
+    color: "#9ba17e",
     metalness: 0.78,
     roughness: 0.32,
   });
   const bodyB = new THREE.MeshStandardMaterial({
-    color: "#bcc5d9",
+    color: "#c7c9b3",
     metalness: 0.88,
     roughness: 0.28,
   });
   const mountMat = new THREE.MeshStandardMaterial({
-    color: "#dce2ef",
+    color: "#e1ddcf",
     metalness: 0.35,
     roughness: 0.56,
   });
@@ -115,7 +115,7 @@ export function createStudioScene(host, { onLighting, onFailure }) {
     roughness: 0.2,
   });
   const floorMat = new THREE.MeshStandardMaterial({
-    color: "#f2f4f8",
+    color: "#f2efe7",
     metalness: 0.15,
     roughness: 0.83,
   });
@@ -142,7 +142,7 @@ export function createStudioScene(host, { onLighting, onFailure }) {
   floor.position.z = -0.45;
   floor.receiveShadow = true;
   scene.add(floor);
-  const grid = new THREE.GridHelper(24, 48, "#a9b6d3", "#c0cada");
+  const grid = new THREE.GridHelper(24, 48, "#b9baa1", "#d2cfba");
   grid.rotation.x = Math.PI / 2;
   grid.position.z = -0.444;
   grid.material.transparent = true;
@@ -313,8 +313,8 @@ export function createStudioScene(host, { onLighting, onFailure }) {
     },
     setFinish(finish) {
       const clay = finish === "clay";
-      bodyA.color.set(clay ? "#e0dfce" : "#889cc8");
-      bodyB.color.set(clay ? "#c3c6b4" : "#bcc5d9");
+      bodyA.color.set(clay ? "#e0dfce" : "#9ba17e");
+      bodyB.color.set(clay ? "#c3c6b4" : "#c7c9b3");
       for (const mat of [bodyA, bodyB]) {
         mat.metalness = clay ? 0 : 0.85;
         mat.roughness = clay ? 0.82 : 0.3;
@@ -339,8 +339,8 @@ export function createStudioScene(host, { onLighting, onFailure }) {
       else pauseFrames();
     },
     select(part) {
-      bodyA.emissive.set(part === "driver" ? "#304d98" : "#000000");
-      bodyB.emissive.set(part === "follower" ? "#304d98" : "#000000");
+      bodyA.emissive.set(part === "driver" ? "#596540" : "#000000");
+      bodyB.emissive.set(part === "follower" ? "#596540" : "#000000");
       mountMat.emissive.set(part === "base" ? "#9daed1" : "#000000");
       for (const m of [bodyA, bodyB, mountMat]) m.emissiveIntensity = 0.3;
       render();
