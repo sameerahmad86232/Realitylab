@@ -3,11 +3,12 @@ services:
   - type: web
     name: realitylab
     runtime: node
+    branch: codex/realitylab-live-explorer
     plan: free
     buildCommand: npm ci --include=dev && npm --prefix frontend ci --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
-    autoDeployTrigger: "off"
+    autoDeployTrigger: commit
     envVars:
       - key: NODE_VERSION
         value: 24.19.0

@@ -12,10 +12,11 @@ provider availability, account requirements and quotas are controlled by Render.
    Do not paste a placeholder or put the key in the repository.
 3. Deploy. The build installs both lockfiles and runs the frontend production
    build. `npm start` binds the platform-provided `PORT` on `0.0.0.0`.
-4. Open the HTTPS URL Render assigns. `/api/health` should show `configured: true`.
+4. Automatic deployments are enabled for commits pushed to `codex/realitylab-live-explorer`. After merging into `main`, change the service branch in `render.yaml` and Render to `main`.
+5. Open the HTTPS URL Render assigns. `/api/health` should show `configured: true`.
    `liveVerified` stays false until a validated live analysis succeeds on that
    running instance. Upload a photo, give provider-sharing consent, and analyze.
-5. Run the smoke check against the assigned URL:
+6. Run the smoke check against the assigned URL:
 
    ```bash
    npm run smoke -- https://YOUR-SERVICE.onrender.com
