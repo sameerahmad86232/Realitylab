@@ -63,7 +63,7 @@ export default function App() {
       <header className="site-header">
         <a href="#" className="wordmark">
           <ScanLine size={26} />
-          RealityLab<span>THE FIELD GUIDE</span>
+          RealityLab<span>THE OBJECT STUDIO</span>
         </a>
         <nav className={menu ? "nav-links open" : "nav-links"}>
           <a href="#objects" onClick={() => setMenu(false)}>
@@ -400,7 +400,7 @@ export default function App() {
       <footer className="site-footer">
         <a href="#" className="wordmark">
           <ScanLine size={22} />
-          RealityLab<span>THE FIELD GUIDE</span>
+          RealityLab<span>THE OBJECT STUDIO</span>
         </a>
         <p>Independent minds. Shared possibilities. / Meta Hackathon 2026</p>
         <a href="#">

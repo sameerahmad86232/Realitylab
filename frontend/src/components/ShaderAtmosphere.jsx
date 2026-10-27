@@ -20,26 +20,26 @@ void main() {
   vec2 uv = gl_FragCoord.xy / u_resolution;
   float aspect = u_resolution.x / u_resolution.y;
   vec2 p = (uv-.5)*vec2(aspect,1.);
-  float t=u_time*.065;
-  float flow=noise(p*2.+vec2(t,-t*.4));
-  float fold=noise(p*3.1+flow*1.8+vec2(-t*.5,t));
-  float ribbon=sin(p.x*3.5+p.y*2.4+fold*3.8+t);
-  float veil=pow(max(0.,1.-abs(ribbon)),5.);
-  float field=exp(-length((uv-vec2(.73,.53))*vec2(1.3,.8))*2.1);
-  float cursor=exp(-length((uv-u_pointer)*vec2(aspect,1.))*5.);
-  vec3 base=vec3(.991,.994,1.);
-  vec3 green=vec3(.11,.08,.01)*veil*field*.44;
-  vec3 gold=vec3(.08,.05,.01)*pow(fold,4.)*field*.28;
-  float contour=1.-smoothstep(.0,.022,abs(fract((flow+fold*.35)*17.)-.5));
-  vec3 color=base-green-gold-vec3(.025,.018,.0)*cursor;
-  color-=vec3(.08,.055,.0)*contour*field*.09;
-  vec2 cell=floor(uv*u_resolution/80.);
-  vec2 local=fract(uv*u_resolution/80.);
-  float star=(1.-smoothstep(.0,.013,length(local-.5)))*step(.85,hash(cell));
-  color-=vec3(.2,.13,.0)*star*field*.2;
-  float grain=(hash(gl_FragCoord.xy)-.5)*.009;
-  float vignette=(1.-smoothstep(.15,1.1,length((uv-.5)*vec2(1.,.8))));
-  color=mix(vec3(1.),color,.35+.25*vignette)+grain*.25;
+  float t=u_time*.13;
+  vec2 drift=vec2(sin(t*.7),cos(t*.5))*.12;
+  float warp=noise(p*1.7+drift+vec2(t*.09,0.));
+  float fold=noise(p*2.4+warp*.9-vec2(0.,t*.12));
+  float ribbon=sin(p.x*2.8+p.y*2.3+warp*3.1+t*.45);
+  float silk=exp(-ribbon*ribbon*7.5);
+  float halo=exp(-length((uv-vec2(.72,.56))*vec2(1.,.85))*2.);
+  float pointer=exp(-length((uv-u_pointer)*vec2(aspect,1.))*3.2);
+  vec3 color=vec3(.985,.986,.973);
+  color=mix(color,vec3(.68,.80,.75),silk*halo*.55);
+  float pearl=pow(.5+.5*sin(p.y*3.7-p.x*2.+fold*4.2-t*.25),3.);
+  color=mix(color,vec3(.78,.75,.92),pearl*halo*.49);
+  float gold=exp(-pow(ribbon+.4,2.)*11.);
+  color=mix(color,vec3(.94,.83,.68),gold*halo*.34);
+  float lines=1.-smoothstep(.0,.018,abs(fract((warp+fold*.4)*8.)-.5));
+  color=mix(color,vec3(.97,.99,1.),lines*silk*.28);
+  color=mix(color,vec3(.86,.94,.95),pointer*.13);
+  float grain=(hash(gl_FragCoord.xy)-.5)*.006;
+  float edge=smoothstep(.0,.12,uv.x)*smoothstep(.0,.12,1.-uv.x);
+  color=mix(vec3(.984,.986,.976),color,edge)+grain;
   gl_FragColor=vec4(color,1.);
 }
 `;
@@ -58,6 +58,7 @@ export default function ShaderAtmosphere() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const host = canvas.closest(".hero");
+    if (!host) return;
     const gl = canvas.getContext("webgl", {
       alpha: false,
       antialias: false,

@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { ArrowUpRight, ArrowRight, Plus } from "lucide-react";
+import ShaderAtmosphere from "./ShaderAtmosphere";
 import chair from "../assets/field-guide-chair.png";
 import objects from "../assets/field-guide-objects.png";
 const studies = [
@@ -25,21 +26,21 @@ const studies = [
 export default function FieldGuideHero({ onExplore }) {
   return (
     <>
-      <section className="field-hero" aria-labelledby="field-hero-title">
+      <section
+        className="field-hero hero luminous-hero"
+        aria-labelledby="field-hero-title"
+      >
+        <ShaderAtmosphere />
         <div className="field-hero-copy">
           <span className="field-kicker">
-            <span /> A FIELD GUIDE TO THE EVERYDAY
+            <span /> OBJECTS. IDEAS. A NEW PERSPECTIVE.
           </span>
           <h1 id="field-hero-title">
-            Curiosity,
+            See beyond.
             <br />
-            made tangible.
+            <em>the surface.</em>
           </h1>
-          <p>
-            Start with a photo.
-            <br />
-            Follow the evidence.
-          </p>
+          <p>A photo. A question. A different way of seeing.</p>
           <a href="#studio" className="field-primary" onClick={onExplore}>
             Explore an object <ArrowRight size={18} />
           </a>
@@ -58,14 +59,18 @@ export default function FieldGuideHero({ onExplore }) {
             alt="AI-generated editorial study of an original walnut bentwood chair, isolated on warm ivory"
             fetchPriority="high"
           />
+          <div className="luminous-object-label" aria-hidden="true">
+            <span /> FORM / 001
+          </div>
+          <div className="luminous-part-label" aria-hidden="true">
+            <span /> STRUCTURE, REVEALED
+          </div>
           <figcaption>
             <span>01</span>
             <p>
-              Every object
+              Look closely.
               <br />
-              has a story
-              <br />
-              in its details.
+              There’s more here.
             </p>
           </figcaption>
           <span className="field-image-disclosure">

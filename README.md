@@ -1,6 +1,6 @@
 # RealityLab
 
-A general object exploration studio: **observe → map → correct → test supported models → export**. Image analysis covers broad everyday-object categories, including vehicles, electronics, appliances, furniture, tools and natural objects. Recognition may be uncertain. Numerical predictions are limited to explicit ideal models with user-confirmed inputs; the app does not promise exact internals, universal recognition or automatic CAD. The landing page uses the Field Guide design: warm paper tones, Newsreader and DM Sans typography, and original AI-generated object studies. The car concept remains a separate labeled sample in the studio.
+A general object exploration studio: **observe → map → correct → test supported models → export**. Image analysis covers broad everyday-object categories, including vehicles, electronics, appliances, furniture, tools and natural objects. Recognition may be uncertain. Numerical predictions are limited to explicit ideal models with user-confirmed inputs; the app does not promise exact internals, universal recognition or automatic CAD. The landing page uses the Luminous Studio design: a live pearlescent WebGL shader, translucent object framing, DM Sans/Newsreader typography, and original AI-generated object studies. Motion is pausable, honors reduced-motion preferences and falls back to a CSS gradient when WebGL is unavailable. The car concept remains a separate labeled sample in the studio.
 
 ## Run
 
@@ -126,3 +126,10 @@ host. The app is not publicly deployed by adding this file. After deployment,
 `npm run smoke -- https://YOUR-SERVICE.onrender.com` checks the production HTTP
 flow without an AI call. See the [three-minute demo script](docs/DEMO_SCRIPT.md)
 for a submission sequence and the distinction between pre-existing and event work.
+
+### Shader verification
+
+After `npm run build`, run `npm run test:shader` with an installed Chromium
+(or set `CHROMIUM_PATH`). It checks actual animated rendering, stable pause,
+reduced-motion defaults, no-WebGL fallback and desktop/mobile layouts against
+an isolated keyless app. It makes no AI requests.
