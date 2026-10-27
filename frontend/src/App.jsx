@@ -20,7 +20,7 @@ import {
   Eye,
   Settings2,
 } from "lucide-react";
-import carImage from "./assets/reality-gt.png";
+import carImage from "./assets/reality-gt-white.png";
 import carPlanImage from "./assets/reality-gt-plan.png";
 import StudioShowcase from "./components/StudioShowcase";
 import ShaderAtmosphere from "./components/ShaderAtmosphere";
@@ -39,7 +39,7 @@ function carDrawing(exploded, overhead) {
         alt={
           overhead
             ? "AI-generated overhead concept study of the original Reality GT coupe"
-            : "Original silver Reality GT electric coupe concept in a softly lit forest-green studio"
+            : "Original silver Reality GT electric coupe concept in a bright white design studio"
         }
         fetchPriority="high"
       />
@@ -203,14 +203,14 @@ export default function App() {
               <span className="live-dot" /> THE WORLD IS YOUR WORKSHOP
             </div>
             <h1>
-              See beyond
+              Look closer.
               <br />
-              <span className="serif-accent">the ordinary.</span>
+              <span className="serif-accent">Discover more.</span>
             </h1>
             <p>
-              Extraordinary ideas hide in ordinary things. Explore the parts,
-              uncover the possibilities, and turn your curiosity into something
-              you can build.
+              Turn a photo into a clearer understanding. Explore the parts,
+              trace the connections, and test your ideas—with the evidence
+              always in view.
             </p>
             <div className="hero-actions">
               <a className="button-lime" href="#studio">
@@ -419,8 +419,8 @@ export default function App() {
               {
                 n: "03",
                 icon: Box,
-                title: "Follow the possibility.",
-                text: "Find accessible materials and follow a build guide to turn your new understanding into a hands-on project.",
+                title: "Try it. Check it.",
+                text: "Review the suggestions, record what you observe, and test supported mechanisms with your own measurements.",
                 tag: "ENDLESS POSSIBILITIES",
               },
             ].map(({ n, icon: Icon, title, text, tag }) => (

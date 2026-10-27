@@ -27,19 +27,19 @@ void main() {
   float veil=pow(max(0.,1.-abs(ribbon)),5.);
   float field=exp(-length((uv-vec2(.73,.53))*vec2(1.3,.8))*2.1);
   float cursor=exp(-length((uv-u_pointer)*vec2(aspect,1.))*5.);
-  vec3 base=vec3(.041,.063,.035);
-  vec3 green=vec3(.20,.32,.095)*veil*field*.44;
-  vec3 gold=vec3(.24,.21,.08)*pow(fold,4.)*field*.28;
+  vec3 base=vec3(.991,.994,1.);
+  vec3 green=vec3(.11,.08,.01)*veil*field*.44;
+  vec3 gold=vec3(.08,.05,.01)*pow(fold,4.)*field*.28;
   float contour=1.-smoothstep(.0,.022,abs(fract((flow+fold*.35)*17.)-.5));
-  vec3 color=base+green+gold+vec3(.055,.085,.025)*cursor;
-  color+=vec3(.19,.27,.11)*contour*field*.09;
+  vec3 color=base-green-gold-vec3(.025,.018,.0)*cursor;
+  color-=vec3(.08,.055,.0)*contour*field*.09;
   vec2 cell=floor(uv*u_resolution/80.);
   vec2 local=fract(uv*u_resolution/80.);
   float star=(1.-smoothstep(.0,.013,length(local-.5)))*step(.85,hash(cell));
-  color+=vec3(.50,.65,.30)*star*field*.35;
+  color-=vec3(.2,.13,.0)*star*field*.2;
   float grain=(hash(gl_FragCoord.xy)-.5)*.009;
   float vignette=(1.-smoothstep(.15,1.1,length((uv-.5)*vec2(1.,.8))));
-  color=(color+grain)*(.7+.3*vignette);
+  color=mix(vec3(1.),color,.35+.25*vignette)+grain*.25;
   gl_FragColor=vec4(color,1.);
 }
 `;

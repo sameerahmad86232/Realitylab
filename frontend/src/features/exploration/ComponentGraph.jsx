@@ -99,11 +99,11 @@ export default function ComponentGraph({
         type: "smoothstep",
         animated: false,
         style: {
-          stroke: e.certainty === "hypothesis" ? "#bcaa7c" : "#aacd87",
+          stroke: e.certainty === "hypothesis" ? "#a4783f" : "#667de1",
           strokeDasharray: e.certainty === "hypothesis" ? "5 5" : undefined,
         },
-        labelStyle: { fill: "#c3d8a9", fontSize: 9 },
-        labelBgStyle: { fill: "#172312" },
+        labelStyle: { fill: "#485773", fontSize: 9 },
+        labelBgStyle: { fill: "#ffffff" },
         data: e,
       })),
     [descriptors.edges],
@@ -248,20 +248,20 @@ export default function ComponentGraph({
           fitViewOptions={{ padding: 0.25 }}
           minZoom={0.15}
           maxZoom={2}
-          colorMode="dark"
+          colorMode="light"
           ariaLabelConfig={{
             "controls.zoomIn.ariaLabel": "Zoom in component map",
             "controls.zoomOut.ariaLabel": "Zoom out component map",
             "controls.fitView.ariaLabel": "Fit component map",
           }}
         >
-          <Background gap={20} color="#9ab87d22" />
+          <Background gap={20} color="#b6c1d844" />
           <Controls showInteractive={false} />
           <MiniMap
             pannable
             zoomable
             nodeColor={(n) =>
-              n.className?.includes("hypothesis") ? "#8d7954" : "#627d48"
+              n.className?.includes("hypothesis") ? "#c5a775" : "#a3b2ef"
             }
           />
         </ReactFlow>
