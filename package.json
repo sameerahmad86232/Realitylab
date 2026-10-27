@@ -15,7 +15,8 @@
     "smoke": "node scripts/smoke.mjs",
     "validate:photos": "node --use-env-proxy --use-system-ca --env-file-if-exists=.env scripts/validate-photos.mjs",
     "test:shader": "node tests/shader-browser.mjs",
-    "test:camera-cad": "node tests/camera-cad-browser.mjs"
+    "test:camera-cad": "node tests/camera-cad-browser.mjs",
+    "test:scan": "node tests/scan-browser.mjs"
   },
   "dependencies": {
     "express": "^5.1.0",

@@ -474,21 +474,75 @@ test("manual physics API works without a provider and enforces confirmation", as
   assert.equal(invalid.status, 400);
 });
 
-test('Render HTTPS origin works behind a proxy and explicit custom origin takes precedence', async t => {
+test("Render HTTPS origin works behind a proxy and explicit custom origin takes precedence", async (t) => {
   const oldRender = process.env.RENDER_EXTERNAL_URL;
   const oldOrigin = process.env.APP_ORIGIN;
   delete process.env.APP_ORIGIN;
-  process.env.RENDER_EXTERNAL_URL = 'https://realitylab-example.onrender.com';
+  process.env.RENDER_EXTERNAL_URL = "https://realitylab-example.onrender.com";
   let url;
   try {
     url = await serve(t, { provider: { configured: false } });
-    process.env.APP_ORIGIN = 'https://custom.example';
+    process.env.APP_ORIGIN = "https://custom.example";
     const custom = await serve(t, { provider: { configured: false } });
-    assert.equal((await fetch(url + '/api/health', {headers:{Origin: 'https://realitylab-example.onrender.com'}})).status,200);
-    assert.equal((await fetch(custom + '/api/health', {headers:{Origin:'https://custom.example'}})).status,200);
-    assert.equal((await fetch(custom + '/api/health', {headers:{Origin:'https://realitylab-example.onrender.com'}})).status,403);
+    assert.equal(
+      (
+        await fetch(url + "/api/health", {
+          headers: { Origin: "https://realitylab-example.onrender.com" },
+        })
+      ).status,
+      200,
+    );
+    assert.equal(
+      (
+        await fetch(custom + "/api/health", {
+          headers: { Origin: "https://custom.example" },
+        })
+      ).status,
+      200,
+    );
+    assert.equal(
+      (
+        await fetch(custom + "/api/health", {
+          headers: { Origin: "https://realitylab-example.onrender.com" },
+        })
+      ).status,
+      403,
+    );
   } finally {
-    if (oldRender === undefined) delete process.env.RENDER_EXTERNAL_URL; else process.env.RENDER_EXTERNAL_URL = oldRender;
-    if (oldOrigin === undefined) delete process.env.APP_ORIGIN; else process.env.APP_ORIGIN = oldOrigin;
+    if (oldRender === undefined) delete process.env.RENDER_EXTERNAL_URL;
+    else process.env.RENDER_EXTERNAL_URL = oldRender;
+    if (oldOrigin === undefined) delete process.env.APP_ORIGIN;
+    else process.env.APP_ORIGIN = oldOrigin;
   }
+});
+
+test("scan concepts and operation steps receive remapped component IDs from the same analysis", async (t) => {
+  const { scanFixture } = await import("./helpers/scanFixture.js");
+  const url = await serve(t, {
+    provider: {
+      configured: true,
+      provider: "TEST-FIXTURE",
+      model: "fixture",
+      analyze: async () => scanFixture("electronics"),
+    },
+  });
+  const response = await fetch(url + "/api/analyze", {
+    method: "POST",
+    body: form(await image()),
+  });
+  assert.equal(response.status, 200);
+  const result = await response.json();
+  const ids = new Set(result.observations.map((o) => o.id));
+  assert(
+    result.spatialModel.parts.every(
+      (p) => ids.has(p.observationId) && p.source === "model-suggested",
+    ),
+  );
+  assert(
+    result.operation.steps.every((step) =>
+      step.observationIds.every((id) => ids.has(id)),
+    ),
+  );
+  assert.equal(result.recreationGuide.scope, "unpowered-study-model");
+  assert.equal(result.mechanism.type, "unsupported");
 });

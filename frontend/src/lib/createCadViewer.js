@@ -50,6 +50,9 @@ SOFTWARE.
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
+import { STLExporter } from "three/addons/exporters/STLExporter.js";
+import { buildScanConcept } from "./scanConcept";
 import { STLLoader } from "three/addons/loaders/STLLoader.js";
 import { validateCadBytes, CAD_TRIANGLE_LIMIT } from "./cadFiles";
 
@@ -274,7 +277,12 @@ export function createCadViewer(host, { onSelect, onFailure }) {
         geometry.computeVertexNormals();
         geometry.computeBoundingBox();
         const material = new THREE.MeshStandardMaterial({
-          color: next.length % 2 ? "#c0c8b5" : "#879b85",
+          color:
+            object.userData.scanConcept && child.material?.color
+              ? child.material.color.clone()
+              : next.length % 2
+                ? "#c0c8b5"
+                : "#879b85",
           metalness: 0.38,
           roughness: 0.47,
           side: THREE.DoubleSide,
@@ -419,6 +427,38 @@ export function createCadViewer(host, { onSelect, onFailure }) {
         object.name = name.replace(/\.stl$/i, "");
       }
       return accept(object, name);
+    },
+    concept(model) {
+      return accept(
+        buildScanConcept(model),
+        model.objectName || "Approximate scanned object",
+      );
+    },
+    async exportMesh(format = "glb") {
+      const copy = new THREE.Group();
+      copy.name = sourceName;
+      copy.userData.notice =
+        "Approximate or imported geometry; verify units and dimensions independently.";
+      for (const p of parts) {
+        const mat = p.mesh.material.clone();
+        mat.transparent = false;
+        mat.opacity = 1;
+        mat.depthWrite = true;
+        mat.emissive.set("#000000");
+        mat.wireframe = false;
+        const mesh = new THREE.Mesh(p.mesh.geometry.clone(), mat);
+        mesh.name = p.name;
+        mesh.position.copy(p.mesh.position);
+        copy.add(mesh);
+      }
+      copy.updateMatrixWorld(true);
+      try {
+        if (format === "stl")
+          return new STLExporter().parse(copy, { binary: true });
+        return await new GLTFExporter().parseAsync(copy, { binary: true });
+      } finally {
+        disposeObject(copy);
+      }
     },
     example() {
       const shape = new THREE.Shape();

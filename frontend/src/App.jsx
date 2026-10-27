@@ -190,7 +190,6 @@ export default function App() {
             ))}
           </div>
         </section>
-        <StudioShowcase />
         <section className="studio-section" id="studio">
           <div className="section-heading">
             <div>
@@ -234,7 +233,8 @@ export default function App() {
               aria-controls="cad-panel"
               onClick={() => setStudioMode("cad")}
             >
-              <Box size={15} /> 3D model inspector <span>GLB / STL</span>
+              <Box size={15} /> 3D model inspector{" "}
+              <span>YOUR GLB / STL FILES</span>
             </button>
             <button
               id="sample-tab"
@@ -267,6 +267,12 @@ export default function App() {
                 }
               >
                 <CadWorkspace />
+                <details className="reference-study">
+                  <summary>
+                    Optional lighting study · illustrative gear sample
+                  </summary>
+                  <StudioShowcase />
+                </details>
               </Suspense>
             )}
           </div>

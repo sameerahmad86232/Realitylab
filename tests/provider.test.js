@@ -81,3 +81,10 @@ test("reasoning without a final answer is rejected rather than rendered as analy
     /text result/,
   );
 });
+
+test('truncated structured responses are rejected even when content parses', async (t) => {
+ const original=globalThis.fetch; t.after(()=>{globalThis.fetch=original;});
+ globalThis.fetch=async()=>new Response(JSON.stringify({choices:[{finish_reason:'length',message:{content:'{}'}}]}));
+ const adapter=providerFromEnvironment({BASETEN_API_KEY:'test-only-key'});
+ await assert.rejects(adapter.analyze({images:[],context:'',signal:new AbortController().signal}), /incomplete/);
+});

@@ -153,3 +153,23 @@ licenses and scope are in [open-source credits](docs/OPEN_SOURCE.md).
 Run `npm run test:camera-cad` after building to check capture and model viewing
 without real AI calls. See [camera/model documentation](docs/CAMERA_AND_CAD.md)
 for limits. These features do not reconstruct CAD from photos or control hardware.
+
+### Scan-specific component concepts
+
+Upload or capture object photos, consent to analysis, then explore **3D concept**,
+**How it works**, and **Make a study model**. Meta supplies bounded component
+geometry associated with photo observations; the viewer supports selection,
+shape/color/relative-size corrections and GLB/STL exports. The gear lighting
+study is now optional inside the CAD inspector, never a substitute for a scan.
+
+These are approximate primitive component models, not photogrammetry, exact CAD,
+or a guarantee that all internal parts are visible. Depth, thickness and hidden
+surfaces are assumptions. Physical dimensions require measurements. Creation
+guides describe unpowered study models, not verified functional manufacturing
+instructions. Unsupported scans show missing geometry honestly.
+
+Validation: `npm run test:scan` exercises four injected object categories, mesh
+exports, editing, explanations and guides without spending credits. Separate
+live Baseten checks on public mouse, fan and chair photos returned distinct
+component concepts. One initial chair request failed; a subsequent request
+succeeded. This small check is not an accuracy benchmark.

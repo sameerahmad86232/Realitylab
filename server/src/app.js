@@ -267,10 +267,27 @@ export function createApp({
         observationId: ids.get(g.observationId),
         toothCountSource: g.toothCount === null ? "unknown" : "model-suggested",
       }));
+      if (analysis.spatialModel)
+        analysis.spatialModel = {
+          ...analysis.spatialModel,
+          parts: analysis.spatialModel.parts.map((p) => ({
+            ...p,
+            observationId: ids.get(p.observationId),
+            source: "model-suggested",
+          })),
+        };
+      if (analysis.operation)
+        analysis.operation = {
+          ...analysis.operation,
+          steps: analysis.operation.steps.map((step) => ({
+            ...step,
+            observationIds: step.observationIds.map((id) => ids.get(id)),
+          })),
+        };
       lastSuccessfulAnalysisAt = new Date().toISOString();
       res.json({
         ...analysis,
-        schemaVersion: "1.1",
+        schemaVersion: "1.2",
         id: randomUUID(),
         mode: "live",
         images,

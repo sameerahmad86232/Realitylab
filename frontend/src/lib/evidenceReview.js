@@ -107,6 +107,57 @@ export function makeExplorationMarkdown(report) {
       );
     if (!analysis.relationships?.length)
       lines.push("No relationships recorded.");
+    if (analysis.spatialModel) {
+      lines.push(
+        "",
+        "## Approximate 3D concept",
+        "",
+        "Relative proportions and inferred depth; not reconstructed or verified CAD.",
+        "",
+      );
+      for (const p of analysis.spatialModel.parts)
+        lines.push(
+          `- ${md(names.get(p.observationId))}: ${md(p.primitive)}; relative size ${md(p.size.join(" × "))}; source ${md(p.source || "model-suggested")}. Basis: ${md(p.basis)}`,
+        );
+      lines.push(
+        "",
+        ...analysis.spatialModel.assumptions.map(
+          (a) => `- Assumption: ${md(a)}`,
+        ),
+      );
+    }
+    if (analysis.operation) {
+      lines.push(
+        "",
+        "## How it may work",
+        "",
+        md(analysis.operation.summary),
+        "",
+      );
+      for (const step of analysis.operation.steps)
+        lines.push(`- ${md(step.title)}: ${md(step.description)}`);
+    }
+    if (analysis.recreationGuide) {
+      const guide = analysis.recreationGuide;
+      lines.push(
+        "",
+        "## Unpowered study-model guide",
+        "",
+        "Not a manufacturing or functional construction plan.",
+        "",
+        "Materials:",
+        ...guide.materials.map((m) => `- ${md(m)}`),
+        "",
+        "Measurements needed:",
+        ...guide.measurementsNeeded.map((m) => `- ${md(m)}`),
+        "",
+      );
+      for (const step of guide.steps)
+        lines.push(
+          `- ${md(step.title)}: ${md(step.instruction)} Check: ${md(step.check)}`,
+        );
+      lines.push("", ...guide.limitations.map((l) => `- Limitation: ${md(l)}`));
+    }
     lines.push("", "## Internal hypotheses", "");
     for (const h of analysis.hypotheses)
       lines.push(

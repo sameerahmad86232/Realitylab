@@ -10,6 +10,7 @@ import {
   makeExplorationMarkdown,
 } from "../../lib/evidenceReview";
 const ComponentGraph = lazy(() => import("./ComponentGraph"));
+const ScanExperience = lazy(() => import("./ScanExperience"));
 import {
   ArrowUpRight,
   Upload,
@@ -283,6 +284,19 @@ export default function ExperimentStudio() {
     setPrediction(null);
     setComparison(null);
   }
+  function selectObservation(id) {
+    setSelected(id);
+    const found = analysis?.observations.find((o) => o.id === id);
+    if (found)
+      setImageIndex(analysis.images.findIndex((im) => im.id === found.imageId));
+  }
+  function updateSpatialModel(spatialModel) {
+    setAnalysis((a) => ({
+      ...a,
+      spatialModelOriginal: a.spatialModelOriginal || a.spatialModel,
+      spatialModel,
+    }));
+  }
   function reviewObservation(patch) {
     setAnalysis((a) => ({
       ...a,
@@ -303,7 +317,7 @@ export default function ExperimentStudio() {
   }
   function report() {
     return {
-      schemaVersion: "1.2",
+      schemaVersion: "1.3",
       exportedAt: new Date().toISOString(),
       mode: analysis ? "live" : example ? "manual-example" : "manual",
       analysis: analysis
@@ -780,6 +794,20 @@ export default function ExperimentStudio() {
             {analysis.recognition || "identified"}
           </span>
           <Suspense
+            fallback={
+              <p className="lab-help">
+                Preparing this object’s 3D concept and guide…
+              </p>
+            }
+          >
+            <ScanExperience
+              analysis={analysis}
+              selected={selected}
+              onSelect={selectObservation}
+              onSpatialChange={updateSpatialModel}
+            />
+          </Suspense>
+          <Suspense
             fallback={<p className="lab-help">Loading the component map…</p>}
           >
             <ComponentGraph
@@ -804,7 +832,7 @@ export default function ExperimentStudio() {
               }
             />
           </Suspense>
-          <h5 className="lab-subheading">
+          <h5 className="lab-subheading" id="scan-photo-evidence">
             Photographic evidence & corrections
           </h5>
           <div className="analysis-workspace">

@@ -935,7 +935,7 @@ body,
   font-size: 12px;
   line-height: 1.7;
   max-width: 65ch;
-  color: #617256;
+  color: #5e6f53;
 }
 .model-downloads {
   display: flex;
@@ -958,7 +958,7 @@ body,
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  color: #5b7449;
+  color: #587147;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -1088,12 +1088,585 @@ body,
 }
 /* The camera waiting state sits over a dark video surface. */
 .camera-stage > p {
-  color: #eff5ed;
+  color: #696c68;
 }
 /* Keep primary actions readable in hover states, including modal actions. */
 .button-lime:hover:not(:disabled),
 .camera-actions .button-lime:hover:not(:disabled) {
   background: #35543e;
   border-color: #35543e;
+  color: #fff;
+}
+
+.reference-study {
+  border: 1px solid #dfe7d9;
+  border-radius: 12px;
+  margin-top: 24px;
+  background: #fafcf5;
+}
+.reference-study > summary {
+  font: 13px var(--font-body);
+  padding: 18px 20px;
+  cursor: pointer;
+  color: #5e7158;
+}
+.reference-study .studio-showcase {
+  padding: 30px 25px;
+}
+.scan-experience {
+  border: 1px solid #dce5d6;
+  border-radius: 14px;
+  background: #fcfdf9;
+  margin: 26px 0 32px;
+  overflow: hidden;
+}
+.scan-experience-heading {
+  padding: 26px 25px 20px;
+}
+.scan-experience-heading h3 {
+  font: 400 34px/1.15 var(--serif);
+  color: #3c593f;
+  margin: 12px 0;
+}
+.scan-experience-heading p {
+  font: 14px/1.7 var(--font-body);
+  color: #5e6e59;
+  margin: 0;
+}
+.scan-experience-heading .eyebrow {
+  font-size: 9px;
+}
+.scan-experience-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 0 25px 20px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #e2e9dc;
+}
+.scan-experience-tabs button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 15px;
+  border-radius: 7px;
+  border: 1px solid #dfe8d7;
+  background: #fff;
+  color: #5b7055;
+  font-size: 13px;
+}
+.scan-experience-tabs button[aria-selected="true"] {
+  background: #45654d;
+  color: #fff;
+  border-color: #45654d;
+}
+.scan-concept-notice {
+  padding: 15px 24px;
+  background: #f3f6eb;
+  border-bottom: 1px solid #e0e7d6;
+}
+.scan-concept-notice strong,
+.scan-guide-label {
+  font: 9px var(--mono);
+  letter-spacing: 0.7px;
+  color: #5f714e;
+}
+.scan-concept-notice p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #637056;
+  margin: 7px 0 0;
+  max-width: 95ch;
+}
+.scan-no-model {
+  padding: 28px;
+  color: #617153;
+  background: #fafcf4;
+}
+.scan-no-model h4 {
+  font: 400 28px var(--serif);
+  margin: 14px 0 10px;
+}
+.scan-no-model p {
+  font-size: 13px;
+  line-height: 1.8;
+  max-width: 80ch;
+}
+.scan-model-grid {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr) 200px;
+  min-height: 470px;
+}
+.scan-reference {
+  padding: 20px 15px;
+  background: #f8fbf1;
+  border-right: 1px solid #e1e8d6;
+}
+.scan-reference .micro-label {
+  font-size: 8px;
+  letter-spacing: 0.6px;
+}
+.scan-reference img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border: 1px solid #e0e8d5;
+  border-radius: 8px;
+  margin: 17px 0;
+  background: #fff;
+}
+.scan-reference > strong {
+  display: block;
+  font: 400 20px/1.25 var(--serif);
+  color: #4c6b3d;
+  overflow-wrap: anywhere;
+}
+.scan-reference p {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #606e53;
+}
+.scan-reference a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #587244;
+  margin-top: 10px;
+}
+.scan-model-stage {
+  position: relative;
+  min-height: 470px;
+  min-width: 0;
+  overflow: hidden;
+  background: #f2f6ef;
+}
+.scan-model-canvas {
+  position: absolute;
+  inset: 0;
+}
+.scan-model-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+.scan-model-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #f3f7ecee;
+  padding: 30px;
+  color: #5f724f;
+  font-size: 14px;
+  text-align: center;
+}
+.scan-camera-buttons {
+  position: absolute;
+  top: 17px;
+  left: 17px;
+  display: flex;
+  gap: 5px;
+}
+.scan-camera-buttons button {
+  font-size: 10px;
+  background: #ffffffc9;
+  border: 1px solid #d6e3c8;
+  color: #5d7150;
+  border-radius: 5px;
+  padding: 8px 10px;
+}
+.scan-camera-buttons button[aria-pressed="true"] {
+  background: #eaf2df;
+  color: #53743a;
+  border-color: #c3daae;
+}
+.scan-stage-label {
+  position: absolute;
+  left: 17px;
+  bottom: 20px;
+  font: 8px var(--mono);
+  letter-spacing: 0.6px;
+  color: #617052;
+  pointer-events: none;
+}
+.scan-reset {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  padding: 9px;
+  min-width: 37px;
+}
+.scan-model-parts {
+  padding: 20px 12px;
+  border-left: 1px solid #dfe8d5;
+  background: #f9fcf3;
+  max-height: 560px;
+  overflow: auto;
+}
+.scan-model-parts > .micro-label {
+  font-size: 8px;
+  display: block;
+  margin-bottom: 15px;
+}
+.scan-model-parts button {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #54723f;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 10px;
+  text-align: left;
+  margin: 4px 0;
+  overflow-wrap: anywhere;
+}
+.scan-model-parts button.selected {
+  background: #eaf3df;
+  border-color: #cee2b7;
+}
+.scan-model-parts small {
+  display: block;
+  font: 9px/1.5 var(--font-body);
+  color: #626f55;
+  margin-top: 4px;
+}
+.scan-model-tools {
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-top: 1px solid #e1ead6;
+  border-bottom: 1px solid #e1ead6;
+}
+.scan-model-tools > .lab-check {
+  font-size: 12px;
+  margin: 0;
+}
+.scan-model-tools > div {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.scan-model-tools button {
+  font-size: 11px;
+}
+.scan-part-inspector {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 35px;
+}
+.scan-part-inspector .eyebrow {
+  font-size: 9px;
+}
+.scan-part-inspector h4 {
+  font: 400 28px var(--serif);
+  color: #567541;
+  margin: 12px 0;
+}
+.scan-part-inspector p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #60724b;
+}
+.scan-part-inspector small {
+  display: block;
+  font-size: 12px;
+  line-height: 1.75;
+  color: #606f50;
+}
+.scan-shape-editor {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.scan-shape-editor .lab-label {
+  font-size: 11px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.scan-shape-editor .lab-label > span {
+  font: 11px var(--mono);
+  color: #5d7347;
+}
+.scan-shape-editor input[type="range"] {
+  padding: 0;
+  min-height: 22px;
+  width: 100%;
+  accent-color: #7daa50;
+}
+.scan-shape-editor input[type="color"] {
+  height: 42px;
+  min-height: 42px;
+  width: 100%;
+  padding: 5px;
+  background: #fff;
+}
+.scan-shape-editor select {
+  font-size: 13px;
+  min-height: 42px;
+  padding: 9px;
+}
+.scan-shape-editor .lab-help {
+  grid-column: 1/-1;
+  font-size: 11px;
+  margin: 0;
+}
+.scan-assumptions {
+  padding: 0 24px 22px;
+}
+.scan-assumptions h5,
+.scan-learning h5 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #5b7043;
+}
+.scan-assumptions li {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #5f724c;
+}
+.scan-learning {
+  padding: 27px;
+}
+.scan-learning h4 {
+  font: 400 33px/1.2 var(--serif);
+  color: #59723c;
+  margin: 15px 0;
+}
+.scan-learning > p {
+  font-size: 14px;
+  line-height: 1.8;
+  max-width: 85ch;
+  color: #626f4d;
+}
+.scan-learning > article {
+  display: flex;
+  align-items: start;
+  gap: 20px;
+  border-top: 1px solid #deead1;
+  padding: 23px 0;
+}
+.scan-learning > article > span {
+  font: 12px var(--mono);
+  color: #62704f;
+  margin-top: 5px;
+}
+.scan-learning article h5 {
+  margin: 0 0 10px;
+  font: 400 25px/1.2 var(--serif);
+  color: #5f7344;
+}
+.scan-learning article p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #627150;
+  margin: 0 0 15px;
+  max-width: 82ch;
+}
+.scan-learning article small {
+  display: block;
+  font-size: 12px;
+  line-height: 1.75;
+  color: #60704e;
+}
+.scan-step-parts {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.scan-step-parts button {
+  font-size: 11px;
+}
+.scan-guide-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  background: #f5faed;
+  border: 1px solid #e0eccf;
+  padding: 10px 20px;
+  margin: 25px 0;
+  border-radius: 10px;
+}
+.scan-guide-columns h5 {
+  font-size: 14px;
+}
+.scan-guide-columns li,
+.scan-guide-limits li,
+.scan-learning > ul li {
+  font-size: 13px;
+  line-height: 1.85;
+  color: #626e50;
+}
+.scan-guide-limits {
+  background: #faf7e9;
+  border: 1px solid #e9dfbb;
+  border-radius: 8px;
+  padding: 5px 20px 15px;
+  margin-top: 20px;
+}
+.scan-guide-limits h5 {
+  color: #746c42;
+}
+.scan-guide-limits li {
+  color: #726b4a;
+}
+@media (max-width: 1050px) {
+  .scan-model-grid {
+    grid-template-columns: 160px minmax(0, 1fr);
+  }
+  .scan-model-parts {
+    grid-column: 1/-1;
+    border-left: 0;
+    border-top: 1px solid #dfe8d5;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    max-height: 190px;
+    padding: 14px;
+  }
+  .scan-model-parts > .micro-label {
+    margin: 0 10px 0 0;
+  }
+  .scan-model-parts button {
+    width: auto;
+    max-width: 230px;
+    margin: 0;
+    font-size: 11px;
+  }
+  .scan-model-parts small {
+    font-size: 8px;
+  }
+  .scan-model-tools {
+    display: block;
+  }
+  .scan-model-tools > div {
+    margin-top: 13px;
+  }
+  .scan-part-inspector {
+    gap: 22px;
+    padding: 22px;
+  }
+  .scan-model-stage {
+    min-height: 440px;
+  }
+}
+@media (max-width: 600px) {
+  .scan-experience-heading {
+    padding: 22px 18px 18px;
+  }
+  .scan-experience-heading h3 {
+    font-size: 29px;
+  }
+  .scan-experience-heading p {
+    font-size: 13px;
+  }
+  .scan-experience-tabs {
+    padding: 0 15px 18px;
+    gap: 6px;
+  }
+  .scan-experience-tabs button {
+    font-size: 11px;
+    padding: 10px 11px;
+    gap: 6px;
+  }
+  .scan-concept-notice {
+    padding: 15px 18px;
+  }
+  .scan-model-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .scan-reference {
+    display: grid;
+    grid-template-columns: 85px minmax(0, 1fr);
+    gap: 7px 16px;
+    padding: 15px;
+    border-right: 0;
+    border-bottom: 1px solid #e0e9d4;
+  }
+  .scan-reference > .micro-label {
+    grid-column: 1/-1;
+  }
+  .scan-reference img {
+    grid-column: 1;
+    grid-row: 2/5;
+    aspect-ratio: 1;
+    margin: 0;
+  }
+  .scan-reference > strong {
+    font-size: 20px;
+  }
+  .scan-reference p {
+    font-size: 11px;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .scan-reference a {
+    margin: 0;
+    font-size: 10px;
+  }
+  .scan-model-stage {
+    min-height: 360px;
+  }
+  .scan-model-parts {
+    max-height: 230px;
+  }
+  .scan-model-tools {
+    padding: 15px;
+  }
+  .scan-model-tools button {
+    font-size: 10px;
+  }
+  .scan-part-inspector {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 20px;
+    gap: 20px;
+  }
+  .scan-stage-label {
+    font-size: 7px;
+    max-width: 220px;
+    line-height: 1.5;
+    bottom: 17px;
+  }
+  .scan-assumptions {
+    padding: 0 20px 20px;
+  }
+  .scan-learning {
+    padding: 22px 18px;
+  }
+  .scan-learning h4 {
+    font-size: 29px;
+  }
+  .scan-learning > article {
+    gap: 13px;
+  }
+  .scan-learning article h5 {
+    font-size: 23px;
+  }
+  .scan-guide-columns {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 0 15px;
+  }
+  .scan-guide-label {
+    font-size: 8px;
+    line-height: 1.7;
+  }
+  .reference-study .studio-showcase {
+    padding: 25px 15px;
+  }
+}
+.camera-stage > p {
+  color: #eff5ed;
+}
+.scan-experience-tabs button[aria-selected="true"] {
   color: #fff;
 }
