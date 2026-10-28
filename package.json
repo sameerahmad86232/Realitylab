@@ -10,7 +10,9 @@
     "test:browser": "node tests/design.mjs",
     "test:capture": "node tests/capture.mjs",
     "test:api": "node --experimental-strip-types --test tests/scan-api.test.ts",
-    "test:live-ui": "node tests/live-ui.mjs"
+    "test:live-ui": "node tests/live-ui.mjs",
+    "test:exploration": "node tests/exploration.mjs",
+    "test:unit": "node --experimental-strip-types --test tests/exploration.test.ts"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

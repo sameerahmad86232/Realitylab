@@ -1,0 +1,12 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {analysisSchema} from '../lib/analysis.ts';
+import {clampMarker,componentEdges,componentPositions,filterComponents} from '../lib/exploration.ts';
+const fixture=JSON.parse(readFileSync(new URL('./fixtures/analysis.json',import.meta.url),'utf8'));
+const parts=analysisSchema.parse(fixture.analysis).components;
+test('reciprocal model connections become a single unverified association',()=>{const edges=componentEdges(parts);assert.equal(edges.length,2);assert.equal(edges.filter(e=>[e.source,e.target].includes('handle')&&[e.source,e.target].includes('loops')).length,1);assert.deepEqual(Object.keys(edges[0]).sort(),['source','target'])});
+test('no connections, missing targets and self references never create invented edges',()=>{assert.deepEqual(componentEdges(parts.map(p=>({...p,connections:[]}))),[]);assert.deepEqual(componentEdges([{...parts[0],connections:['handle','missing']}]),[])});
+test('observed/inferred filters and material/role search preserve evidence',()=>{assert.deepEqual(filterComponents(parts,'inferred','').map(p=>p.id),['joint']);assert.deepEqual(filterComponents(parts,'observed','STEEL').map(p=>p.id),['loops']);assert.deepEqual(filterComponents(parts,'all',' grip ').map(p=>p.id),['handle']);assert.deepEqual(filterComponents(parts,'inferred','plastic'),[]);assert.equal(parts[2].observed,false)});
+test('graph layout is stable and finite for empty, single and up to eight components',()=>{for(let n=0;n<=8;n++){const items=Array.from({length:n},(_,i)=>({...parts[0],id:`p-${i}`}));const a=componentPositions(items),b=componentPositions(items);assert.deepEqual(a,b);for(const p of a.values()){assert.ok(p.x>=60&&p.x<=660);assert.ok(p.y>=70&&p.y<=370)}}});
+test('marker edits stay in normalized bounds and round consistently',()=>{assert.deepEqual(clampMarker({x:-.2,y:1.5}),{x:0,y:1});assert.deepEqual(clampMarker({x:.123456,y:.987654}),{x:.1235,y:.9877})});
