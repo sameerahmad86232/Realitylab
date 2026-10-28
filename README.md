@@ -53,6 +53,8 @@ No photos or questions are persisted by this app. Provider policies still apply.
 
 See the [full website audit and fixes](docs/FULL_AUDIT.md) for verified coverage and remaining limitations.
 
+See the [mobile and output resilience follow-up](docs/RESILIENCE_AUDIT.md) for offline behavior, phone navigation and long-label improvements.
+
 ## Checks
 
 ```sh
@@ -69,6 +71,7 @@ npm run test:blueprint
 npm run test:learn-ui
 npm run test:demos
 npm run test:audit
+npm run test:resilience
 ```
 
 Browser suites use fixtures and make no paid calls. GitHub Actions checks without secrets. The opt-in `node --use-env-proxy --use-system-ca scripts/curate-demos.mjs --live` makes three paid scans without automatic retry and overwrites saved examples. They do not need regeneration for normal use.

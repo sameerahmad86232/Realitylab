@@ -1,3 +1,4 @@
+import {wrapSvgText} from './svg-text.ts';
 import type {Analysis,ScanResult} from './analysis.ts';
 import type {Component,Marker} from './exploration.ts';
 import {clampMarker} from './exploration.ts';
@@ -30,16 +31,12 @@ export function blueprintLayout(analysis:Analysis,view:number,photoCount:number,
  return {width:1100,height,items,photoBox,drawingBottom,view,photoCount,totalParts:analysis.components.length,locatedCount:located.length,activeCount:active.length,title:analysis.object_name};
 }
 export function xmlText(value:string){return value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;')}
-function lines(value:string,max=30,count=2){
- const words=value.replace(/\s+/g,' ').trim().match(new RegExp(`.{1,${max}}(?:\\s|$)|.{1,${max}}`,'g'))||[''];
- const result=words.slice(0,count).map(s=>s.trim());if(words.length>count)result[result.length-1]=result[result.length-1].replace(/.{0,2}$/,'…');return result;
-}
 const palettes={graphite:{bg:'#101820',grid:'#23333e',ink:'#eef6fa',muted:'#a6bfce',line:'#527482',card:'#172732',accent:'#83dcff',selected:'#234252',inferred:'#302d32'},paper:{bg:'#f9fbff',grid:'#dfe8f4',ink:'#243c61',muted:'#526681',line:'#6e8fb8',card:'#ffffff',accent:'#1457f5',selected:'#edf3ff',inferred:'#fffaf0'},classic:{bg:'#102b4b',grid:'#1d3d60',ink:'#eff7ff',muted:'#b6cce3',line:'#6b9cc7',card:'#153553',accent:'#80deff',selected:'#214b70',inferred:'#263c4a'}};
 export function blueprintSvg(model:BlueprintModel,options:{theme:BlueprintTheme;selected?:string;interactive?:boolean;preview?:boolean;photoDataUrl?:string;photoOutline?:boolean;meta:ScanResult['meta']}):string{
  const {theme,selected='',interactive=false,photoDataUrl,meta}=options,p=palettes[theme];
  if(photoDataUrl&&(!/^data:image\/(?:jpeg|png);base64,[A-Za-z0-9+/=]+$/.test(photoDataUrl)||photoDataUrl.length>8*1024*1024))throw Error('Only a prepared JPEG or PNG can be included in this SVG.');
  const text=(x:number,y:number,value:string,size=12,color=p.ink,extra='')=>`<text x="${x}" y="${y}" font-size="${size}" fill="${color}" ${extra}>${xmlText(value)}</text>`;
- const wrapped=(x:number,y:number,value:string,max=30,count=2,size=13,color=p.ink)=>lines(value,max,count).map((line,i)=>text(x,y+i*(size+3),line,size,color)).join('');
+ const wrapped=(x:number,y:number,value:string,max=30,count=2,size=13,color=p.ink)=>wrapSvgText(value,max*size*.5,size,count).map((line,i)=>text(x,y+i*(size+3),line,size,color)).join('');
  const metadata={format:'RealityLab conceptual photo-marker blueprint',notToScale:true,view:model.view+1,photoCount:model.photoCount,activeParts:model.activeCount,totalParts:model.totalParts,photoIncluded:!!photoDataUrl,photoRendering:photoDataUrl?(options.photoOutline?'image-edge-trace':'photo'):'none',requestId:meta.requestId,provider:meta.provider,model:meta.model,analyzedAt:meta.analyzedAt,placements:model.items.map(i=>({id:i.part.id,kind:i.kind,source:i.placement})),notice:'Symbolic component positions, not measured geometry. Inferred parts have no photo location. Solid leaders label parts; they are not physical connections.'};
  const output=[`<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="${model.height}" viewBox="0 0 1100 ${model.height}" role="${interactive?'group':'img'}" aria-label="Conceptual blueprint of ${xmlText(model.title)}. Not to scale." font-family="Geist, Arial, Helvetica, sans-serif">`,
  `<title>${xmlText(model.title)} — conceptual blueprint, not to scale</title><desc>Photo-positioned component symbols and labels. No reconstructed outlines, dimensions or inferred internals are drawn. ${model.activeCount} of ${model.totalParts} components in this filtered scope. ${photoDataUrl?'Source photo is included.':'Photo excluded.'}</desc><metadata>${xmlText(JSON.stringify(metadata))}</metadata>`,

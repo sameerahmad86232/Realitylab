@@ -45,3 +45,7 @@ Eight browser suites cover design, capture, actual handler serialization, explor
 - Render cold starts, external provider outages and credit balances can affect availability. Cancellation is best-effort once a provider starts work.
 
 No new paid Meta/Baseten inference or Modal GPU job was needed for this audit. Existing recorded results were used for public UI verification.
+
+## Subsequent follow-up
+
+The [mobile and output resilience pass](RESILIENCE_AUDIT.md) adds phone navigation, offline request controls, preview-status corrections and long-label/export checks. The expanded validation now includes 40 API/unit/learning checks and nine browser suites.

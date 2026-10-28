@@ -26,3 +26,4 @@ jobs:
           npm run test:learn-ui
           npm run test:demos
           npm run test:audit
+          npm run test:resilience
