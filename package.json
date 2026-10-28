@@ -18,7 +18,8 @@
     "test:camera-cad": "node tests/camera-cad-browser.mjs",
     "test:scan": "node tests/scan-browser.mjs",
     "test:ui-audit": "node tests/ui-audit-browser.mjs",
-    "test:bench": "node tests/bench-browser.mjs"
+    "test:bench": "node tests/bench-browser.mjs",
+    "test:repair": "node tests/repair-browser.mjs"
   },
   "dependencies": {
     "express": "^5.1.0",

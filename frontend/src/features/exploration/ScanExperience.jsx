@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
+import RepairGuide from "./RepairGuide";
 import { handleTabKeys } from "../../lib/accessibleTabs";
 import {
   Box,
   Play,
-  Layers3,
+  Wrench,
   Download,
   RotateCcw,
   ArrowUpRight,
@@ -358,6 +359,7 @@ export default function ScanExperience({
   selected,
   onSelect,
   onSpatialChange,
+  onRepairRecord,
 }) {
   const [tab, setTab] = useState("model");
   return (
@@ -373,9 +375,15 @@ export default function ScanExperience({
           See the parts. Follow the possibilities.
         </h3>
         <p>
-          A 3D concept, an explanation, and a practical study-model plan for
-          this object.
+          Explore the parts, understand how they work, and get help when
+          something is wrong.
         </p>
+        <button
+          className="button-lime repair-entry"
+          onClick={() => setTab("repair")}
+        >
+          <Wrench size={16} /> {"Something's wrong"}
+        </button>
       </div>
       <div
         role="tablist"
@@ -401,11 +409,11 @@ export default function ScanExperience({
         </button>
         <button
           role="tab"
-          aria-selected={tab === "create"}
-          tabIndex={tab === "create" ? 0 : -1}
-          onClick={() => setTab("create")}
+          aria-selected={tab === "repair"}
+          tabIndex={tab === "repair" ? 0 : -1}
+          onClick={() => setTab("repair")}
         >
-          <Layers3 size={15} /> Make a study model
+          <Wrench size={15} /> Repair guide
         </button>
       </div>
       {tab === "model" && (
@@ -460,75 +468,22 @@ export default function ScanExperience({
             ))}
         </div>
       )}
-      {tab === "create" && (
-        <div className="scan-learning">
-          <span className="scan-guide-label">
-            UNPOWERED STUDY MODEL · NOT A MANUFACTURING PLAN
-          </span>
-          <h4>A way to recreate the visible structure.</h4>
-          <p>
-            This guide is for a nonfunctional study model. Real products require
-            measurements, material choices, engineering checks and inspection of
-            hidden parts.
-          </p>
-          {analysis.recreationGuide ? (
-            <>
-              <div className="scan-guide-columns">
-                <div>
-                  <h5>Suggested craft materials</h5>
-                  <ul>
-                    {analysis.recreationGuide.materials.map((m, i) => (
-                      <li key={i}>{m}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h5>Measurements to collect first</h5>
-                  <ul>
-                    {analysis.recreationGuide.measurementsNeeded.map((m, i) => (
-                      <li key={i}>{m}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              {analysis.recreationGuide.steps.map((step, i) => (
-                <article key={i}>
-                  <span>{String(i + 1).padStart(2, "0")}</span>
-                  <div>
-                    <h5>{step.title}</h5>
-                    <p>{step.instruction}</p>
-                    <small>
-                      <strong>Check:</strong> {step.check}
-                    </small>
-                  </div>
-                </article>
-              ))}
-              <div className="scan-guide-limits">
-                <h5>Limits of this guide</h5>
-                <ul>
-                  {analysis.recreationGuide.limitations.map((l, i) => (
-                    <li key={i}>{l}</li>
-                  ))}
-                </ul>
-              </div>
-            </>
-          ) : (
-            <>
-              <p>
-                No object-specific recreation guide was proposed for this
-                result. Start with the evidence and collect the missing
-                measurements.
-              </p>
-              <ul>
-                {analysis.nextSteps.map((s, i) => (
-                  <li key={i}>{s}</li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
-      )}
+      <div hidden={tab !== "repair"}>
+        <RepairGuide
+          key={analysis.id}
+          analysis={analysis}
+          active={tab === "repair"}
+          onRecord={onRepairRecord}
+          onHighlight={(id) => {
+            onSelect(id);
+            setTab("model");
+          }}
+        />
+      </div>
     </section>
   );
 }
-ScanExperience.propTypes = ScanModel.propTypes;
+ScanExperience.propTypes = {
+  ...ScanModel.propTypes,
+  onRepairRecord: PropTypes.func.isRequired,
+};

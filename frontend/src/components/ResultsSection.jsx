@@ -11,21 +11,23 @@ import {
   Plus,
   Minus,
   RotateCcw,
-  Check,
   Lightbulb,
-  MoveUpRight,
 } from "lucide-react";
 
-export default function ResultsSection({ blueprintData, isVisible }) {
+export default function ResultsSection({ blueprintData, isVisible, onRepair }) {
   const [tab, setTab] = useState("discover");
   const [part, setPart] = useState("obs-1");
   const [layer, setLayer] = useState("all");
   const [zoom, setZoom] = useState(1);
-  const [complete, setComplete] = useState([]);
   const target = useRef(null);
   useEffect(() => {
     if (isVisible)
-      target.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+      target.current?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+        block: "start",
+      });
   }, [isVisible]);
   if (!isVisible || !blueprintData) return null;
   const observed = blueprintData.observedParts;
@@ -37,24 +39,6 @@ export default function ResultsSection({ blueprintData, isVisible }) {
         ? inferred
         : [...observed, ...inferred];
   const selected = [...observed, ...inferred].find((p) => p.id === part);
-  const steps = [
-    {
-      title: "Sketch the structure",
-      text: "Sketch the side profile of a coupe. Label the body shell, cabin and four wheel positions. Treat all proportions as illustrative.",
-    },
-    {
-      title: "Make a static frame",
-      text: "Fold paper or cardboard into an unpowered body model. Use simple cardboard circles for the wheels. This activity demonstrates form, not a roadworthy vehicle.",
-    },
-    {
-      title: "Map the connections",
-      text: "Mark possible positions for an electric motor, battery and cooling system. Keep these clearly labeled as packaging hypotheses.",
-    },
-    {
-      title: "Compare and reflect",
-      text: "Compare the model with the diagram. Note which features are observable and which would require inspection or testing to confirm.",
-    },
-  ];
   function exportReport() {
     const report = {
       title: blueprintData.objectName,
@@ -69,7 +53,6 @@ export default function ResultsSection({ blueprintData, isVisible }) {
         name: p.name,
         reason: p.inferenceReason,
       })),
-      learningProject: steps,
     };
     const url = URL.createObjectURL(
       new Blob([JSON.stringify(report, null, 2)], { type: "application/json" }),
@@ -123,11 +106,11 @@ export default function ResultsSection({ blueprintData, isVisible }) {
         </button>
         <button
           role="tab"
-          aria-selected={tab === "build"}
-          tabIndex={tab === "build" ? 0 : -1}
-          onClick={() => setTab("build")}
+          aria-selected={tab === "repair"}
+          tabIndex={tab === "repair" ? 0 : -1}
+          onClick={() => setTab("repair")}
         >
-          <Box size={16} /> Make a model <span>02</span>
+          <Box size={16} /> Repair guidance <span>02</span>
         </button>
       </div>
       {tab === "discover" ? (
@@ -261,67 +244,18 @@ export default function ResultsSection({ blueprintData, isVisible }) {
       ) : (
         <div className="learning-project">
           <div className="project-overview">
-            <span className="eyebrow">LEARN BY MAKING</span>
-            <h3>
-              Big ideas.
-              <br />
-              Small-scale beginnings.
-            </h3>
+            <span className="eyebrow">REPAIR YOUR OWN OBJECT</span>
+            <h3>Start with the real object.</h3>
             <p>
-              Make a simple, unpowered model to explore the car concept’s
-              proportions. This is a learning activity, not a drivable vehicle.
+              This car is an illustrative sample. A repair assessment needs your
+              own object photos and a problem description; no fault has been
+              diagnosed in this concept.
             </p>
-            <div className="materials-tags">
-              <span>Paper or cardboard</span>
-              <span>Pencil</span>
-              <span>Ruler</span>
-              <span>Colored thread</span>
-            </div>
-            <div className="project-progress">
-              <div>
-                <span>YOUR PROGRESS</span>
-                <strong>
-                  {complete.length} / {steps.length}
-                </strong>
-              </div>
-              <div className="progress-track">
-                <span
-                  style={{
-                    width: `${(complete.length / steps.length) * 100}%`,
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="project-steps">
-            {steps.map((step, i) => (
-              <button
-                aria-pressed={complete.includes(i)}
-                className={`project-step ${complete.includes(i) ? "complete" : ""}`}
-                key={step.title}
-                onClick={() =>
-                  setComplete((c) =>
-                    c.includes(i) ? c.filter((v) => v !== i) : [...c, i],
-                  )
-                }
-              >
-                <span className="step-check">
-                  {complete.includes(i) ? (
-                    <Check size={15} />
-                  ) : (
-                    String(i + 1).padStart(2, "0")
-                  )}
-                </span>
-                <span>
-                  <strong>{step.title}</strong>
-                  <p>{step.text}</p>
-                  <small>
-                    {complete.includes(i) ? "COMPLETED" : "MARK AS COMPLETE"}{" "}
-                    <MoveUpRight size={10} />
-                  </small>
-                </span>
+            {onRepair && (
+              <button className="button-lime" onClick={onRepair}>
+                Open Discover & repair <ArrowUpRight size={16} />
               </button>
-            ))}
+            )}
           </div>
         </div>
       )}
@@ -345,6 +279,7 @@ const componentType = PropTypes.shape({
 });
 ResultsSection.propTypes = {
   isVisible: PropTypes.bool.isRequired,
+  onRepair: PropTypes.func,
   blueprintData: PropTypes.shape({
     objectName: PropTypes.string.isRequired,
     observedParts: PropTypes.arrayOf(componentType).isRequired,

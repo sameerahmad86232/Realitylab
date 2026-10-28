@@ -61,6 +61,7 @@ try {
   let errors = [];
   p.on("pageerror", (e) => errors.push(e.message));
   await p.goto(origin);
+  await p.getByRole("tab",{name:/Experiment bench/}).click();
   await p
     .getByRole("heading", { name: "What are you testing?", exact: true })
     .waitFor();
@@ -199,6 +200,7 @@ try {
     /AI investigation/,
   );
   await p.reload();
+  await p.getByRole("tab",{name:/Experiment bench/}).click();
   await p.getByRole("button", { name: "Restore saved", exact: true }).click();
   await p.getByRole("status").filter({ hasText: "Project restored" }).waitFor();
   assert.equal(await p.locator(".bench-history tbody tr").count(), 3);

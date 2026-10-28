@@ -319,7 +319,7 @@ export default function ExperimentStudio({ onExperimentSource }) {
   }
   function report() {
     return {
-      schemaVersion: "1.3",
+      schemaVersion: "1.4",
       exportedAt: new Date().toISOString(),
       mode: analysis ? "live" : example ? "manual-example" : "manual",
       analysis: analysis
@@ -823,6 +823,19 @@ export default function ExperimentStudio({ onExperimentSource }) {
               selected={selected}
               onSelect={selectObservation}
               onSpatialChange={updateSpatialModel}
+              onRepairRecord={(record) =>
+                setAnalysis((a) =>
+                  a?.id === record.source.scanId
+                    ? {
+                        ...a,
+                        repairHistory: [
+                          ...(a.repairHistory || []),
+                          record,
+                        ].slice(-10),
+                      }
+                    : a,
+                )
+              }
             />
           </Suspense>
           <Suspense

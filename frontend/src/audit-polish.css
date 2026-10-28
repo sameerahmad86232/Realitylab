@@ -2,7 +2,8 @@
 :root { --font-body: 'DM Sans Variable', sans-serif; --serif: 'Newsreader Variable', Georgia, serif; }
 html { scroll-padding-top: 24px; }
 .skip-link { position: fixed; top: 12px; left: 12px; z-index: 100; padding: 14px 20px; border-radius: 8px; background: #244738; color: white; transform: translateY(-180%); }
-.skip-link:focus { transform: translateY(0); }
+.skip-link:not(:focus) { clip-path: inset(50%); }
+.skip-link:focus { transform: translateY(0); clip-path: none; }
 .site-header { height: 84px; }
 .nav-links { font-size: 14px; }
 .nav-links a { padding-block: 12px; }

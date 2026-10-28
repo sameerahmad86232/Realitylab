@@ -1,4 +1,4 @@
-> **Current primary workflow: RealityLab Bench.** Capture a mechanism, confirm measurements, predict behavior, record a trial and investigate discrepancies with Meta. Gears, levers and pulleys are supported. See [the working Bench guide](docs/BENCH_WORKFLOW.md). Broad object/3D exploration remains available separately.
+> **Current primary workflow: Discover & repair.** Scan an object, inspect its parts, tap “Something's wrong,” and describe the problem or add a photo. Meta can ask for another view or provide a 3–5 step low-risk repair guide linked to an existing part. [Repair workflow](docs/REPAIR_WORKFLOW.md). The experiment bench remains available separately.
 
 # RealityLab
 

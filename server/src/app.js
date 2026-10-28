@@ -1,7 +1,12 @@
 import express from "express";
 import rateLimit from "express-rate-limit";
 import multer from "multer";
-import sharp from "sharp";
+import { normalizeUploadImages } from "./images.js";
+import {
+  repairRequestSchema,
+  repairHazard,
+  validateRepairResult,
+} from "../../shared/repair.js";
 import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -28,11 +33,6 @@ const upload = multer({
     parts: 6,
   },
 });
-const mimeFormats = {
-  "image/jpeg": "jpeg",
-  "image/png": "png",
-  "image/webp": "webp",
-};
 export function createApp({
   provider = providerFromEnvironment(),
   timeoutMs = 90000,
@@ -173,47 +173,7 @@ export function createApp({
       if (typeof context !== "string" || context.length > 1000)
         throw fail(400, "Object context must be at most 1,000 characters.");
       if (!req.files?.length) throw fail(400, "Upload one to three images.");
-      const images = [];
-      for (let i = 0; i < req.files.length; i++) {
-        const f = req.files[i];
-        if (!mimeFormats[f.mimetype])
-          throw fail(415, "Only JPEG, PNG and WebP images are supported.");
-        try {
-          const meta = await sharp(f.buffer, {
-            limitInputPixels: 20000000,
-            animated: false,
-          }).metadata();
-          if (meta.format !== mimeFormats[f.mimetype] || (meta.pages || 1) > 1)
-            throw fail(
-              415,
-              "Image content must match its MIME type and must not be animated.",
-            );
-          const { data, info } = await sharp(f.buffer, {
-            limitInputPixels: 20000000,
-          })
-            .rotate()
-            .resize({
-              width: 1600,
-              height: 1600,
-              fit: "inside",
-              withoutEnlargement: true,
-            })
-            .jpeg({ quality: 85 })
-            .toBuffer({ resolveWithObject: true });
-          images.push({
-            id: `image-${i + 1}`,
-            width: info.width,
-            height: info.height,
-            dataUrl: `data:image/jpeg;base64,${data.toString("base64")}`,
-          });
-        } catch (err) {
-          if (err.status) throw err;
-          throw fail(
-            415,
-            "An image could not be decoded or exceeds the 20 megapixel limit.",
-          );
-        }
-      }
+      const images = await normalizeUploadImages(req.files);
       const work = Promise.resolve(
         provider.analyze({ images, context, signal: abort.signal }),
       );
@@ -330,6 +290,136 @@ export function createApp({
         req.files.forEach((f) => {
           f.buffer = null;
         });
+    }
+  });
+  const repairUpload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+      fileSize: 5 * 1024 * 1024,
+      files: 5,
+      fields: 1,
+      fieldSize: 256 * 1024,
+      parts: 6,
+    },
+  });
+  app.post("/api/repair", analyzeLimit, async (req, res, next) => {
+    if (active >= 2)
+      return next(
+        fail(429, "Two analyses are already running. Try again shortly."),
+      );
+    active++;
+    const abort = new AbortController();
+    let timer;
+    const disconnect = () => {
+      if (!res.writableEnded) abort.abort();
+    };
+    res.on("close", disconnect);
+    try {
+      timer = setTimeout(() => abort.abort(), timeoutMs);
+      await new Promise((resolve, reject) =>
+        repairUpload.array("images", 5)(req, res, (e) =>
+          e ? reject(e) : resolve(),
+        ),
+      );
+      let rawRequest;
+      try {
+        rawRequest = JSON.parse(req.body.request);
+      } catch {
+        throw fail(400, "The repair request is unreadable. Please retry.");
+      }
+      const input = repairRequestSchema.parse(rawRequest);
+      const extra = (req.files?.length || 0) - input.originalImageCount;
+      if (extra < 0 || extra > 2)
+        throw fail(
+          400,
+          "Include the original scan photos and at most two problem photos.",
+        );
+      if (!input.problem && !input.answer && !extra)
+        throw fail(400, "Describe the problem or add a problem photo.");
+      const images = await normalizeUploadImages(req.files, (i) =>
+        i < input.originalImageCount
+          ? `scan-${i + 1}`
+          : `problem-${i - input.originalImageCount + 1}`,
+      );
+      if (abort.signal.aborted)
+        throw fail(504, "Repair analysis was cancelled or timed out.");
+      const hazard = repairHazard(input.problem, input.answer);
+      let assessment, provenance;
+      if (hazard) {
+        assessment = hazard;
+        provenance = {
+          provider: "app-safety-check",
+          model: null,
+          assessedAt: new Date().toISOString(),
+        };
+      } else {
+        if (!provider.configured || typeof provider.assessRepair !== "function")
+          throw fail(
+            503,
+            "Repair analysis is not configured. Your scan is preserved.",
+          );
+        const cancelled = new Promise((_, reject) => {
+          if (abort.signal.aborted)
+            reject(fail(504, "Repair analysis was cancelled or timed out."));
+          else
+            abort.signal.addEventListener(
+              "abort",
+              () =>
+                reject(
+                  fail(504, "Repair analysis was cancelled or timed out."),
+                ),
+              { once: true },
+            );
+        });
+        let raw;
+        try {
+          raw = await Promise.race([
+            provider.assessRepair({
+              request: input,
+              images,
+              signal: abort.signal,
+            }),
+            cancelled,
+          ]);
+          assessment = validateRepairResult(
+            raw,
+            input.source,
+            images.map((i) => i.id),
+          );
+        } catch (e) {
+          if (e.status) throw e;
+          throw fail(
+            502,
+            "The provider returned an invalid repair assessment. No repair guide was substituted; retry or use another view.",
+          );
+        }
+        provenance = {
+          provider: provider.provider,
+          model: provider.model,
+          assessedAt: new Date().toISOString(),
+        };
+      }
+      res.json({
+        id: randomUUID(),
+        schemaVersion: "repair-1",
+        source: input.source,
+        problem: input.problem,
+        answer: input.answer,
+        problemPhotoCount: extra,
+        assessment,
+        provenance,
+        notice:
+          "AI-suggested fault and repair guidance, not a verified diagnosis. No photos are stored on the server.",
+      });
+    } catch (e) {
+      next(e);
+    } finally {
+      clearTimeout(timer);
+      res.off("close", disconnect);
+      active--;
+      req.files?.forEach((f) => {
+        f.buffer = null;
+      });
     }
   });
   async function benchAI(req, res, next, preparation = false) {
@@ -464,11 +554,15 @@ export function createApp({
             : err.status || 500;
     const message =
       err instanceof ZodError
-        ? "Invalid inputs. Check confirmed measurements, supported tool types, units and numerical ranges."
+        ? req.path === "/api/repair"
+          ? "Invalid repair inputs. Check the scanned parts, problem details and consent."
+          : "Invalid inputs. Check confirmed measurements, supported tool types, units and numerical ranges."
         : err instanceof multer.MulterError
           ? err.code === "LIMIT_FILE_SIZE"
             ? "Each image must be at most 5 MB."
-            : "Upload at most three images with the expected form fields."
+            : req.path === "/api/repair"
+              ? "Include up to three original photos and two problem photos with the expected fields."
+              : "Upload at most three images with the expected form fields."
           : err.type === "entity.parse.failed"
             ? "Malformed JSON request."
             : status === 500

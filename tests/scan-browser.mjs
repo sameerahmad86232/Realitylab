@@ -29,11 +29,12 @@ try {
  await page.getByLabel('Selected scan part shape').selectOption('ellipsoid');
  await page.getByRole('tab',{name:'How it works',exact:true}).click();
  await page.getByText('Inspect the supporting structure',{exact:true}).waitFor();
- await page.getByRole('tab',{name:'Make a study model',exact:true}).click();
- await page.getByText(`Sketch the ${category} structure`,{exact:true}).waitFor();
+ await page.getByRole('tab',{name:'Repair guide',exact:true}).click();
+ await page.getByRole('heading',{name:'What isn’t working?',exact:true}).waitFor();
+ assert.equal(await page.getByRole('button',{name:'Assess the problem',exact:false}).isDisabled(),true);
  await page.getByRole('tab',{name:'3D concept',exact:true}).click();
  await page.locator('.scan-experience').screenshot({path:`${dir}/${category}.png`});
  await page.close();
- console.log(`${category}: 3D, editable shapes, GLB/STL, explanation and guide passed`);
+ console.log(`${category}: 3D, editable shapes, GLB/STL, explanation and repair entry passed`);
  }
 } finally {await browser.close();await new Promise(r=>server.close(r));}

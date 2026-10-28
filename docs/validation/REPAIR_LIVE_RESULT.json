@@ -1,0 +1,140 @@
+{
+  "httpStatus": 200,
+  "seconds": 10.69,
+  "validation": "Actual Meta call with a real public mouse photograph and a hypothetical symptom; no defect or repair physically verified.",
+  "photoSource": {
+    "page": "https://commons.wikimedia.org/wiki/File:ComputerMouseCloseup.jpg",
+    "author": "Raysonho @ Open Grid Scheduler / Grid Engine",
+    "license": "CC0"
+  },
+  "id": "02fc9c3e-f522-4631-b22e-f624876078b7",
+  "schemaVersion": "repair-1",
+  "source": {
+    "scanId": "c695a8c9-52ab-4eda-b40b-94556c53e122",
+    "objectName": "Wired Lenovo computer mouse",
+    "summary": "Primary object is the black wired Lenovo mouse on white background (image-1). Visible components include domed top housing, left/right click surfaces separated by red scroll wheel, and thin black cable exiting front. Scope is the mouse only; background and cable beyond frame are not counted as components.",
+    "parts": [
+      {
+        "id": "obs-2bb3200f-76d3-42a4-a452-b2c56cea16b0",
+        "name": "Main top housing / palm dome",
+        "evidence": "Matte black domed shell tapering toward front, white 'lenovo' text on rear slope, glossy side wall visible on left flank",
+        "role": "Houses internal electronics and provides ergonomic surface for hand; likely supports buttons and wheel"
+      },
+      {
+        "id": "obs-df2fad94-1751-466e-a082-30621011f21b",
+        "name": "Red scroll wheel",
+        "evidence": "Small red ridged wheel set in central slot between click surfaces near front",
+        "role": "May rotate to scroll content and possibly press as middle button; not proven in still photo"
+      },
+      {
+        "id": "obs-b950d525-4e78-4560-9dd5-abb64b863a9f",
+        "name": "Left click surface",
+        "evidence": "Smooth panel to left of wheel slot extending from front edge toward middle",
+        "role": "Likely depresses to actuate a switch for left-click when pressed"
+      },
+      {
+        "id": "obs-d0e6ebfa-0567-4a8a-873e-eeb705383874",
+        "name": "Right click surface",
+        "evidence": "Smooth panel to right of wheel slot, mirror of left side",
+        "role": "Likely depresses to actuate a switch for right-click when pressed"
+      },
+      {
+        "id": "obs-26a6a262-1a2c-4ab4-8fab-cd762f2a022f",
+        "name": "Wired cable",
+        "evidence": "Thin black flexible cord exiting front center, snaking toward top of frame out of view",
+        "role": "May carry power and data between mouse and computer; exact connector not visible"
+      },
+      {
+        "id": "obs-c4254cca-5ea9-4ef5-b5a5-524a68e72d13",
+        "name": "Rear palm rest and logo area",
+        "evidence": "Rounded rear of housing with white 'lenovo' branding on matte surface",
+        "role": "Supports palm and identifies manufacturer; no functional electronics inferred from logo alone"
+      },
+      {
+        "id": "obs-a1ec4505-9288-4df1-8743-1a827b9cfa7c",
+        "name": "Left side wall / side grip",
+        "evidence": "Slightly glossy vertical side curving under top dome, visible due to perspective",
+        "role": "Provides thumb rest and side enclosure"
+      }
+    ]
+  },
+  "problem": "Hypothetical integration-test symptom, not a verified defect: the red scroll wheel feels sticky while other buttons work. Only suggest external cleaning, no disassembly.",
+  "answer": "",
+  "problemPhotoCount": 0,
+  "assessment": {
+    "status": "repair-guide",
+    "confidence": "supported",
+    "suspectedPartId": "obs-df2fad94-1751-466e-a082-30621011f21b",
+    "summary": "User reports hypothetical sticky feel of red scroll wheel while other buttons work. No verified damage in original scan photo; photo shows wheel in place. Cautious external cleaning only is appropriate, no disassembly.",
+    "evidence": [
+      {
+        "observationId": "obs-df2fad94-1751-466e-a082-30621011f21b",
+        "imageId": "scan-1",
+        "basis": "Red scroll wheel visible in central slot between click surfaces, appears seated with no photographed damage or missing parts"
+      },
+      {
+        "observationId": null,
+        "imageId": null,
+        "basis": "User-reported symptom: red scroll wheel feels sticky while left/right click surfaces work - text report, not visually verifiable and described as hypothetical integration-test, not a verified defect"
+      },
+      {
+        "observationId": "obs-2bb3200f-76d3-42a4-a452-b2c56cea16b0",
+        "imageId": "scan-1",
+        "basis": "Main top housing matte black dome appears intact around wheel slot, no visible spill residue in this overhead view"
+      }
+    ],
+    "alternatives": [
+      {
+        "observationId": "obs-2bb3200f-76d3-42a4-a452-b2c56cea16b0",
+        "reason": "General dust or residue on top housing around wheel slot could contribute to sticky feel without internal failure"
+      },
+      {
+        "observationId": "obs-b950d525-4e78-4560-9dd5-abb64b863a9f",
+        "reason": "Left click surface unlikely given report that other buttons work, but included to show wheel-specific symptom isolation"
+      }
+    ],
+    "followUp": null,
+    "steps": [
+      {
+        "title": "Disconnect for safe external work",
+        "instruction": "Unplug the wired mouse from the computer and place it upside-down on a clean dry white surface in good light.",
+        "check": "Confirm cable is disconnected before touching wheel area",
+        "stopIf": "Stop if cable is frayed, connector damaged, or housing is cracked"
+      },
+      {
+        "title": "Inspect wheel slot externally",
+        "instruction": "Look closely at the red scroll wheel and the narrow slot edges for visible lint or surface dust without inserting tools or opening housing.",
+        "check": "Note whether any dust is visible around wheel rims",
+        "stopIf": "Stop if wheel is loose, detached, or housing is broken"
+      },
+      {
+        "title": "Gentle external dry cleaning",
+        "instruction": "With mouse still unplugged and angled downward, lightly wipe housing and gently sweep around wheel with a clean dry soft brush or dry lint-free cloth to dislodge surface dust.",
+        "check": "Observe if wheel looks cleaner and rolls slightly more freely with gentle finger roll",
+        "stopIf": "Stop if wheel binds, grinds, or resistance increases"
+      },
+      {
+        "title": "Reconnect and verify lightly",
+        "instruction": "Plug mouse back in and test scroll with normal light finger motion only.",
+        "check": "Check whether stickiness is reduced during normal use",
+        "stopIf": "Stop further attempts if stickiness persists and seek manufacturer guidance rather than disassembling"
+      }
+    ],
+    "precautions": [
+      "Keep all liquids away from mouse and do not spray cleaners directly onto wheel",
+      "Do not disassemble, pry wheel, remove housing, or insert pins/tools into slot",
+      "Use only gentle dry wiping; do not force wheel or apply excessive pressure"
+    ],
+    "limitations": [
+      "Symptom is user-reported and hypothetical per problem description, not photographically verified; internal mechanical wear cannot be confirmed from still photo",
+      "External cleaning cannot address internal switch or axle damage; no diagnosis of confirmed fault is made",
+      "Safe operation is not promised; persistent stickiness needs manufacturer support or qualified service"
+    ]
+  },
+  "provenance": {
+    "provider": "baseten",
+    "model": "meta-models/muse-spark-open-1026",
+    "assessedAt": "2026-10-28T04:00:38.566Z"
+  },
+  "notice": "AI-suggested fault and repair guidance, not a verified diagnosis. No photos are stored on the server."
+}

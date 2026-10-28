@@ -28,7 +28,7 @@ import ResultsSection from "./components/ResultsSection";
 import { sampleBlueprintData } from "./data/sampleBlueprintData";
 
 export default function App() {
-  const [studioMode, setStudioMode] = useState("bench");
+  const [studioMode, setStudioMode] = useState("mechanism");
   const [benchSource, setBenchSource] = useState(null);
   const [files, setFiles] = useState([]);
   const [generated, setGenerated] = useState(false);
@@ -106,7 +106,7 @@ export default function App() {
         </button>
       </header>
       <main id="main-content">
-        <FieldGuideHero onExplore={() => setStudioMode("bench")} />
+        <FieldGuideHero onExplore={() => setStudioMode("mechanism")} />
         <section className="studio-section" id="studio" tabIndex={-1}>
           <div className="section-heading">
             <div>
@@ -114,7 +114,7 @@ export default function App() {
                 <span className="live-dot" /> 01 / YOUR OBJECT STUDIO
               </span>
               <h2>
-                Your next <span>experiment.</span>
+                Understand it. <span>Keep it working.</span>
               </h2>
             </div>
             <span className="prototype-badge">
@@ -122,10 +122,10 @@ export default function App() {
             </span>
           </div>
           <div className="studio-caption">
-            <p>Capture evidence. Predict. Measure. Investigate.</p>
+            <p>Discover the parts. Explain the problem. Get a repair plan.</p>
             <span>
-              Start with a small passive mechanism, or use the keyless numerical
-              tools.
+              Start with photos of your object. If something is wrong, describe
+              it or add another view.
             </span>
           </div>
           <div
@@ -147,14 +147,15 @@ export default function App() {
             </button>
             <button
               id="mechanism-tab"
+              aria-label="Object explorer · Discover and repair"
               role="tab"
               aria-selected={studioMode === "mechanism"}
               tabIndex={studioMode === "mechanism" ? 0 : -1}
               aria-controls="mechanism-panel"
               onClick={() => setStudioMode("mechanism")}
             >
-              <Settings2 size={15} /> Object explorer{" "}
-              <span>LIVE & MANUAL TOOLS</span>
+              <Settings2 size={15} /> Discover & repair{" "}
+              <span>SCAN · UNDERSTAND · REPAIR</span>
             </button>
             <button
               id="cad-tab"
@@ -342,6 +343,7 @@ export default function App() {
             <ResultsSection
               blueprintData={generated ? sampleBlueprintData : null}
               isVisible={generated && studioMode === "sample"}
+              onRepair={() => setStudioMode("mechanism")}
             />
           </div>
         </section>
@@ -448,11 +450,11 @@ export default function App() {
             {[
               {
                 q: "What can I explore right now?",
-                a: "The object explorer creates approximate 3D component concepts, explanations, and unpowered study-model guides for many everyday objects. You can edit parts and export GLB/STL files. Manual gear, lever and pulley tools use your confirmed measurements. Unclear objects may need another angle or context. The car is a separate curated design study.",
+                a: "The object explorer creates approximate 3D component concepts, explanations, and evidence-linked repair assessments for many everyday objects. You can edit parts and export GLB/STL files. Manual gear, lever and pulley tools use your confirmed measurements. Unclear objects may need another angle or context. The car is a separate curated design study.",
               },
               {
                 q: "Are the internal components verified?",
-                a: "No. Scan geometry is approximate, and the car sample is illustrative. Visible evidence is separated from inferred geometry and suggested roles. Exact specifications and hidden mechanisms require physical inspection or testing.",
+                a: "No. Fault suggestions and repair steps require your review. Scan geometry is approximate, and the car sample is illustrative. Visible evidence is separated from inferred geometry and suggested roles. Exact specifications and hidden mechanisms require physical inspection or testing.",
               },
               {
                 q: "What happens to my photos?",

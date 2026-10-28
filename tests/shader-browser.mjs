@@ -98,7 +98,7 @@ try {
     );
     assert(
       await p
-        .getByRole("link", { name: "Start an experiment", exact: true })
+        .getByRole("link", { name: "Discover an object", exact: true })
         .isVisible(),
     );
     console.log("No-WebGL CSS fallback passed.");

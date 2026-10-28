@@ -1,3 +1,4 @@
+import { repairMarkdown } from "../../../shared/repairFormatting.js";
 export const reviewLabels = {
   pending: "Not reviewed",
   consistent: "Consistent with my observation",
@@ -137,27 +138,13 @@ export function makeExplorationMarkdown(report) {
       for (const step of analysis.operation.steps)
         lines.push(`- ${md(step.title)}: ${md(step.description)}`);
     }
-    if (analysis.recreationGuide) {
-      const guide = analysis.recreationGuide;
+    for (const assessment of analysis.repairHistory || [])
       lines.push(
         "",
-        "## Unpowered study-model guide",
+        "## Repair assessment history",
         "",
-        "Not a manufacturing or functional construction plan.",
-        "",
-        "Materials:",
-        ...guide.materials.map((m) => `- ${md(m)}`),
-        "",
-        "Measurements needed:",
-        ...guide.measurementsNeeded.map((m) => `- ${md(m)}`),
-        "",
+        repairMarkdown(assessment),
       );
-      for (const step of guide.steps)
-        lines.push(
-          `- ${md(step.title)}: ${md(step.instruction)} Check: ${md(step.check)}`,
-        );
-      lines.push("", ...guide.limitations.map((l) => `- Limitation: ${md(l)}`));
-    }
     lines.push("", "## Internal hypotheses", "");
     for (const h of analysis.hypotheses)
       lines.push(

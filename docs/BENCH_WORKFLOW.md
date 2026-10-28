@@ -1,6 +1,6 @@
 # RealityLab Bench — working experiment loop
 
-RealityLab Bench is now the default studio workspace. It supports **two external gears in direct mesh, an ideal static lever, or an ideal pulley system**. Broad object exploration, approximate 3D concepts and local CAD inspection remain available in separate tabs. This is an AI-assisted experiment workflow; it does not autonomously conduct physical experiments.
+RealityLab Bench is available in the Experiment bench tab. Discover & repair is now the default workspace. It supports **two external gears in direct mesh, an ideal static lever, or an ideal pulley system**. Broad object exploration, approximate 3D concepts and local CAD inspection remain available in separate tabs. This is an AI-assisted experiment workflow; it does not autonomously conduct physical experiments.
 
 ## Use it
 
