@@ -124,14 +124,14 @@ export function createCadViewer(host, { onSelect, onFailure }) {
   renderer.localClippingEnabled = true;
   host.appendChild(canvas);
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color("#f2f6ef");
+  scene.background = new THREE.Color("#f6f8fd");
   const camera = new THREE.PerspectiveCamera(38, 1, 0.01, 10000);
   camera.position.set(7, 5, 8);
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = false;
   controls.enablePan = false;
   controls.enableZoom = false;
-  scene.add(new THREE.HemisphereLight("#ffffff", "#9caa90", 2.6));
+  scene.add(new THREE.HemisphereLight("#ffffff", "#9caabd", 2.6));
   const key = new THREE.DirectionalLight("#fff9e9", 3);
   key.position.set(3, 7, 5);
   scene.add(key);
@@ -140,7 +140,7 @@ export function createCadViewer(host, { onSelect, onFailure }) {
   scene.add(fill);
   const root = new THREE.Group();
   scene.add(root);
-  const grid = new THREE.GridHelper(12, 24, "#b2bea6", "#d7dfcf");
+  const grid = new THREE.GridHelper(12, 24, "#b9c7dc", "#e3eaf4");
   grid.material.transparent = true;
   grid.material.opacity = 0.45;
   scene.add(grid);
@@ -507,7 +507,7 @@ export function createCadViewer(host, { onSelect, onFailure }) {
         mat.transparent = Boolean(selection && selection !== p.id);
         mat.opacity = selection && selection !== p.id ? 0.22 : 1;
         mat.depthWrite = !mat.transparent;
-        mat.emissive.set(selection === p.id ? "#263a23" : "#000000");
+        mat.emissive.set(selection === p.id ? "#14264b" : "#000000");
         mat.emissiveIntensity = 0.3;
       });
       render();

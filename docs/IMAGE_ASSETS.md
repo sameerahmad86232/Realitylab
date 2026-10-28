@@ -43,3 +43,19 @@ The four runtime presentation images now use WebP derivatives generated from the
 listed original PNGs with sharp, quality 85. No new generated content was added.
 The PNG originals and their provenance are retained. Combined image bytes fell
 from 6,870,814 to 285,032; this is an asset-size comparison, not a measured speedup.
+
+## Precision Studio — approved redesign
+
+`precision-grinder.webp` is an original generated illustrative product asset:
+a stainless manual coffee grinder with walnut handle and transparent catch cup.
+The transparent PNG source is retained at
+`/workspace/generated_images/exec-d1836e76-1398-491e-affa-71a25f910347.png`.
+The app serves an alpha-preserving WebP delivery version (151,404 bytes).
+The illustration is explicitly labeled in the hero, empty workspace and examples;
+it never substitutes for the user's actual scan. The existing original lamp/hand
+tool catalog illustration is reused via CSS positioning.
+
+Precision Studio uses self-hosted Geist Variable from `@fontsource-variable/geist`
+(5.3.0), licensed under OFL; see [Geist-OFL.txt](licenses/Geist-OFL.txt).
+No remote font service is required. The generated design-board images are design
+references, not flattened website screenshots used as a webpage background.

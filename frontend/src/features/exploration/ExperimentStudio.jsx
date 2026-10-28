@@ -50,6 +50,7 @@ const initial = {
 };
 export default function ExperimentStudio({ onExperimentSource }) {
   const [activeTool, setActiveTool] = useState("objects");
+  const [showCapture, setShowCapture] = useState(false);
   const [cameraOpen, setCameraOpen] = useState(false);
   const deviceCamera = useRef(null);
   const [physicsReport, setPhysicsReport] = useState(null);
@@ -210,6 +211,7 @@ export default function ExperimentStudio({ onExperimentSource }) {
       (signal) => api("analyze", { body: form, signal }),
       (result) => {
         setAnalysis(result);
+        setShowCapture(false);
         setActiveTool(
           result.mechanism.type === "external-gear-pair" ? "gears" : "objects",
         );
@@ -353,27 +355,35 @@ export default function ExperimentStudio({ onExperimentSource }) {
   }
   return (
     <div
-      className="mechanism-lab"
+      className={`mechanism-lab ${analysis ? "has-analysis" : "is-empty"} ${analysis && activeTool === "objects" && !showCapture ? "capture-collapsed" : ""}`}
       data-print-images={includeImages ? "yes" : "no"}
     >
       <div className="lab-intro">
         <div>
           <span className="eyebrow">
-            <FlaskConical size={14} /> THE GENERAL OBJECT EXPLORER
+            <FlaskConical size={14} /> DISCOVER & REPAIR
           </span>
-          <h3>
-            Your world, <span>understood better.</span>
-          </h3>
+          <h3>A closer look starts with a photo.</h3>
           <p>
-            Create a photo-linked 3D concept, explore the parts, and get an
-            unpowered study-model guide.
+            Upload your object. Explore its parts. Tell us what isn’t working.
           </p>
         </div>
-        <span className="lab-mode-badge">
-          {health?.analysis.configured
-            ? "PHOTO ANALYSIS CONFIGURED"
-            : "MANUAL EXPERIMENTS AVAILABLE"}
-        </span>
+        {analysis && activeTool === "objects" ? (
+          <button
+            className="quiet-button precision-edit-capture"
+            aria-expanded={showCapture}
+            onClick={() => setShowCapture((open) => !open)}
+          >
+            <Camera size={14} />
+            {showCapture ? "Hide scan controls" : "Edit scan photos"}
+          </button>
+        ) : (
+          <span className="lab-mode-badge">
+            {health?.analysis.configured
+              ? "PHOTO ANALYSIS CONFIGURED"
+              : "MANUAL EXPERIMENTS AVAILABLE"}
+          </span>
+        )}
       </div>
       <div className="lab-service">
         <span className="live-dot" />
@@ -398,8 +408,8 @@ export default function ExperimentStudio({ onExperimentSource }) {
           <div className="lab-panel-heading">
             <span>01</span>
             <div>
-              <h4>Start with evidence.</h4>
-              <p>Upload an object photo or use a manual experiment.</p>
+              <h4>Capture your object.</h4>
+              <p>Add up to three views of the same object.</p>
             </div>
             <Camera size={19} />
           </div>
@@ -437,11 +447,8 @@ export default function ExperimentStudio({ onExperimentSource }) {
               }}
             >
               <Upload size={24} />
-              <h5>Bring something that makes you curious.</h5>
-              <p>
-                Photograph an object clearly: a tool, appliance, vehicle, piece
-                of furniture, natural object or something unfamiliar.
-              </p>
+              <h5>Your next discovery starts here.</h5>
+              <p>Drop a clear photo here, choose a file, or use your camera.</p>
               <div className="capture-actions">
                 <button
                   className="button-lime"

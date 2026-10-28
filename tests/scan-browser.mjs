@@ -30,7 +30,7 @@ try {
  await page.getByRole('tab',{name:'How it works',exact:true}).click();
  await page.getByText('Inspect the supporting structure',{exact:true}).waitFor();
  await page.getByRole('tab',{name:'Repair guide',exact:true}).click();
- await page.getByRole('heading',{name:'What isn’t working?',exact:true}).waitFor();
+ await page.getByRole('heading',{name:'Let’s find the next step.',exact:true}).waitFor();
  assert.equal(await page.getByRole('button',{name:'Assess the problem',exact:false}).isDisabled(),true);
  await page.getByRole('tab',{name:'3D concept',exact:true}).click();
  await page.locator('.scan-experience').screenshot({path:`${dir}/${category}.png`});

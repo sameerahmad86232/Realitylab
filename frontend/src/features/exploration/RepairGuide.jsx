@@ -13,7 +13,10 @@ import {
 import CameraCapture from "../../components/CameraCapture";
 import { api } from "../../lib/api";
 import { downloadFile } from "../../lib/exportReport";
-import { repairSource, repairMarkdown } from "../../../../shared/repairFormatting.js";
+import {
+  repairSource,
+  repairMarkdown,
+} from "../../../../shared/repairFormatting.js";
 export default function RepairGuide({
   analysis,
   active,
@@ -181,7 +184,7 @@ export default function RepairGuide({
         <span className="eyebrow">
           <Wrench size={15} /> REPAIR MODE
         </span>
-        <h4 id="repair-title">What isn’t working?</h4>
+        <h4 id="repair-title">Let’s find the next step.</h4>
         <p>
           Describe the symptom or show the problem. We’ll check the listed
           parts, ask for another view if needed, and suggest a low-risk next
@@ -199,10 +202,23 @@ export default function RepairGuide({
           )}
           <strong>{analysis.objectName}</strong>
           <span>{source.parts.length} parts from this scan</span>
-          <p>
-            The original scan photos are included in the assessment. Select a
-            suspected part in the result to highlight it in Discover.
-          </p>
+          <p>The original scan stays with your assessment.</p>
+          <div className="precision-repair-part-list">
+            <span className="eyebrow">SCANNED PARTS</span>
+            {source.parts.map((part) => (
+              <button
+                className={
+                  assessment?.suspectedPartId === part.id ? "is-suspected" : ""
+                }
+                key={part.id}
+                onClick={() => onHighlight(part.id)}
+              >
+                <span>{part.name}</span>
+                <ArrowUpRight size={14} />
+              </button>
+            ))}
+            <small>Visible-part suggestions · Review against your photo.</small>
+          </div>
         </div>
         <fieldset disabled={busy} ref={form}>
           {!source.parts.length && (
@@ -212,7 +228,7 @@ export default function RepairGuide({
             </p>
           )}
           <label className="lab-label">
-            Describe the problem
+            What isn’t working?
             <textarea
               aria-label="Describe the repair problem"
               maxLength={1500}
@@ -366,6 +382,27 @@ export default function RepairGuide({
           <p className="lab-error" role="alert">
             {error}
           </p>
+        )}
+        {!latest && (
+          <div className="precision-repair-empty">
+            <span className="precision-empty-icon">
+              <Wrench size={26} />
+            </span>
+            <h4>A clearer next step.</h4>
+            <p>
+              Your assessment will appear here. We’ll check the scanned parts
+              and ask one useful question when the evidence is unclear.
+            </p>
+            <div>
+              <span>01 · Report the symptom</span>
+              <span>02 · Add the missing detail</span>
+              <span>03 · Review the guidance</span>
+            </div>
+            <small>
+              Suggestions need your review. Some faults require qualified
+              service.
+            </small>
+          </div>
         )}
         {latest && (
           <section

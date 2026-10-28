@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import grinder from "../../assets/precision-grinder.webp";
 import {
   Car,
   Laptop,
@@ -6,7 +7,6 @@ import {
   Wrench,
   Leaf,
   Fan,
-  Camera,
   Network,
   ArrowUpRight,
 } from "lucide-react";
@@ -51,22 +51,16 @@ const categories = [
 export default function ObjectOverview({ analysis, onSuggest, onGearTool }) {
   return (
     <div className="object-overview">
-      <div className="lab-panel-heading">
-        <span>02</span>
-        <div>
-          <h4>
-            {analysis
-              ? "Visible parts. Open questions."
-              : "A wider world to explore."}
-          </h4>
-          <p>
-            {analysis
-              ? "Image-specific evidence and editable connections, beyond a single kind of mechanism."
-              : "From a simple chair to a complex machine. The image determines the result."}
-          </p>
+      {analysis && (
+        <div className="lab-panel-heading">
+          <span>02</span>
+          <div>
+            <h4>Visible parts. Open questions.</h4>
+            <p>Keep your observations and suggested connections together.</p>
+          </div>
+          <Network size={20} />
         </div>
-        <Network size={20} />
-      </div>
+      )}
       {analysis ? (
         <>
           <div className="object-identity">
@@ -118,30 +112,46 @@ export default function ObjectOverview({ analysis, onSuggest, onGearTool }) {
         </>
       ) : (
         <>
-          <div className="object-category-grid">
-            {categories.map(({ name, icon: Icon, context }) => (
-              <button key={name} onClick={() => onSuggest(context)}>
-                <Icon size={22} />
-                <span>{name}</span>
-                <ArrowUpRight size={12} />
-              </button>
-            ))}
-          </div>
-          <div className="object-promise">
-            <Camera size={20} />
-            <div>
-              <strong>Your object, your evidence.</strong>
+          <div className="precision-object-example">
+            <div className="precision-example-title">
+              <span>EXAMPLE PREVIEW</span>
+              <small>Your scan supplies the real parts.</small>
+            </div>
+            <div className="precision-example-object">
+              <img
+                src={grinder}
+                alt="Illustrative manual coffee grinder, not a scan result"
+                loading="lazy"
+                width="1024"
+                height="1536"
+              />
+              <span>Illustrative object study</span>
+            </div>
+            <div className="precision-example-part-list">
+              <strong>A closer look at familiar things.</strong>
               <p>
-                Upload a clear photo. Explore its visible parts, suggested roles
-                and connections. Correct the model and export the map.
+                See visible parts, ask a useful question, and keep the evidence
+                close.
               </p>
+              <div>
+                <span>Handle knob</span>
+                <span>Adjustment ring</span>
+                <span>Catch cup</span>
+              </div>
             </div>
           </div>
-          <p className="lab-help">
-            These are exploration guides, not a claim of perfect recognition.
-            Blurry, hidden, very small or unfamiliar objects may need more
-            evidence.
-          </p>
+          <details className="precision-category-picker">
+            <summary>Choose a starting question</summary>
+            <div className="object-category-grid">
+              {categories.map(({ name, icon: Icon, context }) => (
+                <button key={name} onClick={() => onSuggest(context)}>
+                  <Icon size={22} />
+                  <span>{name}</span>
+                  <ArrowUpRight size={12} />
+                </button>
+              ))}
+            </div>{" "}
+          </details>
         </>
       )}
       <button className="quiet-button" onClick={onGearTool}>

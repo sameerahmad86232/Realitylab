@@ -6,12 +6,12 @@ import {
   ArrowUpRight,
   ScanLine,
   Layers3,
-  MoveUpRight,
+  Aperture,
   Plus,
+  Check,
   Box,
   Menu,
   X,
-  Check,
   Camera,
   Compass,
   ShieldCheck,
@@ -20,7 +20,10 @@ import {
 import carImage from "./assets/reality-gt-white.webp";
 import carPlanImage from "./assets/reality-gt-plan.webp";
 import StudioShowcase from "./components/StudioShowcase";
-import FieldGuideHero, { FieldGuideStories } from "./components/FieldGuideHero";
+import FieldGuideHero, {
+  FieldGuideStories,
+  PrecisionRepairIntro,
+} from "./components/FieldGuideHero";
 import UploadZone from "./components/UploadZone";
 import ActionArea from "./components/ActionArea";
 import ExperimentStudio from "./features/exploration/ExperimentStudio";
@@ -64,20 +67,14 @@ export default function App() {
       </a>
       <header className="site-header">
         <a href="#" className="wordmark">
-          <ScanLine size={26} />
-          RealityLab<span>THE OBJECT STUDIO</span>
+          <Aperture size={26} />
+          RealityLab
         </a>
         <nav
           id="main-navigation"
           aria-label="Main navigation"
           className={menu ? "nav-links open" : "nav-links"}
         >
-          <a href="#objects" onClick={() => setMenu(false)}>
-            Objects
-          </a>
-          <a href="#process" onClick={() => setMenu(false)}>
-            Discover
-          </a>
           <a
             href="#studio"
             onClick={() => {
@@ -85,15 +82,28 @@ export default function App() {
               setStudioMode("mechanism");
             }}
           >
-            Notebook <ArrowUpRight size={13} />
+            Discover
+          </a>
+          <a href="#process" onClick={() => setMenu(false)}>
+            How it works
+          </a>
+          <a
+            href="#studio"
+            onClick={() => {
+              setMenu(false);
+              setStudioMode("bench");
+            }}
+          >
+            Tools
           </a>
         </nav>
         <a
           className="nav-cta"
+          aria-label="Scan an object"
           href="#studio"
           onClick={() => setStudioMode("mechanism")}
         >
-          Upload a photo <ArrowUpRight size={16} />
+          <span>Scan an object</span> <ArrowUpRight size={16} />
         </a>
         <button
           className="mobile-menu"
@@ -111,18 +121,16 @@ export default function App() {
           <div className="section-heading">
             <div>
               <span className="eyebrow">
-                <span className="live-dot" /> 01 / YOUR OBJECT STUDIO
+                <span className="live-dot" /> YOUR WORKSPACE
               </span>
-              <h2>
-                Understand it. <span>Keep it working.</span>
-              </h2>
+              <h2>Your object. In focus.</h2>
             </div>
             <span className="prototype-badge">
-              PREDICT · TEST · COMPARE <span>↗</span>
+              DISCOVER · REPAIR · REVIEW <span>↗</span>
             </span>
           </div>
           <div className="studio-caption">
-            <p>Discover the parts. Explain the problem. Get a repair plan.</p>
+            <p>Explore parts, keep the photo close, and follow the evidence.</p>
             <span>
               Start with photos of your object. If something is wrong, describe
               it or add another view.
@@ -135,17 +143,6 @@ export default function App() {
             onKeyDown={handleTabKeys}
           >
             <button
-              id="bench-tab"
-              role="tab"
-              aria-selected={studioMode === "bench"}
-              tabIndex={studioMode === "bench" ? 0 : -1}
-              aria-controls="bench-panel"
-              onClick={() => setStudioMode("bench")}
-            >
-              <Settings2 size={15} /> Experiment bench{" "}
-              <span>PREDICT · MEASURE · INVESTIGATE</span>
-            </button>
-            <button
               id="mechanism-tab"
               aria-label="Object explorer · Discover and repair"
               role="tab"
@@ -156,6 +153,17 @@ export default function App() {
             >
               <Settings2 size={15} /> Discover & repair{" "}
               <span>SCAN · UNDERSTAND · REPAIR</span>
+            </button>
+            <button
+              id="bench-tab"
+              role="tab"
+              aria-selected={studioMode === "bench"}
+              tabIndex={studioMode === "bench" ? 0 : -1}
+              aria-controls="bench-panel"
+              onClick={() => setStudioMode("bench")}
+            >
+              <Settings2 size={15} /> Experiment bench{" "}
+              <span>PREDICT · MEASURE · INVESTIGATE</span>
             </button>
             <button
               id="cad-tab"
@@ -347,43 +355,36 @@ export default function App() {
             />
           </div>
         </section>
+        <PrecisionRepairIntro onExplore={() => setStudioMode("mechanism")} />
         <section className="process-section" id="process">
           <div className="section-heading">
             <div>
-              <span className="eyebrow">02 / FROM PHOTO TO UNDERSTANDING</span>
-              <h2>
-                Every object has a story.
-                <br />
-                <span>Let’s open it.</span>
-              </h2>
+              <span className="eyebrow">A LITTLE PERSPECTIVE</span>
+              <h2>How it works.</h2>
             </div>
-            <p>
-              No engineering degree required.
-              <br />
-              Just an object and a question.
-            </p>
+            <p>Three simple steps. Keep the evidence in view.</p>
           </div>
           <div className="process-grid">
             {[
               {
                 n: "01",
                 icon: ScanLine,
-                title: "Start with a spark.",
+                title: "Capture clearly.",
                 text: "Pick something that makes you curious. Upload up to three photos from different angles.",
                 tag: "YOUR PERSPECTIVE",
               },
               {
                 n: "02",
                 icon: Layers3,
-                title: "Connect the dots.",
-                text: "Explore an interactive blueprint. See how visible parts connect and what might be beneath the surface.",
+                title: "Discover the parts.",
+                text: "See the visible components, their suggested roles, and the questions that still need evidence.",
                 tag: "A NEW UNDERSTANDING",
               },
               {
                 n: "03",
                 icon: Box,
-                title: "Try it. Check it.",
-                text: "Review the suggestions, record what you observe, and test supported mechanisms with your own measurements.",
+                title: "Choose the next step.",
+                text: "Describe a problem, add another angle if needed, and review an object-specific repair assessment.",
                 tag: "ENDLESS POSSIBILITIES",
               },
             ].map(({ n, icon: Icon, title, text, tag }) => (
@@ -391,39 +392,6 @@ export default function App() {
                 <div className="card-top">
                   <Icon size={25} />
                   <span>{n} /</span>
-                </div>
-                <div
-                  className={`process-illustration illustration-${n}`}
-                  aria-hidden="true"
-                >
-                  {n === "01" ? (
-                    <>
-                      <span className="capture-corner tl" />
-                      <span className="capture-corner tr" />
-                      <ScanLine size={55} />
-                      <span className="capture-corner bl" />
-                      <span className="capture-corner br" />
-                      <small>OBJECT CAPTURED</small>
-                    </>
-                  ) : n === "02" ? (
-                    <>
-                      <div className="layer layer-one" />
-                      <div className="layer layer-two" />
-                      <div className="layer layer-three" />
-                      <span className="layer-dot" />
-                    </>
-                  ) : (
-                    <>
-                      <div className="build-outline">
-                        <Box size={44} />
-                      </div>
-                      <span className="build-plus">+</span>
-                      <div className="build-result">
-                        <Check size={23} />
-                      </div>
-                      <small>IDEA → REALITY</small>
-                    </>
-                  )}
                 </div>
                 <h3>{title}</h3>
                 <p>{text}</p>
@@ -436,24 +404,24 @@ export default function App() {
           </div>
         </section>
         <FieldGuideStories onExplore={() => setStudioMode("mechanism")} />
-        <section className="field-guide" aria-labelledby="field-guide-title">
+        <section
+          className="field-guide"
+          id="privacy"
+          aria-labelledby="field-guide-title"
+        >
           <div>
             <span className="eyebrow">A FEW FIELD NOTES</span>
-            <h2 id="field-guide-title">
-              Good questions.
-              <br />
-              <span>Clear answers.</span>
-            </h2>
-            <p>Every exploration starts with understanding what’s possible.</p>
+            <h2 id="field-guide-title">A few clear answers.</h2>
+            <p>Know what to expect before you begin.</p>
           </div>
           <div className="field-questions">
             {[
               {
-                q: "What can I explore right now?",
+                q: "What can I scan?",
                 a: "The object explorer creates approximate 3D component concepts, explanations, and evidence-linked repair assessments for many everyday objects. You can edit parts and export GLB/STL files. Manual gear, lever and pulley tools use your confirmed measurements. Unclear objects may need another angle or context. The car is a separate curated design study.",
               },
               {
-                q: "Are the internal components verified?",
+                q: "Are repair suggestions verified?",
                 a: "No. Fault suggestions and repair steps require your review. Scan geometry is approximate, and the car sample is illustrative. Visible evidence is separated from inferred geometry and suggested roles. Exact specifications and hidden mechanisms require physical inspection or testing.",
               },
               {
@@ -471,40 +439,39 @@ export default function App() {
             ))}
           </div>
         </section>
-        <section className="about-section" id="about">
+        <section className="about-section precision-final-cta" id="about">
           <div>
-            <span className="eyebrow">THE IDEA BEHIND REALITYLAB</span>
-            <h2>
-              Everything starts
-              <br />
-              with <span>“I wonder.”</span>
-            </h2>
+            <h2>A closer look starts here.</h2>
+            <p>Scan an object. Explore the parts. Choose a useful next step.</p>
           </div>
-          <div>
-            <p>
-              We believe understanding how things work should be for everyone.
-              RealityLab brings photos, ideal models and recorded observations
-              together so you can check an assumption, investigate a mismatch,
-              and keep a reproducible experiment record.
-            </p>
-            <a href="#studio">
-              Find your next discovery. <MoveUpRight size={21} />
-            </a>
-          </div>
-          <span className="about-asterisk" aria-hidden="true">
-            ✳
-          </span>
+          <a
+            href="#studio"
+            className="button-lime"
+            onClick={() => setStudioMode("mechanism")}
+          >
+            <ScanLine size={18} /> Scan your object <ArrowUpRight size={17} />
+          </a>
         </section>
       </main>
       <footer className="site-footer">
         <a href="#" className="wordmark">
-          <ScanLine size={22} />
-          RealityLab<span>THE OBJECT STUDIO</span>
+          <Aperture size={24} />
+          RealityLab
         </a>
-        <p>Independent minds. Shared possibilities. / Meta Hackathon 2026</p>
-        <a href="#">
-          Stay curious. <ArrowUpRight size={15} />
-        </a>
+        <p>Built with Meta AI · Made for a closer look.</p>
+        <div className="precision-footer-links">
+          <a
+            href="#privacy"
+            onClick={() =>
+              document
+                .querySelector("#privacy details:last-of-type")
+                ?.setAttribute("open", "")
+            }
+          >
+            Privacy
+          </a>
+          <a href="#about">About</a>
+        </div>
       </footer>
     </div>
   );

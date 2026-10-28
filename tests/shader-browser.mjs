@@ -97,8 +97,8 @@ try {
       0,
     );
     assert(
-      await p
-        .getByRole("link", { name: "Discover an object", exact: true })
+      await p.locator(".precision-hero")
+        .getByRole("link", { name: /Scan an object/, exact: true })
         .isVisible(),
     );
     console.log("No-WebGL CSS fallback passed.");

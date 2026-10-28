@@ -28,18 +28,18 @@ void main() {
   float silk=exp(-ribbon*ribbon*7.5);
   float halo=exp(-length((uv-vec2(.72,.56))*vec2(1.,.85))*2.);
   float pointer=exp(-length((uv-u_pointer)*vec2(aspect,1.))*3.2);
-  vec3 color=vec3(.985,.986,.973);
-  color=mix(color,vec3(.68,.80,.75),silk*halo*.55);
+  vec3 color=vec3(.982,.989,1.);
+  color=mix(color,vec3(.68,.78,1.),silk*halo*.55);
   float pearl=pow(.5+.5*sin(p.y*3.7-p.x*2.+fold*4.2-t*.25),3.);
-  color=mix(color,vec3(.78,.75,.92),pearl*halo*.49);
+  color=mix(color,vec3(.83,.87,1.),pearl*halo*.49);
   float gold=exp(-pow(ribbon+.4,2.)*11.);
-  color=mix(color,vec3(.94,.83,.68),gold*halo*.34);
+  color=mix(color,vec3(.90,.95,1.),gold*halo*.34);
   float lines=1.-smoothstep(.0,.018,abs(fract((warp+fold*.4)*8.)-.5));
   color=mix(color,vec3(.97,.99,1.),lines*silk*.28);
-  color=mix(color,vec3(.86,.94,.95),pointer*.13);
+  color=mix(color,vec3(.82,.90,1.),pointer*.13);
   float grain=(hash(gl_FragCoord.xy)-.5)*.006;
   float edge=smoothstep(.0,.12,uv.x)*smoothstep(.0,.12,1.-uv.x);
-  color=mix(vec3(.984,.986,.976),color,edge)+grain;
+  color=mix(vec3(.99,.994,1.),color,edge)+grain;
   gl_FragColor=vec4(color,1.);
 }
 `;

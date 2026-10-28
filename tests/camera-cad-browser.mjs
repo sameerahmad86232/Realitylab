@@ -159,6 +159,7 @@ try {
     .getByRole("heading", { name: "Camera browser fixture", exact: true })
     .waitFor();
   assert.equal(calls, 1);
+  await page.getByRole("button",{name:"Edit scan photos",exact:true}).click();
   await openCamera(page);
   await page.keyboard.press("Escape");
   await page.getByRole("dialog").waitFor({ state: "detached" });

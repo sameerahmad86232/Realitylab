@@ -188,3 +188,7 @@ use injected results and are not recognition or reconstruction benchmarks.
 Bench validation: `npm run test:bench` uses injected fixtures, including save/restore and exports. The actual Baseten investigation check used synthetic inputs; see docs/BENCH_LIVE_RESULT.json. No physical experiment is claimed.
 
 Public app: https://realitylab.onrender.com. Actual hosted real-photo and preparation results, plus current Modal access status, are documented in [REAL_WORLD_USE.md](docs/REAL_WORLD_USE.md).
+
+### Precision Studio design
+
+The approved white-and-cobalt design is implemented with self-hosted Geist, a new original product illustration, a focused Discover workspace and a responsive three-column repair experience. See [design scope and verification](docs/PRECISION_STUDIO.md). Examples are labeled illustrations; real scan and repair results remain tied to user-provided evidence.
