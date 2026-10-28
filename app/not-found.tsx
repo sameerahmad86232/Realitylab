@@ -1,0 +1,2 @@
+import {Aperture,ArrowLeft} from 'lucide-react';
+export default function NotFound(){return <main className="recovery-page"><a className="recovery-brand" href="/"><Aperture size={23}/>RealityLab</a><p className="eyebrow">404 / A DIFFERENT PERSPECTIVE</p><h1>That page<br/>isn’t here.</h1><p>The link may be outdated. Return to the studio to explore an object or start a new scan.</p><a className="primary" href="/"><ArrowLeft size={16}/>Return to RealityLab</a></main>}

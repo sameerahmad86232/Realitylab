@@ -1,4 +1,5 @@
 import sharp from 'sharp';
+import {reserveInferenceBudget} from './limits.ts';
 import {randomUUID} from 'node:crypto';
 import {analyzePhotos,configuration,ScanError} from './provider.ts';
 import {scanResultSchema} from '../analysis.ts';
@@ -53,7 +54,7 @@ export async function handleScan(request:Request){
  if([...form.keys()].some(k=>!['images','consent','context'].includes(k)))throw new ScanError(400,'The scan form contains unsupported fields.');
  const files=form.getAll('images');if(files.length<1||files.length>3||files.some(f=>!(f instanceof File)))throw new ScanError(400,'Upload one to three photos.');
  stage='normalization';const images:string[]=[];for(const file of files){signal.throwIfAborted();images.push(await normalize(file as File))}
- signal.throwIfAborted();scanState.hourCount++;
+ signal.throwIfAborted();reserveInferenceBudget(scanState);
  stage='inference';const result=await analyzePhotos(images,context,signal);signal.throwIfAborted();
  const analyzedAt=new Date().toISOString(),durationMs=Date.now()-start;
  const payload=scanResultSchema.parse({analysis:result.analysis,meta:{requestId,provider:configuration().provider,model:configuration().model,durationMs,analyzedAt,usage:result.usage}});

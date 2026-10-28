@@ -1,17 +1,7 @@
+import {decodeBrowserImage} from './browser-image';
 export const MAX_PHOTOS = 3;
 export const MAX_BYTES = 5 * 1024 * 1024;
 export type Photo = { id: string; file: File; url: string; width: number; height: number; originalName: string };
-
-async function decode(file: File): Promise<ImageBitmap | HTMLImageElement> {
-  if (typeof createImageBitmap === 'function') return createImageBitmap(file, { imageOrientation: 'from-image' });
-  const url = URL.createObjectURL(file);
-  try {
-    const image = new Image();
-    image.src = url;
-    await image.decode();
-    return image;
-  } finally { URL.revokeObjectURL(url); }
-}
 
 /** Validate actual bytes, normalize orientation/size, and drop source metadata. */
 export async function preparePhoto(file: File): Promise<Photo> {
@@ -56,11 +46,10 @@ export async function preparePhoto(file: File): Promise<Photo> {
       offset += length;
     }
   }
-  let image: ImageBitmap | HTMLImageElement;
-  try { image = await decode(file); } catch { throw Error('This photo could not be read. Try another JPEG or PNG.'); }
+  let image:Awaited<ReturnType<typeof decodeBrowserImage>>;
+  try { image = await decodeBrowserImage(file); } catch { throw Error('This photo could not be read. Try another JPEG or PNG.'); }
   try {
-    const width = image instanceof HTMLImageElement ? image.naturalWidth : image.width;
-    const height = image instanceof HTMLImageElement ? image.naturalHeight : image.height;
+    const {width,height}=image;
     if (!width || !height || width * height > 20_000_000) throw Error('Choose photos of at most 20 megapixels.');
     const scale = Math.min(1, 1600 / Math.max(width, height));
     const canvas = document.createElement('canvas');
@@ -70,9 +59,9 @@ export async function preparePhoto(file: File): Promise<Photo> {
     if (!context) throw Error('Image processing is unavailable in this browser. Try another browser.');
     context.fillStyle = '#fff';
     context.fillRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    context.drawImage(image.source, 0, 0, canvas.width, canvas.height);
     const blob = await new Promise<Blob>((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('Could not prepare this photo. Please try again.')), 'image/jpeg', .88));
     const clean = new File([blob], 'object-view.jpg', {type:'image/jpeg'});
     return {id:crypto.randomUUID(), file:clean, url:URL.createObjectURL(blob), width:canvas.width, height:canvas.height, originalName:file.name};
-  } finally { if ('close' in image) image.close(); }
+  } finally { image.close(); }
 }

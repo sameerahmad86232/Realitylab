@@ -51,6 +51,8 @@ flowchart LR
 
 No photos or questions are persisted by this app. Provider policies still apply. Browser drafts/edits live in memory. Inference limits are process-local, shared by scan and learning, and reset on restart; they are not a guaranteed billing cap. Use provider billing controls before broad exposure.
 
+See the [full website audit and fixes](docs/FULL_AUDIT.md) for verified coverage and remaining limitations.
+
 ## Checks
 
 ```sh
@@ -66,6 +68,7 @@ npm run test:exploration
 npm run test:blueprint
 npm run test:learn-ui
 npm run test:demos
+npm run test:audit
 ```
 
 Browser suites use fixtures and make no paid calls. GitHub Actions checks without secrets. The opt-in `node --use-env-proxy --use-system-ca scripts/curate-demos.mjs --live` makes three paid scans without automatic retry and overwrites saved examples. They do not need regeneration for normal use.
