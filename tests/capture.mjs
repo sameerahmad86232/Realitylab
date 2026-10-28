@@ -1,0 +1,37 @@
+import {chromium} from 'playwright-core';
+import AxeBuilder from '@axe-core/playwright';
+import assert from 'node:assert/strict';
+import {mkdir} from 'node:fs/promises';
+const origin=process.env.TEST_ORIGIN||'http://localhost:3000';
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox','--disable-dev-shm-usage','--enable-unsafe-swiftshader','--use-fake-device-for-media-stream']});
+const context=await browser.newContext({viewport:{width:1280,height:950},permissions:['camera']});
+const page=await context.newPage();const exceptions=[],requests=[];
+page.on('pageerror',e=>exceptions.push(e.message));page.on('request',r=>{if(r.method()==='POST')requests.push(r.url())});
+await mkdir('/tmp/artifacts/phase-2',{recursive:true});
+try{
+ await page.addInitScript(()=>{window.__cameraTracks=[];const original=navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);navigator.mediaDevices.getUserMedia=async(...args)=>{const s=await original(...args);window.__cameraTracks.push(...s.getTracks());return s}});
+ await page.goto(origin);await page.getByRole('button',{name:'Scan object',exact:true}).click();
+ const input=page.locator('input[type=file]').first();
+ const photo=await page.evaluate(async()=>{const c=document.createElement('canvas');c.width=2400;c.height=1800;const ctx=c.getContext('2d');ctx.fillStyle='#edf2ff';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='#365482';ctx.fillRect(500,400,1200,800);return c.toDataURL('image/png').split(',')[1]});
+ const bytes=Buffer.from(photo,'base64');
+ const upload=names=>input.setInputFiles(names.map(name=>({name,mimeType:'image/png',buffer:bytes})));
+ await input.setInputFiles({name:'fake.jpg',mimeType:'image/jpeg',buffer:Buffer.from('not a photo')});await page.getByRole('alert').filter({hasText:'Renaming'}).waitFor();
+ await input.setInputFiles({name:'large.png',mimeType:'image/png',buffer:Buffer.alloc(5*1024*1024+1)});await page.getByRole('alert').filter({hasText:'5 MB'}).waitFor();
+ const dimensions=Buffer.from(bytes);dimensions.writeUInt32BE(20000,16);dimensions.writeUInt32BE(20000,20);
+ await input.setInputFiles({name:'too-many-pixels.png',mimeType:'image/png',buffer:dimensions});await page.getByRole('alert').filter({hasText:'20 megapixels'}).waitFor();
+ await input.setInputFiles([{name:'broken.png',mimeType:'image/png',buffer:bytes.subarray(0,30)},{name:'valid.png',mimeType:'image/png',buffer:bytes}]);await page.locator('.previews img').waitFor();assert.equal(await page.locator('.previews img').count(),1);await page.getByRole('alert').filter({hasText:'Some photos'}).waitFor();
+ assert.equal(await page.locator('.previews small').first().textContent().then(s=>s.includes('1600 × 1200')),true);
+ await page.getByRole('checkbox').check();await upload(['second.png','third.png','fourth.png']);await page.getByRole('alert').filter({hasText:'up to three'}).waitFor();assert.equal(await page.locator('.previews img').count(),3);assert.equal(await page.getByRole('checkbox').isChecked(),false);
+ await page.getByRole('button',{name:'Make main view',exact:true}).first().click();assert.equal(await page.locator('.previews>div').first().locator('span[title]').getAttribute('title'),'second.png');
+ await page.getByRole('button',{name:'Review photo 1',exact:true}).click();await page.getByRole('dialog').waitFor();await page.keyboard.press('Escape');assert.equal(await page.getByRole('dialog').count(),0);assert.equal(await page.getByRole('button',{name:'Review photo 1',exact:true}).evaluate(e=>document.activeElement===e),true);
+ await page.getByRole('button',{name:'RealityLab home'}).click();await page.getByRole('button',{name:'Scan object',exact:true}).click();assert.equal(await page.locator('.previews img').count(),3);
+ await page.getByRole('button',{name:'Clear all',exact:true}).click();assert.equal(await page.locator('.previews img').count(),0);assert.equal(await page.getByRole('button',{name:'Analyze object',exact:true}).isDisabled(),true);
+ await page.getByRole('button',{name:'Use camera',exact:true}).click();await page.getByRole('button',{name:'Take photo',exact:true}).waitFor();await page.waitForFunction(()=>document.querySelector('video')?.videoWidth>0);const dialogAxe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(dialogAxe.violations.map(v=>v.id),[]);await page.getByRole('button',{name:'Take photo',exact:true}).click();await page.getByRole('heading',{name:'How does it look?'}).waitFor();assert.equal(await page.evaluate(()=>window.__cameraTracks.every(t=>t.readyState==='ended')),true,'Review releases camera tracks');assert.equal(await page.locator('.previews img').count(),0);await page.getByRole('button',{name:'Retake',exact:true}).click();await page.waitForFunction(()=>document.querySelector('video')?.videoWidth>0);await page.getByRole('button',{name:'Take photo',exact:true}).click();await page.getByRole('button',{name:'Use photo',exact:true}).click();await page.locator('.previews img').waitFor();assert.equal(await page.getByRole('dialog').count(),0);assert.equal(await page.evaluate(()=>window.__cameraTracks.every(t=>t.readyState==='ended')),true,'Accepting releases camera tracks');
+ await page.screenshot({path:'/tmp/artifacts/phase-2/capture-desktop.png',fullPage:true});
+ await page.getByRole('checkbox').check();await page.getByRole('button',{name:'Analyze object',exact:true}).click();await page.getByRole('status').filter({hasText:'Phase 3'}).waitFor();assert.deepEqual(requests,[],'No photos or inference requests should leave this browser.');
+ const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(axe.violations.map(v=>v.id),[]);
+ await page.setViewportSize({width:390,height:850});await page.screenshot({path:'/tmp/artifacts/phase-2/capture-mobile.png',fullPage:true});
+ await page.reload();await page.getByRole('button',{name:'Scan object',exact:true}).click();assert.equal(await page.locator('.previews img').count(),0,'Reload clears draft');
+ await page.addInitScript(()=>{Object.defineProperty(navigator.mediaDevices,'getUserMedia',{value:async()=>{throw new DOMException('denied','NotAllowedError')}})});await page.reload();await page.getByRole('button',{name:'Scan object',exact:true}).click();await page.getByRole('button',{name:'Use camera',exact:true}).click();await page.getByRole('status').filter({hasText:'permission was denied'}).waitFor();await page.getByRole('button',{name:'Retry camera',exact:true}).click();await page.getByRole('status').filter({hasText:'permission was denied'}).waitFor();await page.getByRole('button',{name:'Close camera',exact:true}).click();assert.equal(await page.getByRole('dialog').count(),0);
+ assert.deepEqual(exceptions,[]);console.log('PASS: real-byte/size/pixel validation, mixed batches, normalization, 3-photo limit, main view, review/focus, draft preservation/clearing, camera review/retake/use, permission denial/retry, consent reset, accessibility, and no external uploads.');
+}finally{await browser.close()}

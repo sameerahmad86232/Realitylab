@@ -21,9 +21,9 @@ await page.getByRole('button',{name:'Blueprint',exact:true}).click();
 const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download SVG'}).click();assert.equal((await download).suggestedFilename(),'realitylab-conceptual-fan.svg');
 await page.screenshot({path:`${out}/explore-desktop.png`,fullPage:true});
 await page.getByRole('button',{name:'Scan object',exact:true}).click();
-await page.locator('input[type=file]').setInputFiles({name:'invalid.txt',mimeType:'text/plain',buffer:Buffer.from('invalid')});await page.getByRole('status').filter({hasText:'JPEG or PNG'}).waitFor();
+await page.locator('input[type=file]').first().setInputFiles({name:'invalid.txt',mimeType:'text/plain',buffer:Buffer.from('invalid')});await page.getByRole('alert').filter({hasText:'JPEG or PNG'}).waitFor();
 const png=await page.screenshot();
-await page.locator('input[type=file]').setInputFiles({name:'object.png',mimeType:'image/png',buffer:png});await page.locator('.previews img').waitFor();
+await page.locator('input[type=file]').first().setInputFiles({name:'object.png',mimeType:'image/png',buffer:png});await page.locator('.previews img').waitFor();
 assert.equal(await page.getByRole('button',{name:'Analyze object',exact:true}).isDisabled(),true);
 await page.getByRole('checkbox').check();await page.getByRole('button',{name:'Analyze object',exact:true}).click();await page.getByRole('status').filter({hasText:'Phase 3'}).waitFor();
 await page.screenshot({path:`${out}/capture-desktop.png`,fullPage:true});
@@ -36,7 +36,7 @@ for(const screen of ['capture','home','explore']){
 }
 await page.emulateMedia({reducedMotion:'reduce'});await page.reload();await page.locator('.stage-canvas canvas').waitFor();await page.getByRole('button',{name:'Play model animation'}).waitFor();
 await context.grantPermissions(['camera'],{origin:process.env.TEST_ORIGIN||'http://localhost:3000'});
-await page.getByRole('button',{name:'Scan object',exact:true}).click();await page.getByRole('button',{name:'Use camera',exact:true}).click();await page.getByRole('dialog').waitFor();await page.waitForFunction(()=>{const v=document.querySelector('video');return v&&v.videoWidth>0});await page.getByRole('button',{name:'Take photo',exact:true}).click();await page.locator('.previews img').waitFor();assert.equal(await page.getByRole('dialog').count(),0);
+await page.getByRole('button',{name:'Scan object',exact:true}).click();await page.getByRole('button',{name:'Use camera',exact:true}).click();await page.getByRole('dialog').waitFor();await page.waitForFunction(()=>{const v=document.querySelector('video');return v&&v.videoWidth>0});await page.getByRole('button',{name:'Take photo',exact:true}).click();await page.getByRole('button',{name:'Use photo',exact:true}).click();await page.locator('.previews img').waitFor();assert.equal(await page.getByRole('dialog').count(),0);
 await context.clearPermissions();await context.grantPermissions([],{origin:process.env.TEST_ORIGIN||'http://localhost:3000'});
 assert.deepEqual(errors,[]);console.log('PASS: 3D controls, sample selection, SVG export, upload validation, consent, no fake analysis, photo removal, 320/390/1440 layouts, accessibility, reduced motion, no browser exceptions.');
 }finally{await browser.close()}

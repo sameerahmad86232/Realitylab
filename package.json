@@ -1,1 +1,30 @@
-{"name":"realitylab","version":"0.1.0","private":true,"scripts":{"dev":"next dev --hostname 0.0.0.0","build":"next build","start":"next start --hostname 0.0.0.0","typecheck":"tsc --noEmit","test:browser":"node tests/design.mjs"},"dependencies":{"@fontsource-variable/geist":"^5.3.0","lucide-react":"^0.468.0","next":"^16.0.0","react":"^19.2.0","react-dom":"^19.2.0","three":"^0.180.0"},"devDependencies":{"@axe-core/playwright":"^4.14.0","@types/node":"^24.0.0","@types/react":"^19.2.0","@types/react-dom":"^19.2.0","@types/three":"^0.180.0","playwright-core":"^1.56.0","typescript":"^5.9.0"}}
+{
+  "name": "realitylab",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0",
+    "typecheck": "tsc --noEmit",
+    "test:browser": "node tests/design.mjs",
+    "test:capture": "node tests/capture.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
+    "lucide-react": "^0.468.0",
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/three": "^0.180.0",
+    "playwright-core": "^1.56.0",
+    "typescript": "^5.9.0"
+  }
+}
