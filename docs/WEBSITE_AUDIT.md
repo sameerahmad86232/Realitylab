@@ -1,5 +1,7 @@
 # RealityLab: candid product, UI and hackathon audit
 
+> Follow-up implementation: RealityLab Bench now connects capture context, confirmed inputs, deterministic predictions, user-reported trial comparisons, Meta-suggested investigation, and photo-free project save/import/restore. See [BENCH_WORKFLOW.md](BENCH_WORKFLOW.md). The audit below records the earlier broad-explorer state; its persistence and disconnected-workflow findings have been addressed for Bench. Reconstruction accuracy, physical validation, user impact, spend controls, public deployment and eligibility remain open.
+
 Audit date: October 28, 2026. Scope: local repository and production build, Chromium desktop/tablet/mobile, injected-provider workflows, existing recorded live-provider evidence, dependency checks. The public Render deployment was not available for verification. No additional paid inference was used for this audit.
 
 ## Verdict

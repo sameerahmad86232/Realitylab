@@ -1,3 +1,5 @@
+> **Current primary workflow: RealityLab Bench.** Capture a mechanism, confirm measurements, predict behavior, record a trial and investigate discrepancies with Meta. Gears, levers and pulleys are supported. See [the working Bench guide](docs/BENCH_WORKFLOW.md). Broad object/3D exploration remains available separately.
+
 # RealityLab
 
 A general object exploration studio: **observe → map → correct → test supported models → export**. Image analysis covers broad everyday-object categories, including vehicles, electronics, appliances, furniture, tools and natural objects. Recognition may be uncertain. Numerical predictions are limited to explicit ideal models with user-confirmed inputs; the app does not promise exact internals, universal recognition or automatic CAD. The landing page uses the Luminous Studio design: a live pearlescent WebGL shader, translucent object framing, DM Sans/Newsreader typography, and original AI-generated object studies. Motion is pausable, honors reduced-motion preferences and falls back to a CSS gradient when WebGL is unavailable. The car concept remains a separate labeled sample in the studio.
@@ -182,3 +184,5 @@ gaps, plus the UI/security fixes made on October 28. `npm run test:ui-audit`
 checks keyboard navigation and a scan-result flow at four viewport widths.
 Set `AXE_PATH` to a local axe-core script to include WCAG checks. These tests
 use injected results and are not recognition or reconstruction benchmarks.
+
+Bench validation: `npm run test:bench` uses injected fixtures, including save/restore and exports. The actual Baseten investigation check used synthetic inputs; see docs/BENCH_LIVE_RESULT.json. No physical experiment is claimed.

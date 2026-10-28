@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, lazy, Suspense } from "react";
+import PropTypes from "prop-types";
 import ObjectOverview from "./ObjectOverview";
 import PhysicsBench from "./PhysicsBench";
 import EvidenceNotebook from "./EvidenceNotebook";
@@ -47,7 +48,7 @@ const initial = {
   driverConfirmed: false,
   followerConfirmed: false,
 };
-export default function ExperimentStudio() {
+export default function ExperimentStudio({ onExperimentSource }) {
   const [activeTool, setActiveTool] = useState("objects");
   const [cameraOpen, setCameraOpen] = useState(false);
   const deviceCamera = useRef(null);
@@ -364,7 +365,8 @@ export default function ExperimentStudio() {
             Your world, <span>understood better.</span>
           </h3>
           <p>
-            Create a photo-linked 3D concept, explore the parts, and get an unpowered study-model guide.
+            Create a photo-linked 3D concept, explore the parts, and get an
+            unpowered study-model guide.
           </p>
         </div>
         <span className="lab-mode-badge">
@@ -543,7 +545,10 @@ export default function ExperimentStudio() {
           {busy === "analysis" && (
             <div className="analysis-progress" role="status">
               <strong>Waiting for the AI analysis…</strong>
-              <p>Your photos are being analyzed. Complex objects may take longer; this request times out after 90 seconds. You can cancel below.</p>
+              <p>
+                Your photos are being analyzed. Complex objects may take longer;
+                this request times out after 90 seconds. You can cancel below.
+              </p>
               <button className="quiet-button lab-cancel" onClick={cancel}>
                 Cancel analysis
               </button>
@@ -792,6 +797,15 @@ export default function ExperimentStudio() {
               </p>
             </div>
           </div>
+          {onExperimentSource && (
+            <button
+              className="button-lime"
+              onClick={() => onExperimentSource(analysis)}
+            >
+              <FlaskConical size={16} /> Use these observations in Bench{" "}
+              <ArrowUpRight size={16} />
+            </button>
+          )}
           <p className="analysis-summary">{analysis.summary}</p>
           <span className="object-category-badge">
             {analysis.category || "other"} /{" "}
@@ -1300,3 +1314,5 @@ export default function ExperimentStudio() {
     </div>
   );
 }
+
+ExperimentStudio.propTypes = { onExperimentSource: PropTypes.func };

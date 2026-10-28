@@ -23,7 +23,7 @@ try{
  assert.equal(await page.getByRole('tab',{name:/3D model inspector/}).getAttribute('aria-selected'),'true');
  await page.keyboard.press('End');assert.equal(await page.getByRole('tab',{name:/Car concept sample/}).getAttribute('aria-selected'),'true');
  await page.getByText('Uploaded photos do not change its parts or specifications.',{exact:false}).waitFor();
- await page.keyboard.press('Home');assert.equal(await explorer.getAttribute('aria-selected'),'true');
+ await page.keyboard.press('Home');assert.equal(await page.getByRole('tab',{name:/Experiment bench/}).getAttribute('aria-selected'),'true');await explorer.click();
  await page.getByLabel('Upload object photos for analysis').setInputFiles({name:'audit.png',mimeType:'image/png',buffer:bytes});
  await page.locator('.lab-check').filter({hasText:'I agree to send'}).getByRole('checkbox').check();await page.getByRole('button',{name:'Analyze my photos',exact:true}).click();
  await page.getByRole('button',{name:'Concept GLB',exact:true}).waitFor();

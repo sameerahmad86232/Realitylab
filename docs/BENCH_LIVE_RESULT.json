@@ -1,0 +1,82 @@
+{
+  "notice": "AI suggestions require review. Measurement and comparison are computed independently.",
+  "review": {
+    "summary": "Application computed ideal static lever prediction 1 N (2 N \u00d7 0.1 m / 0.2 m, MA=2) vs reported value 1.2 N \u00b10.05 N, residual 0.20 N, withinTolerance false per deterministic comparison. Notes state: 'Synthetic integration test only. No physical experiment has been performed. The reported 1.2 N effort is injected test data, not a real measurement.' No physical trial is verified.",
+    "recommendedAction": "review-setup",
+    "hypotheses": [
+      {
+        "title": "Perpendicular moment arm input or geometry",
+        "basis": "Supplied setup counts 0.2 m effort arm and 0.1 m load arm to compute 1 N; model assumes moment arms are perpendicular distances to force lines per stated assumptions.",
+        "nextCheck": "With lever unloaded on tabletop, verify fulcrum position and re-measure perpendicular distances from fulcrum to each vertical force line with ruler; confirm the two arm counts without changing load."
+      },
+      {
+        "title": "Ideal static assumption not met",
+        "basis": "Clearly labeled possibility: prediction assumes static moment balance, ignore lever weight, friction and deformation; deviation from these ideals could shift required effort, but is not confirmed by supplied synthetic data.",
+        "nextCheck": "Check unloaded static balance, pivot friction/binding, and lever weight distribution by simple tabletop observation only; change one variable at a time."
+      },
+      {
+        "title": "Force-meter zero and repeatability; synthetic data status",
+        "basis": "Notes explicitly state the 1.2 N is injected test data, not a real measurement, and comparison is computed from that value.",
+        "nextCheck": "If a real tabletop trial is intended, zero the force meter unloaded, then repeat 3-5 effort readings at the same setup to assess repeatability before altering geometry."
+      }
+    ],
+    "limitations": [
+      "Ideal static lever model only; does not predict strength, stability, or safety, and assumes perpendicular arms and no weight/friction.",
+      "No physical experiment verified \u2014 reported 1.2 N is labeled synthetic injected data in notes, so mismatch does not identify a cause or certify an assembly.",
+      "Visual model suggestions are distinct from user-reported measurements; do not treat computed agreement/discrepancy as proof of correctness."
+    ]
+  },
+  "result": {
+    "model": "lever",
+    "expected": 1,
+    "unit": "N",
+    "prediction": {
+      "setup": {
+        "tool": "lever",
+        "loadNewtons": 2,
+        "effortArmMeters": 0.2,
+        "loadArmMeters": 0.1,
+        "confirmed": true
+      },
+      "tool": {
+        "name": "ideal_static_lever",
+        "version": "1.0"
+      },
+      "effortNewtons": 1,
+      "mechanicalAdvantage": 2,
+      "equation": "effort force = load force \u00d7 load moment arm / effort moment arm",
+      "assumptions": [
+        "Static moment balance about one fulcrum.",
+        "Moment arms are perpendicular distances to each force line, not arbitrary handle lengths.",
+        "Ignore lever weight, friction and deformation. No strength or stability prediction."
+      ]
+    },
+    "measurement": {
+      "value": 1.2,
+      "tolerance": 0.05,
+      "confirmed": true
+    },
+    "comparison": {
+      "withinTolerance": false,
+      "residual": 0.19999999999999996,
+      "absoluteError": 0.19999999999999996,
+      "nextChecks": [
+        "Check perpendicular moment arms, static balance, lever weight and force-meter zero.",
+        "Repeat the measurement with the same setup; change one assumption at a time.",
+        "A mismatch does not identify its cause or certify an assembly."
+      ]
+    },
+    "notice": "Ideal prediction and user-reported measurement; no physical experiment is automatically verified."
+  },
+  "provenance": {
+    "provider": "baseten",
+    "model": "meta-models/muse-spark-open-1026",
+    "reviewedAt": "2026-10-28T03:10:48.119Z"
+  },
+  "validation": {
+    "inputKind": "synthetic integration-test values",
+    "physicalExperimentPerformed": false,
+    "elapsedSeconds": 8.766,
+    "httpStatus": 200
+  }
+}

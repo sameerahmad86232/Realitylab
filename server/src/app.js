@@ -8,6 +8,11 @@ import path from "node:path";
 import { ZodError } from "zod";
 import { modelAnalysisSchema } from "../../shared/schemas.js";
 import { predict, compare } from "../../shared/gearMath.js";
+import {
+  benchReviewRequestSchema,
+  benchReviewSchema,
+  evaluateBench,
+} from "../../shared/bench.js";
 import { predictPhysicsTool } from "../../shared/physicsTools.js";
 import { providerFromEnvironment } from "./provider.js";
 const fail = (status, message) => Object.assign(Error(message), { status });
@@ -77,6 +82,7 @@ export function createApp({
         },
       }),
     );
+  app.use("/api/bench/review", express.json({ limit: "128kb" }));
   app.use(express.json({ limit: "32kb" }));
   app.get("/api/health", (req, res) =>
     res.json({
@@ -104,6 +110,9 @@ export function createApp({
   );
   app.post("/api/tools/predict", (req, res) =>
     res.json(predictPhysicsTool(req.body)),
+  );
+  app.post("/api/bench/evaluate", (req, res) =>
+    res.json(evaluateBench(req.body)),
   );
   app.post("/api/predict", (req, res) => res.json(predict(req.body)));
   app.post("/api/compare", (req, res) => res.json(compare(req.body)));
@@ -316,6 +325,91 @@ export function createApp({
         req.files.forEach((f) => {
           f.buffer = null;
         });
+    }
+  });
+  app.post("/api/bench/review", analyzeLimit, async (req, res, next) => {
+    let timer;
+    const abort = new AbortController();
+    const disconnect = () => {
+      if (!res.writableEnded) abort.abort();
+    };
+    let acquired = false;
+    try {
+      const input = benchReviewRequestSchema.parse(req.body);
+      const result = evaluateBench({
+        setup: input.setup,
+        measurement: input.measurement,
+      });
+      if (!provider.configured || typeof provider.planExperiment !== "function")
+        throw fail(
+          503,
+          "AI investigation is unavailable. Deterministic predictions and checks still work.",
+        );
+      if (active >= 2)
+        throw fail(
+          429,
+          "Two analyses are already running. Please try again shortly.",
+        );
+      active++;
+      acquired = true;
+      res.on("close", disconnect);
+      timer = setTimeout(() => abort.abort(), timeoutMs);
+      const cancelled = new Promise((_, reject) =>
+        abort.signal.addEventListener(
+          "abort",
+          () => reject(fail(504, "Investigation was cancelled or timed out.")),
+          { once: true },
+        ),
+      );
+      const raw = await Promise.race([
+        provider.planExperiment({
+          experiment: { ...input, consent: undefined, result },
+          signal: abort.signal,
+        }),
+        cancelled,
+      ]);
+      const review = benchReviewSchema.parse(raw);
+      const allowed = !input.measurement
+        ? ["collect-measurement"]
+        : result.comparison.withinTolerance
+          ? ["record-agreement", "repeat-measurement"]
+          : ["review-setup", "repeat-measurement"];
+      if (!allowed.includes(review.recommendedAction))
+        throw fail(
+          502,
+          "The AI proposed an action inconsistent with the measured result. Use the deterministic checks or retry.",
+        );
+      res.json({
+        review,
+        result,
+        provenance: {
+          provider: provider.provider,
+          model: provider.model,
+          reviewedAt: new Date().toISOString(),
+        },
+        notice:
+          "AI suggestions require review. Measurement and comparison are computed independently.",
+      });
+    } catch (err) {
+      if (err instanceof ZodError && acquired)
+        next(
+          fail(
+            502,
+            "The AI returned an invalid investigation. Use the deterministic checks or retry.",
+          ),
+        );
+      else if (acquired && !err.status)
+        next(
+          fail(
+            502,
+            "The AI investigation could not be completed. Deterministic checks remain available.",
+          ),
+        );
+      else next(err);
+    } finally {
+      clearTimeout(timer);
+      res.off("close", disconnect);
+      if (acquired) active--;
     }
   });
   app.use("/api", (req, res, next) => next(fail(404, "API route not found.")));

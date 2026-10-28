@@ -40,9 +40,9 @@ export default function FieldGuideHero({ onExplore }) {
             <br />
             <em>the surface.</em>
           </h1>
-          <p>Turn object photos into an interactive 3D concept. Explore the parts, understand their roles, and plan a study model.</p>
+          <p>Turn a mechanism photo into a measurable experiment. Predict its behavior, record what happens, and investigate the difference.</p>
           <a href="#studio" className="field-primary" onClick={onExplore}>
-            Explore an object <ArrowRight size={18} />
+            Start an experiment <ArrowRight size={18} />
           </a>
           <div className="field-hero-footnote">
             <span>NO. 001</span>

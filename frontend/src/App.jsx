@@ -1,5 +1,6 @@
 import { useState, lazy, Suspense } from "react";
 import { handleTabKeys } from "./lib/accessibleTabs";
+const BenchWorkspace = lazy(() => import("./features/bench/BenchWorkspace"));
 const CadWorkspace = lazy(() => import("./features/cad/CadWorkspace"));
 import {
   ArrowUpRight,
@@ -27,7 +28,8 @@ import ResultsSection from "./components/ResultsSection";
 import { sampleBlueprintData } from "./data/sampleBlueprintData";
 
 export default function App() {
-  const [studioMode, setStudioMode] = useState("mechanism");
+  const [studioMode, setStudioMode] = useState("bench");
+  const [benchSource, setBenchSource] = useState(null);
   const [files, setFiles] = useState([]);
   const [generated, setGenerated] = useState(false);
   const [menu, setMenu] = useState(false);
@@ -57,13 +59,19 @@ export default function App() {
   };
   return (
     <div className="site-shell">
-      <a className="skip-link" href="#studio">Skip to object studio</a>
+      <a className="skip-link" href="#studio">
+        Skip to object studio
+      </a>
       <header className="site-header">
         <a href="#" className="wordmark">
           <ScanLine size={26} />
           RealityLab<span>THE OBJECT STUDIO</span>
         </a>
-        <nav id="main-navigation" aria-label="Main navigation" className={menu ? "nav-links open" : "nav-links"}>
+        <nav
+          id="main-navigation"
+          aria-label="Main navigation"
+          className={menu ? "nav-links open" : "nav-links"}
+        >
           <a href="#objects" onClick={() => setMenu(false)}>
             Objects
           </a>
@@ -98,7 +106,7 @@ export default function App() {
         </button>
       </header>
       <main id="main-content">
-        <FieldGuideHero onExplore={() => setStudioMode("mechanism")} />
+        <FieldGuideHero onExplore={() => setStudioMode("bench")} />
         <section className="studio-section" id="studio" tabIndex={-1}>
           <div className="section-heading">
             <div>
@@ -106,7 +114,7 @@ export default function App() {
                 <span className="live-dot" /> 01 / YOUR OBJECT STUDIO
               </span>
               <h2>
-                One object. <span>A closer look.</span>
+                Your next <span>experiment.</span>
               </h2>
             </div>
             <span className="prototype-badge">
@@ -114,9 +122,10 @@ export default function App() {
             </span>
           </div>
           <div className="studio-caption">
-            <p>Upload. Explore in 3D. Understand the parts.</p>
+            <p>Capture evidence. Predict. Measure. Investigate.</p>
             <span>
-              Start with 1–3 photos of the same object. More angles help reveal its structure.
+              Start with a small passive mechanism, or use the keyless numerical
+              tools.
             </span>
           </div>
           <div
@@ -125,6 +134,17 @@ export default function App() {
             aria-label="Studio mode"
             onKeyDown={handleTabKeys}
           >
+            <button
+              id="bench-tab"
+              role="tab"
+              aria-selected={studioMode === "bench"}
+              tabIndex={studioMode === "bench" ? 0 : -1}
+              aria-controls="bench-panel"
+              onClick={() => setStudioMode("bench")}
+            >
+              <Settings2 size={15} /> Experiment bench{" "}
+              <span>PREDICT · MEASURE · INVESTIGATE</span>
+            </button>
             <button
               id="mechanism-tab"
               role="tab"
@@ -159,12 +179,42 @@ export default function App() {
             </button>
           </div>
           <div
+            id="bench-panel"
+            role="tabpanel"
+            aria-labelledby="bench-tab"
+            hidden={studioMode !== "bench"}
+          >
+            <Suspense
+              fallback={
+                <p className="lab-help">Preparing the experiment bench…</p>
+              }
+            >
+              <BenchWorkspace
+                source={benchSource}
+                onSourceChange={setBenchSource}
+                onScan={() => setStudioMode("mechanism")}
+              />
+            </Suspense>
+          </div>
+          <div
             id="mechanism-panel"
             role="tabpanel"
             aria-labelledby="mechanism-tab"
             hidden={studioMode !== "mechanism"}
           >
-            <ExperimentStudio />
+            <ExperimentStudio
+              onExperimentSource={(analysis) => {
+                setBenchSource({
+                  objectName: analysis.objectName,
+                  summary: analysis.summary,
+                  observations: analysis.observations.map((o) => ({
+                    name: o.name,
+                    evidence: o.evidence,
+                  })),
+                });
+                setStudioMode("bench");
+              }}
+            />
           </div>
           <div
             id="cad-panel"
@@ -196,8 +246,16 @@ export default function App() {
           >
             <div className="sample-scope-note" role="note">
               <strong>Curated car demonstration</strong>
-              <p>This blueprint is fixed sample content. Uploaded photos do not change its parts or specifications.</p>
-              <button className="quiet-button" onClick={() => setStudioMode("mechanism")}>Analyze your own object <ArrowUpRight size={16} /></button>
+              <p>
+                This blueprint is fixed sample content. Uploaded photos do not
+                change its parts or specifications.
+              </p>
+              <button
+                className="quiet-button"
+                onClick={() => setStudioMode("mechanism")}
+              >
+                Analyze your own object <ArrowUpRight size={16} />
+              </button>
             </div>
             <div className="studio-layout">
               <aside className="studio-sidebar">
@@ -290,9 +348,7 @@ export default function App() {
         <section className="process-section" id="process">
           <div className="section-heading">
             <div>
-              <span className="eyebrow">
-                02 / FROM PHOTO TO UNDERSTANDING
-              </span>
+              <span className="eyebrow">02 / FROM PHOTO TO UNDERSTANDING</span>
               <h2>
                 Every object has a story.
                 <br />
@@ -425,8 +481,9 @@ export default function App() {
           <div>
             <p>
               We believe understanding how things work should be for everyone.
-              RealityLab explores a future where a simple photo can become the
-              first step toward learning, repairing, and creating.
+              RealityLab brings photos, ideal models and recorded observations
+              together so you can check an assumption, investigate a mismatch,
+              and keep a reproducible experiment record.
             </p>
             <a href="#studio">
               Find your next discovery. <MoveUpRight size={21} />
