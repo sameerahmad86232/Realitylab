@@ -1,11 +1,10 @@
-# Render Blueprint: one Node service serves the UI and same-origin API.
 services:
   - type: web
     name: realitylab
     runtime: node
     branch: codex/realitylab-live-explorer
     plan: free
-    buildCommand: npm ci --include=dev && npm --prefix frontend ci --include=dev && npm run build
+    buildCommand: npm ci --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     autoDeployTrigger: commit
@@ -14,15 +13,5 @@ services:
         value: 24.19.0
       - key: NODE_ENV
         value: production
-      - key: BASETEN_API_KEY
-        sync: false
-      - key: AI_PROVIDER
-        value: baseten
-      - key: AI_ENDPOINT
-        value: https://inference.baseten.co/v1/chat/completions
-      - key: AI_MODEL
-        value: meta-models/muse-spark-open-1026
-      - key: AI_PROTOCOL
-        value: chat-completions
-      - key: AI_AUTH_SCHEME
-        value: bearer
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
