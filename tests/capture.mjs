@@ -9,6 +9,7 @@ const page=await context.newPage();const exceptions=[],requests=[];
 page.on('pageerror',e=>exceptions.push(e.message));page.on('request',r=>{if(r.method()==='POST')requests.push(r.url())});
 await mkdir('/tmp/artifacts/phase-2',{recursive:true});
 try{
+ await context.route('**/api/health',r=>r.fulfill({json:{analysis:{configured:true}}}));
  await context.route('**/api/scan',route=>route.fulfill({status:503,json:{error:{message:'Test-only backend unavailable. Your photos are preserved.'}}}));
  await page.addInitScript(()=>{window.__cameraTracks=[];const original=navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);navigator.mediaDevices.getUserMedia=async(...args)=>{const s=await original(...args);window.__cameraTracks.push(...s.getTracks());return s}});
  await page.goto(origin);await page.getByRole('button',{name:'Scan object',exact:true}).click();

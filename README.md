@@ -1,38 +1,82 @@
 # RealityLab · Liquid Gallery
 
-A fresh Next.js + TypeScript implementation of the selected Liquid Gallery design.
+Evidence-linked engineering exploration from everyday-object photographs.
+
+**Live:** https://realitylab.onrender.com
 
 ## Run
 
+Node.js 24.19+:
+
 ```sh
-npm install
+npm ci
+cp .env.example .env
+# Configure BASETEN_API_KEY securely; never commit the key.
 npm run dev
 ```
 
-Open http://localhost:3000. Production: `npm run build && npm start`.
+Open http://localhost:3000. Production: `npm run build` then `npm start`. Restart after changing server secrets. Render uses `BASETEN_API_KEY` as a server environment secret. The verified model is `meta-models/muse-spark-open-1026` through Baseten; no direct Meta endpoint is assumed.
 
-## Phase 1 design foundation
+## Current experience
 
-- Responsive white/silver landing page, self-hosted Geist, blue accents.
-- Original procedural Three.js desk fan with orbit, zoom, explode and pause controls.
-- Lightweight WebGL ribbon shader with pause and reduced-motion support.
-- JPEG/PNG picker, drag/drop, previews, deletion, camera capture and permission recovery.
-- Prepared sample explorer, selectable parts, observed/inferred distinctions, interactive conceptual SVG and SVG download.
-- Phase 1/2 established browser-local uploads. Phase 3 adds explicit, consented live model processing (see below).
+- Up to three normalized JPEG/PNG photos or camera captures, reviewed before explicit provider consent.
+- Real Meta analysis: observed/inferred parts, evidence, approximate markers, material hypotheses, working principles and uncertainty.
+- Linked inspector, filters/search, relationship map, local marker edits and conceptual SVG blueprints with themes, expansion and downloads.
+- Functional diagrams and a separate app-authored LED circuit with ideal switch/current behavior.
+- Consented Meta-generated paper/cardboard analogues and scan-grounded follow-up questions.
+- Recorded real fan, bicycle and compass analyses: opening uses no new inference credits.
+- Prepared procedural 3D fan, shaders, reduced-motion handling and static WebGL fallback.
 
-The fan is an illustrative handcrafted model, not reconstructed from photos or accurate product CAD. The bicycle and clock collection entries are labeled planned. Live AI integration is now available in Phase 3. Photos are sent only after explicit consent and Analyze. The earlier app was intentionally removed; no old application code was reused.
+This is an explanation and learning prototype. It does not recover hidden wiring, reconstruct arbitrary objects into CAD, measure dimensions, verify materials or diagnose faults. The 3D fan is handcrafted. Blueprints are conceptual and not to scale. Errors never substitute a recorded result.
+
+## Data flow
+
+```mermaid
+flowchart LR
+ A[Photos + consent] --> B[Next.js scan API]
+ B --> C[Image validation + normalization]
+ C --> D[Meta model on Baseten]
+ D --> E[Strict response validation]
+ E --> F[Photo / map / blueprint]
+ F --> G[Consented learning API]
+ G --> D
+ H[Recorded validated examples] --> F
+```
+
+No photos or questions are persisted by this app. Provider policies still apply. Browser drafts/edits live in memory. Inference limits are process-local, shared by scan and learning, and reset on restart; they are not a guaranteed billing cap. Use provider billing controls before broad exposure.
 
 ## Checks
 
-`npm run build`, `npm run typecheck`, `npm run test:browser` (Chromium required; set CHROMIUM_PATH if necessary).
+```sh
+npm run build
+npm run typecheck
+npm test
+npm start
+# Another terminal; Chromium required, optionally set CHROMIUM_PATH:
+npm run test:browser
+npm run test:capture
+npm run test:server-envelope
+npm run test:exploration
+npm run test:blueprint
+npm run test:learn-ui
+npm run test:demos
+```
 
-Design inspiration: the user-approved Liquid Gallery concept. Visuals are procedural geometry/CSS; no third-party object models or stock photos are included. Geist is distributed under its bundled SIL Open Font License. Next.js, React, Three.js and Lucide retain their respective dependency licenses.
+Browser suites use fixtures and make no paid calls. GitHub Actions checks without secrets. The opt-in `node --use-env-proxy --use-system-ca scripts/curate-demos.mjs --live` makes three paid scans without automatic retry and overwrites saved examples. They do not need regeneration for normal use.
 
-## Render deployment
+## Deploy and present
 
-`render.yaml` defines the Next.js web service, `npm ci --include=dev && npm run build`, `npm start`, and `/api/health`. Next.js automatically uses Render's `PORT` variable. No AI secret is required for this design phase.
+`render.yaml` builds and deploys branch `codex/realitylab-live-explorer` with `npm ci --include=dev && npm run build`, `npm start`, and `/api/health`. The minimal `frontend/package.json` supports the previous Render build command; there is no separate frontend app. Health `liveVerified` tracks a successful scan in the current process only.
 
-The minimal `frontend/package.json` and lockfile are deployment compatibility only: the previously configured Render build command runs `npm --prefix frontend ci`. They contain no old frontend application. New services should use the simpler build command above.
+See [release audit](docs/RELEASE_AUDIT.md), [evaluation](docs/EVALUATION.md), [three-minute demo plan](docs/DEMO_SCRIPT.md) and [submission draft](docs/SUBMISSION.md). Physical mobile tests and the narrated final video remain human tasks.
+
+## Attribution
+
+Existing MIT license retained; see LICENSE. Geist uses its bundled SIL Open Font License. Dependencies retain their respective licenses. Fan geometry, shaders and SVG templates are original app code. CC0 photos: fan — Crawdad Blues; bicycle — Shams948; compass — Aaron Burden / Unsplash. [Exact source pages and license metadata](public/demos/sources.json) are also linked in results. No external 3D reconstruction code or assets are included.
+
+The current fresh implementation was built during the hackathon on October 28, 2026. Earlier Git history remains; identify the new features and commits in the demo.
+
+## Phase details
 
 ## Phase 2 · Photo capture
 

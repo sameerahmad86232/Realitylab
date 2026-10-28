@@ -29,4 +29,4 @@ export const analysisSchema=z.object({
 export type Analysis=z.infer<typeof analysisSchema>;
 export const scanResultSchema=z.object({analysis:analysisSchema,meta:z.object({requestId:z.string().uuid(),provider:text(80),model:text(200),durationMs:z.number().nonnegative().finite(),analyzedAt:z.string().datetime(),usage:z.object({inputTokens:z.number().int().nonnegative().nullable(),outputTokens:z.number().int().nonnegative().nullable(),totalTokens:z.number().int().nonnegative().nullable()}).strict()}).strict()}).strict();
 export type ScanResult=z.infer<typeof scanResultSchema>;
-export type ScanView={result:ScanResult;photos:{id:string;url:string;width:number;height:number}[]};
+export type ScanView={recorded?:{sourceUrl:string;author:string;license:string};result:ScanResult;photos:{id:string;url:string;width:number;height:number}[]};

@@ -7,6 +7,7 @@ const out='/tmp/artifacts/liquid-gallery';await mkdir(out,{recursive:true});
 const errors=[];
 const context=await browser.newContext({viewport:{width:1440,height:1000}});const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
 try{
+await context.route('**/api/health',r=>r.fulfill({json:{analysis:{configured:true}}}));
 await context.route('**/api/scan',route=>route.fulfill({status:503,json:{error:{message:'Test-only backend unavailable. Your photos are preserved.'}}}));
 await page.goto(process.env.TEST_ORIGIN||'http://localhost:3000');
 await page.getByRole('heading',{name:'See beyond the surface.'}).waitFor();

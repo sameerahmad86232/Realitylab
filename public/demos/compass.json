@@ -1,0 +1,173 @@
+{
+  "analysis": {
+    "object_name": "Brass Hinged Pocket Compass",
+    "summary": "Open circular pocket compass with hinged brass-toned lid resting on rough rock, showing a graduated bezel, decorative compass rose, and central magnetic needle under a transparent cover.",
+    "category": "navigation instrument",
+    "recognition": "identified",
+    "components": [
+      {
+        "id": "part-1",
+        "name": "Hinged Lid / Protective Cover",
+        "function": "Covers and protects the compass face when closed; shown open away from dial",
+        "observed": true,
+        "evidence": "Large circular gold-toned disc above dial with concentric brushed finish and strong specular highlight, open about 90 degrees",
+        "material_candidates": [
+          "brass-appearing metal",
+          "plated metal"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.33,
+          "y": 0.285
+        },
+        "connections": []
+      },
+      {
+        "id": "part-2",
+        "name": "Outer Case / Housing",
+        "function": "Encloses and supports the dial and bezel; provides structural body",
+        "observed": true,
+        "evidence": "Gold-toned circular body around dial sitting on textured gray rock with visible side thickness and shadow",
+        "material_candidates": [
+          "brass-appearing metal",
+          "plated metal"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.38,
+          "y": 0.68
+        },
+        "connections": []
+      },
+      {
+        "id": "part-3",
+        "name": "Rotating Bezel with Degree Scale",
+        "function": "Provides 0-360 degree markings for orienting and reading bearings relative to north",
+        "observed": true,
+        "evidence": "White outer ring encircling dial with black numerals 20,40,60 to 340 and red N at top edge",
+        "material_candidates": [
+          "painted metal",
+          "possible plastic overlay"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.39,
+          "y": 0.579
+        },
+        "connections": []
+      },
+      {
+        "id": "part-4",
+        "name": "Compass Dial / Compass Rose",
+        "function": "Displays cardinal and intercardinal directions as reference for needle indication",
+        "observed": true,
+        "evidence": "Inner face with printed N, E, S, W, degree ticks and brown concentric pattern visible through clear cover",
+        "material_candidates": [
+          "printed card or dial under transparent cover",
+          "possible glass or clear plastic cover"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.386,
+          "y": 0.598
+        },
+        "connections": []
+      },
+      {
+        "id": "part-5",
+        "name": "Magnetic Needle Assembly on Central Pivot",
+        "function": "Aligns with Earth's magnetic field to indicate magnetic north-south",
+        "observed": true,
+        "evidence": "Ornate dark pointer with red-accented north end pivoted at central silver pin, casting small shadow on dial",
+        "material_candidates": [
+          "metal pointer",
+          "possiblejeweled pivot"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.394,
+          "y": 0.602
+        },
+        "connections": []
+      },
+      {
+        "id": "part-6",
+        "name": "Suspension Loop / Bail",
+        "function": "Allows attachment of lanyard, chain, or clip for carrying",
+        "observed": true,
+        "evidence": "Small gold-toned loop with circular ring protruding from bottom of case resting on rock",
+        "material_candidates": [
+          "brass-appearing metal"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.45,
+          "y": 0.825
+        },
+        "connections": []
+      }
+    ],
+    "principles": [
+      {
+        "name": "Magnetic Alignment",
+        "explanation": "Needle is inferred to be magnetized to align with Earth's magnetic field, with one end indicating toward magnetic north. Visible red/N marking corresponds to that end.",
+        "component_ids": [
+          "part-5",
+          "part-4"
+        ]
+      },
+      {
+        "name": "Low-Friction Pivot Suspension",
+        "explanation": "Central pin allows needle to rotate freely so it can settle toward magnetic north with minimal friction. The needle's balanced appearance suggests it is supported at center.",
+        "component_ids": [
+          "part-5"
+        ]
+      },
+      {
+        "name": "Azimuth Reference via Graduated Bezel",
+        "explanation": "Outer numbered ring provides angular reference around the dial. User likely rotates bezel or case to compare needle direction to markings, but rotation mechanism is not visibly in motion here.",
+        "component_ids": [
+          "part-3",
+          "part-4"
+        ]
+      }
+    ],
+    "uncertainty": [
+      "Exact materials, plating, or presence of glass versus plastic cannot be determined from photo alone",
+      "Dimensions, weight, and manufacturing date or maker are not visible",
+      "Whether compass is fluid-damped, dry, or includes declination adjustment is not discernible",
+      "Magnetic accuracy, calibration, and current functional state cannot be verified from single still image",
+      "Internal construction under dial such as pivot jewel type or magnet attachment is hidden",
+      "Geographic location, true north vs magnetic north offset, and local magnetic interference are unknown"
+    ],
+    "next_steps": [
+      "Photograph underside and side hinge to show closing mechanism and any maker marks",
+      "Take close-up straight-down photo of dial markings to read scale increments more clearly",
+      "Observe needle movement briefly in a video to confirm free rotation, without disassembly"
+    ],
+    "safety_notes": [
+      "Do not rely on a decorative or uncalibrated compass for critical navigation; verify against known reference",
+      "Keep away from magnets, speakers, phones, and large metal masses that can deflect or demagnetize needle",
+      "Do not open, disassemble, or attempt to modify sealed housing; no wiring or hazardous procedures are involved",
+      "Image-based assessment cannot confirm accuracy or condition"
+    ]
+  },
+  "meta": {
+    "requestId": "f904e6ef-c7e4-4f49-a38d-6ffab702c276",
+    "provider": "Baseten",
+    "model": "meta-models/muse-spark-open-1026",
+    "durationMs": 15659,
+    "analyzedAt": "2026-10-28T11:55:39.591Z",
+    "usage": {
+      "inputTokens": 1628,
+      "outputTokens": 3144,
+      "totalTokens": 4772
+    }
+  }
+}

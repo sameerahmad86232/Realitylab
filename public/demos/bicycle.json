@@ -1,0 +1,209 @@
+{
+  "analysis": {
+    "object_name": "Weathered Utility Bicycle",
+    "summary": "An older diamond-frame utility bicycle parked at a curb in the foreground, showing surface wear, faded paint, and a rear cargo rack with a cloth bundle. Visible features include spoked wheels, upright handlebars, a sprung saddle, and an exposed chain drivetrain.",
+    "category": "bicycle / personal transport",
+    "recognition": "identified",
+    "components": [
+      {
+        "id": "part-1",
+        "name": "Front Wheel Assembly",
+        "function": "Rolling support and directional contact with ground",
+        "observed": true,
+        "evidence": "Large wire-spoked wheel with thin tire and partial fender visible at lower left, overlapping curb",
+        "material_candidates": [
+          "steel",
+          "rubber",
+          "aluminum alloy"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.21,
+          "y": 0.69
+        },
+        "connections": [
+          "part-4"
+        ]
+      },
+      {
+        "id": "part-2",
+        "name": "Rear Wheel Assembly",
+        "function": "Rolling support and drive reception",
+        "observed": true,
+        "evidence": "Wire-spoked wheel with tire and fender at lower right, with hub and chain sprocket visible at center",
+        "material_candidates": [
+          "steel",
+          "rubber"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.79,
+          "y": 0.66
+        },
+        "connections": [
+          "part-3"
+        ]
+      },
+      {
+        "id": "part-3",
+        "name": "Main Diamond Frame",
+        "function": "Structural backbone linking steering, wheels and drivetrain",
+        "observed": true,
+        "evidence": "Dark tubular frame with top tube, down tube and seat tube forming diamond, with faded paint and surface rust in center",
+        "material_candidates": [
+          "steel"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.51,
+          "y": 0.57
+        },
+        "connections": [
+          "part-4"
+        ]
+      },
+      {
+        "id": "part-4",
+        "name": "Handlebar and Front Fork Unit",
+        "function": "Steering control and front wheel support",
+        "observed": true,
+        "evidence": "Swept-back chrome bars with black grips and brake lever outlines at top-center, connected to fork straddling front wheel",
+        "material_candidates": [
+          "steel",
+          "rubber",
+          "plastic"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.46,
+          "y": 0.33
+        },
+        "connections": []
+      },
+      {
+        "id": "part-5",
+        "name": "Sprung Saddle",
+        "function": "Rider seating with vibration isolation",
+        "observed": true,
+        "evidence": "Worn wide saddle mounted on exposed coiled springs and clamp at right-center above frame",
+        "material_candidates": [
+          "leather",
+          "steel",
+          "vinyl"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.75,
+          "y": 0.36
+        },
+        "connections": [
+          "part-3"
+        ]
+      },
+      {
+        "id": "part-6",
+        "name": "Chain Drivetrain",
+        "function": "Transmits pedal effort to rear wheel",
+        "observed": true,
+        "evidence": "Metal roller chain running from central chainring to rear sprocket at lower center-right, with crank arm visible",
+        "material_candidates": [
+          "steel"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.61,
+          "y": 0.7
+        },
+        "connections": [
+          "part-2"
+        ]
+      },
+      {
+        "id": "part-7",
+        "name": "Rear Cargo Rack",
+        "function": "Carrying platform over rear wheel",
+        "observed": true,
+        "evidence": "Flat metal rack with side rails and tied cloth bundle extending over rear fender at far right",
+        "material_candidates": [
+          "steel"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.87,
+          "y": 0.45
+        },
+        "connections": [
+          "part-3"
+        ]
+      }
+    ],
+    "principles": [
+      {
+        "name": "Rolling on Spoked Wheels",
+        "explanation": "Wheels rotate around hub axles to allow rolling movement with reduced contact friction, supported by tensioned spokes visible on both wheels.",
+        "component_ids": [
+          "part-1",
+          "part-2"
+        ]
+      },
+      {
+        "name": "Steerable Front Fork",
+        "explanation": "Handlebar rotation appears to turn the front fork and wheel relative to the frame head tube to change direction.",
+        "component_ids": [
+          "part-4",
+          "part-1",
+          "part-3"
+        ]
+      },
+      {
+        "name": "Chain Drive Transmission",
+        "explanation": "Chain loop suggests pedal-driven chainring drives rear sprocket and wheel; gear ratio and internal bearing condition not visible.",
+        "component_ids": [
+          "part-6",
+          "part-2"
+        ]
+      },
+      {
+        "name": "Sprung Saddle Suspension",
+        "explanation": "Coiled springs under saddle visible, likely to compress and absorb road vibrations; travel and damping not determinable from photo.",
+        "component_ids": [
+          "part-5"
+        ]
+      }
+    ],
+    "uncertainty": [
+      "Exact frame material, manufacturer, age, or specifications cannot be determined from this single view",
+      "Brake type, gear count, tire pressure, and drivetrain wear not clearly visible",
+      "Condition of hidden bearings, bottom bracket, headset, or internal cable routing not visible",
+      "Whether components are original, replaced, or functional cannot be established"
+    ],
+    "next_steps": [
+      "Take closer daylight photos of head badge, chain, brakes, and tire sidewalls if identification is needed",
+      "Visually check for frame cracks, loose fasteners, and tire inflation without riding or disassembling"
+    ],
+    "safety_notes": [
+      "Do not assume roadworthiness; rust, wear and unknown maintenance require professional inspection before use",
+      "Avoid test riding, inflating to pressure, or adjusting mechanisms based only on photos",
+      "Bench occupant and surroundings are not the subject; no inference about person should be made"
+    ]
+  },
+  "meta": {
+    "requestId": "2082b7a9-207f-40ef-8589-f6a3c1d85756",
+    "provider": "Baseten",
+    "model": "meta-models/muse-spark-open-1026",
+    "durationMs": 15340,
+    "analyzedAt": "2026-10-28T11:55:23.754Z",
+    "usage": {
+      "inputTokens": 1628,
+      "outputTokens": 2669,
+      "totalTokens": 4297
+    }
+  }
+}
