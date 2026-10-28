@@ -25,5 +25,23 @@
     "license": "CC0",
     "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
     "author": "Photo by Aaron Burden on Unsplash"
+  },
+  {
+    "title": "File:Empty Chairs.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Empty_Chairs.jpg/960px-Empty_Chairs.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "author": "Kullatan Kin",
+    "page": "https://commons.wikimedia.org/wiki/File:Empty_Chairs.jpg",
+    "id": "furniture"
+  },
+  {
+    "title": "File:ComputerMouseCloseup.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/ComputerMouseCloseup.jpg/960px-ComputerMouseCloseup.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "author": "Raysonho @ Open Grid Scheduler / Grid Engine",
+    "page": "https://commons.wikimedia.org/wiki/File:ComputerMouseCloseup.jpg",
+    "id": "electronics"
   }
 ]

@@ -4,7 +4,7 @@ import sharp from 'sharp';
 import {scanResultSchema} from '../lib/analysis.ts';
 if(!process.argv.includes('--live'))throw Error('Pass --live to spend credits on three curated scans.');
 const sources=JSON.parse(await readFile('public/demos/sources.json','utf8'));
-const manifest=[];
+const manifest=JSON.parse(await readFile('public/demos/manifest.json','utf8')).filter(entry=>!['fan','bicycle','compass'].includes(entry.id));
 for(const [id,label,sourceId] of [['fan','The desk fan','fan'],['bicycle','The bicycle','bicycle'],['compass','The compass','clock']]){
  const bytes=await readFile(`public/demos/${id}.jpg`),{width,height}=await sharp(bytes).metadata();
  const form=new FormData();form.set('consent','true');form.set('context','Explain the main foreground object. Distinguish visible evidence from inferred hidden mechanisms. Do not assume specifications.');form.append('images',new Blob([bytes],{type:'image/jpeg'}),`${id}.jpg`);

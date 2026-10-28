@@ -19,6 +19,8 @@ Open http://localhost:3000. Production: `npm run build` then `npm start`. Restar
 
 The [Blueprint Studio update](docs/BLUEPRINT_STUDIO.md) adds graphite drawings, local photo/edge studies and a larger evidence workspace. Edge traces show image contrast, not recovered geometry.
 
+The [engineering dossier update](docs/ENGINEERING_DOSSIER.md) adds generated construction stages, craft-model projects, downloadable assembly studies and tab-memory reuse. The recorded fan includes a free dossier preview.
+
 ## Current experience
 
 - Up to three normalized JPEG/PNG photos or camera captures, reviewed before explicit provider consent.
@@ -26,7 +28,7 @@ The [Blueprint Studio update](docs/BLUEPRINT_STUDIO.md) adds graphite drawings, 
 - Linked inspector, filters/search, relationship map, local marker edits and conceptual SVG blueprints with themes, expansion and downloads.
 - Functional diagrams and a separate app-authored LED circuit with ideal switch/current behavior.
 - Consented Meta-generated paper/cardboard analogues and scan-grounded follow-up questions.
-- Recorded real fan, bicycle and compass analyses: opening uses no new inference credits.
+- Recorded real fan, bicycle, compass, furniture and mouse analyses: opening uses no new inference credits.
 - Prepared procedural 3D fan, shaders, reduced-motion handling and static WebGL fallback.
 
 This is an explanation and learning prototype. It does not recover hidden wiring, reconstruct arbitrary objects into CAD, measure dimensions, verify materials or diagnose faults. The 3D fan is handcrafted. Blueprints are conceptual and not to scale. Errors never substitute a recorded result.
@@ -74,7 +76,7 @@ See [release audit](docs/RELEASE_AUDIT.md), [evaluation](docs/EVALUATION.md), [t
 
 ## Attribution
 
-Existing MIT license retained; see LICENSE. Geist uses its bundled SIL Open Font License. Dependencies retain their respective licenses. Fan geometry, shaders and SVG templates are original app code. CC0 photos: fan — Crawdad Blues; bicycle — Shams948; compass — Aaron Burden / Unsplash. [Exact source pages and license metadata](public/demos/sources.json) are also linked in results. No external 3D reconstruction code or assets are included.
+Existing MIT license retained; see LICENSE. Geist uses its bundled SIL Open Font License. Dependencies retain their respective licenses. Fan geometry, shaders and SVG templates are original app code. CC0 photos: fan — Crawdad Blues; bicycle — Shams948; compass — Aaron Burden / Unsplash; furniture — Kullatan Kin; mouse — Raysonho / Open Grid Scheduler. [Exact source pages and license metadata](public/demos/sources.json) are also linked in results. No external 3D reconstruction code or assets are included.
 
 The current fresh implementation was built during the hackathon on October 28, 2026. Earlier Git history remains; identify the new features and commits in the demo.
 

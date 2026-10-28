@@ -37,5 +37,31 @@
       "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
     },
     "analyzedAt": "2026-10-28T11:55:39.591Z"
+  },
+  {
+    "id": "furniture",
+    "label": "The cafe table & chairs",
+    "width": 960,
+    "height": 1188,
+    "source": {
+      "page": "https://commons.wikimedia.org/wiki/File:Empty_Chairs.jpg",
+      "author": "Kullatan Kin",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    "analyzedAt": "2026-10-28T12:27:03.505Z"
+  },
+  {
+    "id": "electronics",
+    "label": "The computer mouse",
+    "width": 960,
+    "height": 640,
+    "source": {
+      "page": "https://commons.wikimedia.org/wiki/File:ComputerMouseCloseup.jpg",
+      "author": "Raysonho @ Open Grid Scheduler / Grid Engine",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    "analyzedAt": "2026-10-28T12:27:30.295Z"
   }
 ]

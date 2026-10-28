@@ -2,7 +2,7 @@
 import {useEffect,useRef,useState} from 'react';
 import {ArrowUpRight} from 'lucide-react';
 import {scanResultSchema,type ScanView} from '../lib/analysis';
-const examples=[['fan','01 / AIR & MOTION','The desk fan'],['bicycle','02 / MOTION & TRANSMISSION','The bicycle'],['compass','03 / DIRECTION & MAGNETISM','The compass']];
+const examples=[['fan','01 / AIR & MOTION','The desk fan'],['bicycle','02 / MOTION & TRANSMISSION','The bicycle'],['compass','03 / DIRECTION & MAGNETISM','The compass'],['furniture','04 / STRUCTURE & SUPPORT','The cafe table & chairs'],['electronics','05 / INPUT & ELECTRONICS','The computer mouse']];
 type Entry={id:string;width:number;height:number;source:{page:string;author:string;license:string}};
 export default function DemoGallery({onResult}:{onResult:(scan:ScanView)=>void}){
  const [loading,setLoading]=useState(''),[error,setError]=useState('');const pending=useRef<AbortController|null>(null);

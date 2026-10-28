@@ -1,0 +1,6 @@
+import type {LearningResponse} from './learning.ts';
+export type LearningDraft={recorded?:boolean;lesson:LearningResponse|null;answers:{question:string;result:LearningResponse}[];completed:number[]};
+// Tab-memory only. No photos, localStorage, server persistence or cross-user cache.
+const drafts=new Map<string,LearningDraft>();
+export function getLearningDraft(id:string){return drafts.get(id)}
+export function saveLearningDraft(id:string,draft:LearningDraft){drafts.delete(id);drafts.set(id,draft);while(drafts.size>6)drafts.delete(drafts.keys().next().value!)}
