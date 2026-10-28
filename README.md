@@ -186,3 +186,5 @@ Set `AXE_PATH` to a local axe-core script to include WCAG checks. These tests
 use injected results and are not recognition or reconstruction benchmarks.
 
 Bench validation: `npm run test:bench` uses injected fixtures, including save/restore and exports. The actual Baseten investigation check used synthetic inputs; see docs/BENCH_LIVE_RESULT.json. No physical experiment is claimed.
+
+Public app: https://realitylab.onrender.com. Actual hosted real-photo and preparation results, plus current Modal access status, are documented in [REAL_WORLD_USE.md](docs/REAL_WORLD_USE.md).

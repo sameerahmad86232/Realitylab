@@ -2,13 +2,15 @@
 
 Public app: https://realitylab.onrender.com
 
+Latest code deployment `edcc24c` was reported successful by the GitHub deployment integration, and the hosted preparation endpoint was independently tested afterward.
+
 ## Verified hosted behavior
 
 On October 28, 2026, the public HTTPS app passed the HTTP smoke check: page, health, deterministic numerical tool and foreign-origin rejection. Its Baseten analysis configuration was present. A subsequent **actual hosted image request**, using the attributed real clothespin photograph below, returned HTTP 200 in 24.119 seconds, object name “Wooden spring clothespin,” eight suggested observations and four approximate component shapes. The hosted health endpoint then reported `liveVerified: true` for that process. These timings are individual observations, not latency guarantees.
 
 Source: [Clothespin&Co.jpg](https://commons.wikimedia.org/wiki/File:Clothespin%26Co.jpg), Marmotoons, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). It depicts a pile of real spring clothespins. The model scoped its description to a representative top-center pin; individual markers, connections and shapes still require review. The photo is not bundled in this repository. The photo-free final response is in [validation/PUBLIC_REAL_PHOTO.json](validation/PUBLIC_REAL_PHOTO.json).
 
-A second genuine Meta call tested the new preparation endpoint with these descriptions. It returned HTTP 200 in 5.19 seconds and correctly declined the ideal lever model: a clothespin’s unmeasured torsion spring is outside that solver. It did not invent numerical measurements. This call used the current local server; the final hosted preparation check is recorded separately after deployment. See [validation/REAL_PHOTO_PREPARATION.json](validation/REAL_PHOTO_PREPARATION.json).
+A second genuine Meta call tested the new preparation endpoint with these descriptions. It returned HTTP 200 in 5.19 seconds and correctly declined the ideal lever model: a clothespin’s unmeasured torsion spring is outside that solver. It did not invent numerical measurements. This first preparation call used the current local server. After Render reported deployment success for `edcc24c`, the same preparation flow was verified on the public app: HTTP 200 in 5.684 seconds, again unsupported, with no numerical setup invented. See [validation/PUBLIC_PREPARATION.json](validation/PUBLIC_PREPARATION.json). See [validation/REAL_PHOTO_PREPARATION.json](validation/REAL_PHOTO_PREPARATION.json).
 
 ## Real-use flow
 
