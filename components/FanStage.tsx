@@ -2,11 +2,11 @@
 import { useEffect, useRef, useState } from 'react';
 import type { BufferGeometry, Group, Material } from 'three';
 import { Expand, Layers3, Rotate3D, Pause, Play } from 'lucide-react';
-export default function FanStage() {
+export default function FanStage({active=true}:{active?:boolean}) {
  const host = useRef<HTMLDivElement>(null);
  const [explode,setExplode] = useState(false), [motion,setMotion] = useState(true), [error,setError]=useState(false);
- const state = useRef({explode:false,motion:true}),invalidate=useRef(()=>{});
- useEffect(()=>{state.current={explode,motion};invalidate.current()},[explode,motion]);
+ const state = useRef({explode:false,motion:true,active}),invalidate=useRef(()=>{});
+ useEffect(()=>{state.current={explode,motion,active};invalidate.current()},[explode,motion,active]);
  useEffect(()=>{
   let cleanup=()=>{}, cancelled=false;
   (async()=>{
@@ -46,7 +46,7 @@ export default function FanStage() {
     const hub=mesh(new T.SphereGeometry(.22,32,24),chrome,front);hub.scale.z=.5;hub.position.z=.55;
     const motor=mesh(new T.CylinderGeometry(.37,.37,.55,48),dark,back);motor.rotation.x=Math.PI/2;motor.position.z=-.48;
     let frame=0,phase=0,last=0,inView=true,hasSize=false,dirty=true;const reduced=matchMedia('(prefers-reduced-motion: reduce)');if(reduced.matches)setMotion(false);
-    const visible=()=>!cancelled&&!document.hidden&&inView&&hasSize&&!renderer.getContext().isContextLost();
+    const visible=()=>state.current.active&&!cancelled&&!document.hidden&&inView&&hasSize&&!renderer.getContext().isContextLost();
     const schedule=()=>{if(!frame&&visible())frame=requestAnimationFrame(render)};
     const wake=()=>{dirty=true;last=0;if(!visible()){cancelAnimationFrame(frame);frame=0}else schedule()};invalidate.current=wake;
     const render=(now:number)=>{frame=0;if(!visible())return;if(now-last<32&&!dirty){schedule();return}const dt=last?Math.min((now-last)/1000,.05):0;last=now;const target=state.current.explode?1:0;phase=reduced.matches?target:phase+(target-phase)*.14;if(Math.abs(target-phase)<.001)phase=target;front.position.z=phase*.95;back.position.z=-phase*.65;rotor.position.z=phase*.15;const spinning=state.current.motion&&!reduced.matches;if(spinning)rotor.rotation.z+=dt*.5;const moving=controls.update();renderer.render(scene,camera);dirty=false;if(spinning||phase!==target||moving)schedule()};

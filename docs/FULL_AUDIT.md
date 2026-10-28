@@ -49,3 +49,5 @@ No new paid Meta/Baseten inference or Modal GPU job was needed for this audit. E
 ## Subsequent follow-up
 
 The [mobile and output resilience pass](RESILIENCE_AUDIT.md) adds phone navigation, offline request controls, preview-status corrections and long-label/export checks. The expanded validation now includes 40 API/unit/learning checks and nine browser suites.
+
+The [guided showcase](GUIDED_DEMO.md) subsequently adds a four-chapter recorded demonstration and a tenth browser suite, with focus/error/reduced-motion and background-rendering checks.

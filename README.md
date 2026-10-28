@@ -23,6 +23,8 @@ The [engineering dossier update](docs/ENGINEERING_DOSSIER.md) adds generated con
 
 The [Visual Atlas](docs/VISUAL_ATLAS.md) includes original generated editorial artwork, workflow icons, SVG accents and reduced-motion-aware interactions.
 
+The [guided product showcase](docs/GUIDED_DEMO.md) provides a four-chapter recorded tour from the homepage’s “See it in action” button.
+
 ## Current experience
 
 - Up to three normalized JPEG/PNG photos or camera captures, reviewed before explicit provider consent.
@@ -72,6 +74,7 @@ npm run test:learn-ui
 npm run test:demos
 npm run test:audit
 npm run test:resilience
+npm run test:theater
 ```
 
 Browser suites use fixtures and make no paid calls. GitHub Actions checks without secrets. The opt-in `node --use-env-proxy --use-system-ca scripts/curate-demos.mjs --live` makes three paid scans without automatic retry and overwrites saved examples. They do not need regeneration for normal use.
