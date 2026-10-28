@@ -34,3 +34,9 @@ node --use-env-proxy --use-system-ca scripts/validate-live.mjs --live
 ```
 
 Set `VALIDATE_ORIGIN` to the deployed app to test its server. The script writes source attribution and a photo-free response under `/tmp/artifacts/phase-3/`; the downloaded public test photo is a separate local file.
+
+## Scan response contract correction
+
+The API previously spread its internal provider result into the HTTP response, adding a top-level `usage` field alongside `analysis` and `meta`. The frontend's strict schema intentionally allowed only `analysis` and `meta`, so even a successful model response could be rejected after inference. The handler now explicitly builds and validates that exact public envelope before marking a scan successful. Usage appears only in `meta.usage`.
+
+The API regression test validates the serialized handler response against the frontend schema, and `npm run test:server-envelope` renders the real handler output unmodified in the React client. Provider calls are mocked in these tests. The opt-in live validation script now requires frontend-schema acceptance, not just HTTP 200. `scripts/validate-public-ui.mjs --live` verifies the public site's actual React scan flow through verified Node HTTPS transport, using one paid inference request and the attributed CC0 mouse test photo.

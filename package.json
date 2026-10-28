@@ -13,7 +13,8 @@
     "test:live-ui": "node tests/live-ui.mjs",
     "test:exploration": "node tests/exploration.mjs",
     "test:unit": "node --experimental-strip-types --test tests/exploration.test.ts tests/blueprint.test.ts",
-    "test:blueprint": "node tests/blueprint.mjs"
+    "test:blueprint": "node tests/blueprint.mjs",
+    "test:server-envelope": "node tests/server-envelope.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

@@ -1,6 +1,7 @@
 import sharp from 'sharp';
 import {randomUUID} from 'node:crypto';
 import {analyzePhotos,configuration,ScanError} from './provider.ts';
+import {scanResultSchema} from '../analysis.ts';
 type ScanState={active:number;hour:number;hourCount:number;lastSuccess:string|null;requests:Map<string,{start:number;count:number}>};
 const globalScan=globalThis as typeof globalThis & {__realitylabScanState?:ScanState};
 export const scanState=globalScan.__realitylabScanState??=( {active:0,hour:0,hourCount:0,lastSuccess:null,requests:new Map()} );
@@ -54,9 +55,11 @@ export async function handleScan(request:Request){
  stage='normalization';const images:string[]=[];for(const file of files){signal.throwIfAborted();images.push(await normalize(file as File))}
  signal.throwIfAborted();scanState.hourCount++;
  stage='inference';const result=await analyzePhotos(images,context,signal);signal.throwIfAborted();
- const analyzedAt=new Date().toISOString(),durationMs=Date.now()-start;scanState.lastSuccess=analyzedAt;
+ const analyzedAt=new Date().toISOString(),durationMs=Date.now()-start;
+ const payload=scanResultSchema.parse({analysis:result.analysis,meta:{requestId,provider:configuration().provider,model:configuration().model,durationMs,analyzedAt,usage:result.usage}});
+ scanState.lastSuccess=analyzedAt;
  console.info(JSON.stringify({event:'scan_complete',requestId,durationMs,photoCount:images.length,model:configuration().model,tokens:result.usage.totalTokens}));
- return json({...result,meta:{requestId,provider:configuration().provider,model:configuration().model,durationMs,analyzedAt,usage:result.usage}});
+ return json(payload);
  }catch(error){
  const aborted=request.signal.aborted;const timeout=error instanceof Error&&['TimeoutError','AbortError'].includes(error.name);
  const status=error instanceof ScanError?error.status:aborted?499:timeout?504:502;
