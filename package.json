@@ -12,7 +12,8 @@
     "test:api": "node --experimental-strip-types --test tests/scan-api.test.ts",
     "test:live-ui": "node tests/live-ui.mjs",
     "test:exploration": "node tests/exploration.mjs",
-    "test:unit": "node --experimental-strip-types --test tests/exploration.test.ts"
+    "test:unit": "node --experimental-strip-types --test tests/exploration.test.ts tests/blueprint.test.ts",
+    "test:blueprint": "node tests/blueprint.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

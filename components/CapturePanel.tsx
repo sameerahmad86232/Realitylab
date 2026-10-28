@@ -39,7 +39,7 @@ export default function CapturePanel({active,onHome,onSample,onResult,onChange}:
   running.current=true;const id=++attempt.current;const controller=new AbortController();abort.current=controller;setAnalyzing(true);setElapsed(0);setErrors([]);setMessage('Sending prepared photos to Baseten. Analysis usually takes a few moments.');
   const timeout=setTimeout(()=>controller.abort(),90_000);
   try{
-   const snapshot=current.current.map(p=>({id:p.id,url:p.url}));
+   const snapshot=current.current.map(p=>({id:p.id,url:p.url,width:p.width,height:p.height}));
    const form=new FormData();current.current.forEach((p,i)=>form.append('images',p.file,`view-${i+1}.jpg`));form.append('consent','true');form.append('context',context);
    const response=await fetch('/api/scan',{method:'POST',body:form,signal:controller.signal});
    let body;try{body=await response.json()}catch{throw Error('The service returned an unreadable response. Your photos are preserved. Please retry.')}

@@ -56,3 +56,9 @@ See [Phase 3 engineering and validation](docs/PHASE3.md). Additional checks: `np
 Live results include a keyboard-accessible relationship map, synchronized component/photo/working-principle selection, observed/inferred filtering and search. Model associations remain explicitly unverified. Photo markers can be corrected locally without overwriting the original analysis; export labels these corrections separately. Exploration does not make additional inference calls.
 
 See [Phase 4 behavior and evidence boundaries](docs/PHASE4.md). Checks: `npm run test:unit` and `npm run test:exploration`.
+
+## Phase 5 · Conceptual blueprints
+
+Live results now include photo-positioned SVG callouts in classic-blue and paper styles, source-view selection, zoom, linked component selection and portable download. Inferred and unlocated components stay separate; **not to scale** remains visible. Current filters and local marker adjustments carry into the diagram. It is a symbolic educational schematic, not reconstructed geometry.
+
+Exports exclude photos by default. You may explicitly embed the prepared source photo in the SVG you download. No additional AI request is needed. See [Phase 5 semantics, privacy and validation](docs/PHASE5.md). Checks: `npm run test:unit` and `npm run test:blueprint`.
