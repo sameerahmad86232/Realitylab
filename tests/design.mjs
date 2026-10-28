@@ -12,6 +12,7 @@ await context.route('**/api/scan',route=>route.fulfill({status:503,json:{error:{
 await page.goto(process.env.TEST_ORIGIN||'http://localhost:3000');
 await page.getByRole('heading',{name:'See beyond the surface.'}).waitFor();
 await page.locator('.stage-canvas canvas').waitFor();
+const workflow=page.getByRole('group',{name:'Explore the product workflow'});await workflow.getByRole('button',{name:/Make/}).click();await page.getByText('Turn understanding into a project.',{exact:true}).waitFor();assert.equal(await workflow.getByRole('button',{name:/Make/}).getAttribute('aria-pressed'),'true');await workflow.getByRole('button',{name:/Observe/}).click();await page.locator('.atlas-art img').scrollIntoViewIfNeeded();await page.waitForFunction(()=>document.querySelector('.atlas-art img')?.naturalWidth>0);
 await page.waitForTimeout(1200);
 await page.screenshot({path:`${out}/landing-desktop.png`,fullPage:true});
 await page.getByRole('button',{name:'Explode',exact:true}).click();
@@ -36,7 +37,7 @@ for(const screen of ['capture','home','explore']){
  for(const width of [1440,390,320]){await page.setViewportSize({width,height:900});await page.waitForTimeout(150);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`${screen} overflow at ${width}`);if(width===390)await page.screenshot({path:`${out}/${screen}-mobile.png`,fullPage:true});}
  const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(axe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[],`${screen} accessibility`);
 }
-await page.emulateMedia({reducedMotion:'reduce'});await page.reload();await page.locator('.stage-canvas canvas').waitFor();await page.getByRole('button',{name:'Play model animation'}).waitFor();
+await page.emulateMedia({reducedMotion:'reduce'});await page.reload();await page.locator('.stage-canvas canvas').waitFor();await page.getByRole('button',{name:'Play model animation'}).waitFor();assert.equal(await page.locator('.atlas-art img').evaluate(e=>getComputedStyle(e).animationName),'none','Generated artwork respects reduced motion');
 await context.grantPermissions(['camera'],{origin:process.env.TEST_ORIGIN||'http://localhost:3000'});
 await page.getByRole('button',{name:'Scan object',exact:true}).click();await page.getByRole('button',{name:'Use camera',exact:true}).click();await page.getByRole('dialog').waitFor();await page.waitForFunction(()=>{const v=document.querySelector('video');return v&&v.videoWidth>0});await page.getByRole('button',{name:'Take photo',exact:true}).click();await page.getByRole('button',{name:'Use photo',exact:true}).click();await page.locator('.previews img').waitFor();assert.equal(await page.getByRole('dialog').count(),0);
 await context.clearPermissions();await context.grantPermissions([],{origin:process.env.TEST_ORIGIN||'http://localhost:3000'});

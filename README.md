@@ -21,6 +21,8 @@ The [Blueprint Studio update](docs/BLUEPRINT_STUDIO.md) adds graphite drawings, 
 
 The [engineering dossier update](docs/ENGINEERING_DOSSIER.md) adds generated construction stages, craft-model projects, downloadable assembly studies and tab-memory reuse. The recorded fan includes a free dossier preview.
 
+The [Visual Atlas](docs/VISUAL_ATLAS.md) includes original generated editorial artwork, workflow icons, SVG accents and reduced-motion-aware interactions.
+
 ## Current experience
 
 - Up to three normalized JPEG/PNG photos or camera captures, reviewed before explicit provider consent.
