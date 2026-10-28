@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
+import { handleTabKeys } from "../../lib/accessibleTabs";
 import {
   Box,
   Play,
@@ -379,11 +380,13 @@ export default function ScanExperience({
       <div
         role="tablist"
         aria-label="Scanned object exploration"
+        onKeyDown={handleTabKeys}
         className="scan-experience-tabs"
       >
         <button
           role="tab"
           aria-selected={tab === "model"}
+          tabIndex={tab === "model" ? 0 : -1}
           onClick={() => setTab("model")}
         >
           <Box size={15} /> 3D concept
@@ -391,6 +394,7 @@ export default function ScanExperience({
         <button
           role="tab"
           aria-selected={tab === "operation"}
+          tabIndex={tab === "operation" ? 0 : -1}
           onClick={() => setTab("operation")}
         >
           <Play size={15} /> How it works
@@ -398,6 +402,7 @@ export default function ScanExperience({
         <button
           role="tab"
           aria-selected={tab === "create"}
+          tabIndex={tab === "create" ? 0 : -1}
           onClick={() => setTab("create")}
         >
           <Layers3 size={15} /> Make a study model

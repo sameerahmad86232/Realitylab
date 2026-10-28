@@ -1,0 +1,138 @@
+/* Audit pass: readable type, a clear primary task, and accessible controls. */
+:root { --font-body: 'DM Sans Variable', sans-serif; --serif: 'Newsreader Variable', Georgia, serif; }
+html { scroll-padding-top: 24px; }
+.skip-link { position: fixed; top: 12px; left: 12px; z-index: 100; padding: 14px 20px; border-radius: 8px; background: #244738; color: white; transform: translateY(-180%); }
+.skip-link:focus { transform: translateY(0); }
+.site-header { height: 84px; }
+.nav-links { font-size: 14px; }
+.nav-links a { padding-block: 12px; }
+.mobile-menu { min-width: 44px; min-height: 44px; }
+.field-hero.luminous-hero { min-height: 610px; padding-block: 38px; }
+.luminous-hero h1 { font-size: clamp(56px, 5.8vw, 84px); width: auto; letter-spacing: -.06em; }
+.luminous-hero .field-hero-copy > p { max-width: 37ch; font-size: 18px; line-height: 1.65; }
+.field-hero-footnote p, .field-chair figcaption p { font-size: 12px; line-height: 1.5; }
+.luminous-hero .shader-toggle { font-size: 11px; min-height: 36px; }
+.studio-section { margin-top: 48px; padding-top: 48px; background: #f7f9f5; }
+.studio-section .section-heading { align-items: center; }
+.studio-caption { margin-bottom: 24px; }
+.studio-caption p { font-size: 18px; }
+.studio-caption > span { font-size: 14px; }
+.studio-mode-tabs { gap: 8px; }
+.studio-mode-tabs button { font-size: 14px; min-height: 52px; padding: 14px 18px; }
+.studio-mode-tabs button span { font-size: 11px; letter-spacing: .03em; }
+.mechanism-lab { border: 1px solid #d5e1d6; box-shadow: 0 12px 40px #1f382508; }
+.lab-intro { padding: 26px 30px; }
+.lab-intro h3 { font-size: 34px; }
+.lab-intro p { font-size: 15px; line-height: 1.65; }
+.lab-mode-badge { font-size: 11px; line-height: 1.6; }
+.lab-service { padding: 14px 24px; gap: 12px; background: #edf3ed; }
+.lab-service p { font-size: 13px; line-height: 1.6; }
+.lab-service .quiet-button { font-size: 12px; min-height: 40px; flex-shrink: 0; }
+.lab-panel-heading p, .lab-help, .lab-check { font-size: 14px; line-height: 1.65; }
+.lab-upload p { font-size: 15px; line-height: 1.65; }
+.lab-upload small { font-size: 11px; }
+.capture-guide summary, .capture-guide p, .capture-guide li { font-size: 13px; line-height: 1.65; }
+.capture-guide summary { min-height: 44px; padding-block: 10px; }
+.mechanism-lab .lab-label { font-size: 14px; }
+.lab-label input, .lab-label select, .lab-label textarea,
+.model-studio input, .model-studio select, .scan-part-inspector input, .scan-part-inspector select { font-size: 16px; }
+.button-lime, .quiet-button { font-size: 14px; min-height: 44px; }
+.manual-invitation p, .manual-invitation button, .object-promise p, .object-promise strong, .physics-bench p, .physics-bench button { font-size: 13px; line-height: 1.65; }
+.object-category-grid button { min-height: 80px; font-size: 14px; }
+.analysis-progress { margin-top: 14px; padding: 16px; border: 1px solid #c6d9cc; border-radius: 10px; background: #edf4ed; }
+.analysis-progress strong { font-size: 14px; color: #284c38; }
+.analysis-progress p { margin: 6px 0 0; font-size: 13px; line-height: 1.65; }
+.sample-scope-note { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 20px 24px; margin-bottom: 16px; border: 1px solid #d5dfd2; border-radius: 12px; background: #fff; }
+.sample-scope-note strong { color: #294b39; font-size: 16px; }
+.sample-scope-note p { flex: 1 1 280px; font-size: 14px; line-height: 1.6; margin: 0; }
+.process-section { padding-block: 52px; margin-top: 64px; }
+.process-illustration { height: 130px; }
+.process-card > p { font-size: 16px; line-height: 1.65; }
+.process-card .card-tag { font-size: 11px; }
+.field-catalog { padding-block: 48px; }
+.field-study-caption p { font-size: 14px; }
+.field-catalog-note, .field-section-line > a { font-size: 13px; }
+.field-evidence-intro { display: none; } /* Duplicate introduction; hero and workspace explain the task. */
+.about-asterisk { display: none; } /* Large decorative glyph overlapped copy at narrow widths. */
+.about-section { padding: 40px; }
+.site-footer p, .site-footer > a:last-child { font-size: 12px; line-height: 1.6; }
+.scan-model-parts button { font-size: 13px; min-height: 44px; }
+.scan-model-parts small { font-size: 11px; }
+.scan-experience-tabs button { font-size: 13px; min-height: 44px; }
+.scan-model-notice p, .scan-part-evidence p, .scan-part-assumptions li, .scan-guide-columns li, .scan-guide-label { font-size: 13px; line-height: 1.65; }
+.scan-model-tools label { font-size: 13px; }
+@media (max-width: 800px) {
+ .studio-mode-tabs { flex-wrap: wrap; }
+ .studio-mode-tabs button { flex: 1 1 180px; justify-content: center; }
+ .studio-mode-tabs button span { display: none; }
+ .lab-service { align-items: flex-start; flex-wrap: wrap; }
+ .lab-service p { flex-basis: calc(100% - 30px); }
+ .lab-service .quiet-button { margin-left: 20px; }
+ .scan-experience-tabs { flex-wrap: wrap; }
+ .scan-experience-tabs button { flex: 1 1 auto; }
+ .scan-model-tools > div { display: flex; flex-wrap: wrap; gap: 8px; }
+}
+@media (max-width: 600px) {
+ .site-header { height: 72px; padding-inline: 20px; }
+ .nav-cta { font-size: 12px; padding: 12px; min-height: 44px; }
+ .wordmark { font-size: 22px; }
+ .wordmark > span { display: none; }
+ .field-hero.luminous-hero { min-height: 0; margin: 16px 16px 0; padding: 28px 24px; gap: 8px; }
+ .luminous-hero .field-hero-copy { padding: 0; }
+ .luminous-hero .field-kicker { font-size: 10px; margin-bottom: 20px; line-height: 1.6; }
+ .luminous-hero h1 { font-size: clamp(44px, 11.6vw, 64px); margin-bottom: 18px; }
+ .luminous-hero .field-hero-copy > p { font-size: 16px; margin-bottom: 20px; }
+ .luminous-hero .field-primary { font-size: 14px; min-height: 48px; }
+ .field-hero-footnote { display: none; }
+ .luminous-hero .field-chair { height: 260px; min-height: 0; margin-top: 8px; }
+ .luminous-hero .field-chair img { max-height: 260px; }
+ .field-chair figcaption { display: none; }
+ .luminous-object-label, .luminous-part-label, .field-image-disclosure { font-size: 9px; }
+ .luminous-hero .shader-toggle { font-size: 10px; }
+ .studio-section { margin-top: 32px; padding: 32px 16px; }
+ .studio-section .section-heading h2 { font-size: 34px; line-height: 1.15; }
+ .studio-section .prototype-badge { display: none; }
+ .studio-caption p { font-size: 16px; }
+ .studio-caption > span { font-size: 14px; }
+ .studio-mode-tabs button { flex-basis: calc(50% - 8px); font-size: 13px; padding: 12px 8px; }
+ .lab-intro { padding: 22px 18px; }
+ .lab-intro h3 { font-size: 29px; }
+ .lab-intro p { font-size: 14px; }
+ .lab-mode-badge { font-size: 10px; }
+ .lab-service { padding: 14px 18px; }
+ .lab-service .quiet-button { font-size: 12px; }
+ .lab-panel { padding: 20px 16px; }
+ .lab-panel-heading h4, .lab-upload h5 { font-size: 24px; }
+ .lab-panel-heading p { font-size: 14px; }
+ .lab-upload { padding: 24px 16px; }
+ .lab-upload p { font-size: 14px; }
+ .lab-label textarea { min-height: 110px; }
+ .capture-actions { flex-wrap: wrap; }
+ .capture-actions button { min-height: 46px; }
+ .manual-invitation { flex-wrap: wrap; padding: 16px; }
+ .manual-invitation > div { min-width: 0; flex-basis: calc(100% - 40px); }
+ .manual-invitation button { min-height: 44px; }
+ .process-section { margin-top: 32px; padding: 32px 20px; }
+ .process-illustration { height: 90px; }
+ .process-card { padding: 24px; }
+ .process-card > p { font-size: 15px; }
+ .field-catalog { padding: 32px 20px; }
+ .field-study-caption p { font-size: 14px; }
+ .field-guide { padding: 32px 20px; }
+ .field-questions summary { font-size: 15px; min-height: 48px; }
+ .field-questions p { font-size: 14px; }
+ .about-section { margin-inline: 20px; padding: 28px 24px; }
+ .about-section h2 { font-size: 34px; }
+ .about-section p { font-size: 15px; }
+ .site-footer { flex-wrap: wrap; gap: 20px; padding: 28px 20px; }
+ .site-footer p { font-size: 12px; }
+ .sample-scope-note { padding: 18px; }
+ .scan-experience-tabs button { font-size: 12px; }
+}
+.luminous-hero .motion-control { font-size: 12px; min-height: 44px; }
+.luminous-hero .field-chair figcaption p { font-size: 12px; }
+.physics-bench-content > button { font-size: 14px; }
+@media (max-width: 600px) {
+ .luminous-hero .field-chair figcaption { display: none; }
+ .luminous-hero .motion-control { font-size: 11px; min-height: 40px; }
+}

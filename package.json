@@ -16,13 +16,14 @@
     "validate:photos": "node --use-env-proxy --use-system-ca --env-file-if-exists=.env scripts/validate-photos.mjs",
     "test:shader": "node tests/shader-browser.mjs",
     "test:camera-cad": "node tests/camera-cad-browser.mjs",
-    "test:scan": "node tests/scan-browser.mjs"
+    "test:scan": "node tests/scan-browser.mjs",
+    "test:ui-audit": "node tests/ui-audit-browser.mjs"
   },
   "dependencies": {
     "express": "^5.1.0",
     "express-rate-limit": "^8.1.0",
     "multer": "^2.0.2",
-    "sharp": "^0.34.4",
+    "sharp": "^0.35.5",
     "zod": "^4.1.12"
   },
   "devDependencies": {

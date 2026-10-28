@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import { ArrowUpRight, ArrowRight, Plus } from "lucide-react";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
 import ShaderAtmosphere from "./ShaderAtmosphere";
-import chair from "../assets/field-guide-chair.png";
-import objects from "../assets/field-guide-objects.png";
+import chair from "../assets/field-guide-chair.webp";
+import objects from "../assets/field-guide-objects.webp";
 const studies = [
   {
     title: "Articulated lamp",
@@ -40,7 +40,7 @@ export default function FieldGuideHero({ onExplore }) {
             <br />
             <em>the surface.</em>
           </h1>
-          <p>A photo. A question. A different way of seeing.</p>
+          <p>Turn object photos into an interactive 3D concept. Explore the parts, understand their roles, and plan a study model.</p>
           <a href="#studio" className="field-primary" onClick={onExplore}>
             Explore an object <ArrowRight size={18} />
           </a>
@@ -58,6 +58,8 @@ export default function FieldGuideHero({ onExplore }) {
             src={chair}
             alt="AI-generated editorial study of an original walnut bentwood chair, isolated on warm ivory"
             fetchPriority="high"
+            width="1024"
+            height="1536"
           />
           <div className="luminous-object-label" aria-hidden="true">
             <span /> FORM / 001
@@ -78,6 +80,14 @@ export default function FieldGuideHero({ onExplore }) {
           </span>
         </figure>
       </section>
+    </>
+  );
+}
+FieldGuideHero.propTypes = { onExplore: PropTypes.func.isRequired };
+
+export function FieldGuideStories({ onExplore }) {
+  return (
+    <>
       <section
         className="field-catalog"
         id="objects"
@@ -125,44 +135,8 @@ export default function FieldGuideHero({ onExplore }) {
           A few starting points. Bring a photo of your own object to begin.
         </p>
       </section>
-      <section
-        className="field-evidence-intro"
-        aria-labelledby="field-evidence-title"
-      >
-        <div className="field-section-line">
-          <div>
-            <span>03</span>
-            <h2 id="field-evidence-title">
-              A clearer picture begins with a question
-            </h2>
-          </div>
-        </div>
-        <div className="field-evidence-columns">
-          <article>
-            <span className="field-small-number">I.</span>
-            <h3>What you can see</h3>
-            <p>
-              Explore visible parts, their suggested roles, and how they
-              connect. Keep the photo close and the evidence closer.
-            </p>
-            <a href="#studio" onClick={onExplore}>
-              Upload your photo <ArrowRight size={16} />
-            </a>
-          </article>
-          <article>
-            <span className="field-small-number">II.</span>
-            <h3>What is still unknown</h3>
-            <p>
-              A hidden joint. An unfamiliar shape. A connection that needs
-              another view. A useful question is part of the discovery.
-            </p>
-            <span className="field-note-example">
-              <Plus size={13} /> Your observations belong here.
-            </span>
-          </article>
-        </div>
-      </section>
+
     </>
   );
 }
-FieldGuideHero.propTypes = { onExplore: PropTypes.func.isRequired };
+FieldGuideStories.propTypes = { onExplore: PropTypes.func.isRequired };

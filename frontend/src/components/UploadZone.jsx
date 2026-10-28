@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
   Upload,
@@ -12,6 +12,20 @@ import {
 
 export default function UploadZone({ files, setFiles, onSelectSample }) {
   const input = useRef(null);
+  const ownedUrls = useRef(new Set());
+  useEffect(() => {
+    const urls = ownedUrls.current;
+    return () => urls.forEach((url) => URL.revokeObjectURL(url));
+  }, []);
+  useEffect(() => {
+    const active = new Set(files.map((file) => file.preview));
+    for (const url of ownedUrls.current) {
+      if (!active.has(url)) {
+        URL.revokeObjectURL(url);
+        ownedUrls.current.delete(url);
+      }
+    }
+  }, [files]);
   const [dragging, setDragging] = useState(false);
   const [error, setError] = useState("");
   function addFiles(incoming) {
@@ -30,13 +44,17 @@ export default function UploadZone({ files, setFiles, onSelectSample }) {
     );
     const additions = valid
       .slice(0, Math.max(0, 3 - files.length))
-      .map((f) => ({
+      .map((f) => {
+        const preview = URL.createObjectURL(f);
+        ownedUrls.current.add(preview);
+        return ({
         id: crypto.randomUUID(),
         name: f.name,
         size: `${(f.size / 1024).toFixed(1)} KB`,
-        preview: URL.createObjectURL(f),
+        preview,
         rawFile: f,
-      }));
+      });
+      });
     if (additions.length) setFiles((previous) => [...previous, ...additions]);
   }
   function remove(id) {

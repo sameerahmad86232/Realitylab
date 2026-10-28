@@ -56,7 +56,7 @@ export default function ObjectOverview({ analysis, onSuggest, onGearTool }) {
         <div>
           <h4>
             {analysis
-              ? "Anatomy, not assumptions."
+              ? "Visible parts. Open questions."
               : "A wider world to explore."}
           </h4>
           <p>

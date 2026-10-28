@@ -173,3 +173,12 @@ exports, editing, explanations and guides without spending credits. Separate
 live Baseten checks on public mouse, fan and chair photos returned distinct
 component concepts. One initial chair request failed; a subsequent request
 succeeded. This small check is not an accuracy benchmark.
+
+### Candid audit and current limits
+
+See [the website and hackathon audit](docs/WEBSITE_AUDIT.md) for the remaining
+geometry, factual reliability, impact, persistence, evaluation and deployment
+gaps, plus the UI/security fixes made on October 28. `npm run test:ui-audit`
+checks keyboard navigation and a scan-result flow at four viewport widths.
+Set `AXE_PATH` to a local axe-core script to include WCAG checks. These tests
+use injected results and are not recognition or reconstruction benchmarks.

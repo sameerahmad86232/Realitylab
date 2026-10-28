@@ -106,6 +106,7 @@ export default function ExperimentStudio() {
     try {
       setHealth(await api("health"));
     } catch (e) {
+      setHealth(null);
       setHealthError(e.message);
     }
   }
@@ -363,13 +364,12 @@ export default function ExperimentStudio() {
             Your world, <span>understood better.</span>
           </h3>
           <p>
-            Explore visible structure, edit a component map, and test supported
-            mechanisms with your own measurements.
+            Create a photo-linked 3D concept, explore the parts, and get an unpowered study-model guide.
           </p>
         </div>
         <span className="lab-mode-badge">
           {health?.analysis.configured
-            ? "LIVE ADAPTER CONFIGURED"
+            ? "PHOTO ANALYSIS CONFIGURED"
             : "MANUAL EXPERIMENTS AVAILABLE"}
         </span>
       </div>
@@ -377,7 +377,7 @@ export default function ExperimentStudio() {
         <span className="live-dot" />
         <p>
           {health?.analysis.configured
-            ? `Image analysis uses ${health.analysis.model}. Recognition and inferred relationships still need your review.`
+            ? "Photo analysis is configured. AI-suggested parts and geometry need your review; hidden details remain unknown."
             : healthError ||
               "Manual physics tools work without AI. Live object exploration needs the server-side Baseten key."}
         </p>
@@ -541,9 +541,13 @@ export default function ExperimentStudio() {
             />
           )}
           {busy === "analysis" && (
-            <button className="quiet-button lab-cancel" onClick={cancel}>
-              Cancel analysis
-            </button>
+            <div className="analysis-progress" role="status">
+              <strong>Waiting for the AI analysis…</strong>
+              <p>Your photos are being analyzed. Complex objects may take longer; this request times out after 90 seconds. You can cancel below.</p>
+              <button className="quiet-button lab-cancel" onClick={cancel}>
+                Cancel analysis
+              </button>
+            </div>
           )}
           <div className="manual-invitation">
             <Settings2 size={19} />

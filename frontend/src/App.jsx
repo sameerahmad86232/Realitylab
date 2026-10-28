@@ -1,4 +1,5 @@
 import { useState, lazy, Suspense } from "react";
+import { handleTabKeys } from "./lib/accessibleTabs";
 const CadWorkspace = lazy(() => import("./features/cad/CadWorkspace"));
 import {
   ArrowUpRight,
@@ -15,10 +16,10 @@ import {
   ShieldCheck,
   Settings2,
 } from "lucide-react";
-import carImage from "./assets/reality-gt-white.png";
-import carPlanImage from "./assets/reality-gt-plan.png";
+import carImage from "./assets/reality-gt-white.webp";
+import carPlanImage from "./assets/reality-gt-plan.webp";
 import StudioShowcase from "./components/StudioShowcase";
-import FieldGuideHero from "./components/FieldGuideHero";
+import FieldGuideHero, { FieldGuideStories } from "./components/FieldGuideHero";
 import UploadZone from "./components/UploadZone";
 import ActionArea from "./components/ActionArea";
 import ExperimentStudio from "./features/exploration/ExperimentStudio";
@@ -28,7 +29,6 @@ import { sampleBlueprintData } from "./data/sampleBlueprintData";
 export default function App() {
   const [studioMode, setStudioMode] = useState("mechanism");
   const [files, setFiles] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [generated, setGenerated] = useState(false);
   const [menu, setMenu] = useState(false);
   const loadSample = () => {
@@ -53,20 +53,17 @@ export default function App() {
   };
   const generate = () => {
     if (!files.length) return;
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setGenerated(true);
-    }, 2000);
+    setGenerated(true);
   };
   return (
     <div className="site-shell">
+      <a className="skip-link" href="#studio">Skip to object studio</a>
       <header className="site-header">
         <a href="#" className="wordmark">
           <ScanLine size={26} />
           RealityLab<span>THE OBJECT STUDIO</span>
         </a>
-        <nav className={menu ? "nav-links open" : "nav-links"}>
+        <nav id="main-navigation" aria-label="Main navigation" className={menu ? "nav-links open" : "nav-links"}>
           <a href="#objects" onClick={() => setMenu(false)}>
             Objects
           </a>
@@ -93,18 +90,208 @@ export default function App() {
         <button
           className="mobile-menu"
           aria-label="Toggle navigation"
+          aria-expanded={menu}
+          aria-controls="main-navigation"
           onClick={() => setMenu(!menu)}
         >
           {menu ? <X /> : <Menu />}
         </button>
       </header>
-      <main>
+      <main id="main-content">
         <FieldGuideHero onExplore={() => setStudioMode("mechanism")} />
+        <section className="studio-section" id="studio" tabIndex={-1}>
+          <div className="section-heading">
+            <div>
+              <span className="eyebrow">
+                <span className="live-dot" /> 01 / YOUR OBJECT STUDIO
+              </span>
+              <h2>
+                One object. <span>A closer look.</span>
+              </h2>
+            </div>
+            <span className="prototype-badge">
+              PREDICT · TEST · COMPARE <span>↗</span>
+            </span>
+          </div>
+          <div className="studio-caption">
+            <p>Upload. Explore in 3D. Understand the parts.</p>
+            <span>
+              Start with 1–3 photos of the same object. More angles help reveal its structure.
+            </span>
+          </div>
+          <div
+            className="studio-mode-tabs"
+            role="tablist"
+            aria-label="Studio mode"
+            onKeyDown={handleTabKeys}
+          >
+            <button
+              id="mechanism-tab"
+              role="tab"
+              aria-selected={studioMode === "mechanism"}
+              tabIndex={studioMode === "mechanism" ? 0 : -1}
+              aria-controls="mechanism-panel"
+              onClick={() => setStudioMode("mechanism")}
+            >
+              <Settings2 size={15} /> Object explorer{" "}
+              <span>LIVE & MANUAL TOOLS</span>
+            </button>
+            <button
+              id="cad-tab"
+              role="tab"
+              aria-selected={studioMode === "cad"}
+              tabIndex={studioMode === "cad" ? 0 : -1}
+              aria-controls="cad-panel"
+              onClick={() => setStudioMode("cad")}
+            >
+              <Box size={15} /> 3D model inspector{" "}
+              <span>YOUR GLB / STL FILES</span>
+            </button>
+            <button
+              id="sample-tab"
+              role="tab"
+              aria-selected={studioMode === "sample"}
+              tabIndex={studioMode === "sample" ? 0 : -1}
+              aria-controls="sample-panel"
+              onClick={() => setStudioMode("sample")}
+            >
+              <Box size={15} /> Car concept sample <span>CURATED</span>
+            </button>
+          </div>
+          <div
+            id="mechanism-panel"
+            role="tabpanel"
+            aria-labelledby="mechanism-tab"
+            hidden={studioMode !== "mechanism"}
+          >
+            <ExperimentStudio />
+          </div>
+          <div
+            id="cad-panel"
+            role="tabpanel"
+            aria-labelledby="cad-tab"
+            hidden={studioMode !== "cad"}
+          >
+            {studioMode === "cad" && (
+              <Suspense
+                fallback={
+                  <p className="lab-help">Preparing the model inspector…</p>
+                }
+              >
+                <CadWorkspace />
+                <details className="reference-study">
+                  <summary>
+                    Optional lighting study · illustrative gear sample
+                  </summary>
+                  <StudioShowcase />
+                </details>
+              </Suspense>
+            )}
+          </div>
+          <div
+            id="sample-panel"
+            role="tabpanel"
+            aria-labelledby="sample-tab"
+            hidden={studioMode !== "sample"}
+          >
+            <div className="sample-scope-note" role="note">
+              <strong>Curated car demonstration</strong>
+              <p>This blueprint is fixed sample content. Uploaded photos do not change its parts or specifications.</p>
+              <button className="quiet-button" onClick={() => setStudioMode("mechanism")}>Analyze your own object <ArrowUpRight size={16} /></button>
+            </div>
+            <div className="studio-layout">
+              <aside className="studio-sidebar">
+                <div className="sidebar-heading">
+                  <Compass size={19} />
+                  <span>YOUR WORKSPACE</span>
+                </div>
+                <div className="studio-progress">
+                  <div className="current">
+                    <span>01</span>
+                    <div>
+                      <strong>Capture</strong>
+                      <small>A new perspective starts here</small>
+                    </div>
+                    <span className="step-dot" />
+                  </div>
+                  <div className={generated ? "current" : ""}>
+                    <span>02</span>
+                    <div>
+                      <strong>Discover</strong>
+                      <small>Explore the blueprint</small>
+                    </div>
+                  </div>
+                  <div>
+                    <span>03</span>
+                    <div>
+                      <strong>Create</strong>
+                      <small>Take the next step</small>
+                    </div>
+                  </div>
+                </div>
+                <div className="capture-tip">
+                  <Camera size={23} />
+                  <h3>A little perspective helps.</h3>
+                  <p>
+                    Use clear light and a simple background. Different angles
+                    tell a better story.
+                  </p>
+                  <div className="angle-sketch" aria-hidden="true">
+                    <div />
+                    <span>↗</span>
+                    <div />
+                    <span>↗</span>
+                    <div />
+                  </div>
+                  <span>FRONT / SIDE / ABOVE</span>
+                </div>
+                <div className="sidebar-foot">
+                  <ShieldCheck size={14} /> Local sample only.
+                  <br />
+                  Your photos stay in this browser.
+                </div>
+              </aside>
+              <div className="studio-workbench">
+                <div className="workbench-bar">
+                  <span>
+                    <ScanLine size={15} /> UNTITLED EXPLORATION
+                  </span>
+                  <span>
+                    JPG, PNG, WEBP{" "}
+                    <span className="muted">/ UP TO 3 PHOTOS</span>
+                  </span>
+                </div>
+                <UploadZone
+                  files={files}
+                  setFiles={(next) => {
+                    setGenerated(false);
+                    setFiles(next);
+                  }}
+                  onSelectSample={loadSample}
+                />
+                <ActionArea
+                  hasFiles={files.length > 0}
+                  isLoading={false}
+                  onGenerate={generate}
+                  hasGenerated={generated}
+                />
+                <div className="privacy-note">
+                  <Check size={13} /> Photos stay in your browser. No sign-up.
+                  Just curiosity.
+                </div>
+              </div>
+            </div>
+            <ResultsSection
+              blueprintData={generated ? sampleBlueprintData : null}
+              isVisible={generated && studioMode === "sample"}
+            />
+          </div>
+        </section>
         <section className="process-section" id="process">
           <div className="section-heading">
             <div>
               <span className="eyebrow">
-                01 / A LITTLE CURIOSITY GOES A LONG WAY
+                02 / FROM PHOTO TO UNDERSTANDING
               </span>
               <h2>
                 Every object has a story.
@@ -190,186 +377,7 @@ export default function App() {
             ))}
           </div>
         </section>
-        <section className="studio-section" id="studio">
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">
-                <span className="live-dot" /> 02 / YOUR CURIOSITY STARTS HERE
-              </span>
-              <h2>
-                Your next <span>“what if?”</span>
-              </h2>
-            </div>
-            <span className="prototype-badge">
-              PREDICT · TEST · COMPARE <span>↗</span>
-            </span>
-          </div>
-          <div className="studio-caption">
-            <p>An open desk. A fresh perspective. A place to begin.</p>
-            <span>
-              Explore your own objects, run a manual experiment, or open the car
-              design study.
-            </span>
-          </div>
-          <div
-            className="studio-mode-tabs"
-            role="tablist"
-            aria-label="Studio mode"
-          >
-            <button
-              id="mechanism-tab"
-              role="tab"
-              aria-selected={studioMode === "mechanism"}
-              aria-controls="mechanism-panel"
-              onClick={() => setStudioMode("mechanism")}
-            >
-              <Settings2 size={15} /> Object explorer{" "}
-              <span>LIVE & MANUAL TOOLS</span>
-            </button>
-            <button
-              id="cad-tab"
-              role="tab"
-              aria-selected={studioMode === "cad"}
-              aria-controls="cad-panel"
-              onClick={() => setStudioMode("cad")}
-            >
-              <Box size={15} /> 3D model inspector{" "}
-              <span>YOUR GLB / STL FILES</span>
-            </button>
-            <button
-              id="sample-tab"
-              role="tab"
-              aria-selected={studioMode === "sample"}
-              aria-controls="sample-panel"
-              onClick={() => setStudioMode("sample")}
-            >
-              <Box size={15} /> Car concept sample <span>CURATED</span>
-            </button>
-          </div>
-          <div
-            id="mechanism-panel"
-            role="tabpanel"
-            aria-labelledby="mechanism-tab"
-            hidden={studioMode !== "mechanism"}
-          >
-            <ExperimentStudio />
-          </div>
-          <div
-            id="cad-panel"
-            role="tabpanel"
-            aria-labelledby="cad-tab"
-            hidden={studioMode !== "cad"}
-          >
-            {studioMode === "cad" && (
-              <Suspense
-                fallback={
-                  <p className="lab-help">Preparing the model inspector…</p>
-                }
-              >
-                <CadWorkspace />
-                <details className="reference-study">
-                  <summary>
-                    Optional lighting study · illustrative gear sample
-                  </summary>
-                  <StudioShowcase />
-                </details>
-              </Suspense>
-            )}
-          </div>
-          <div
-            id="sample-panel"
-            role="tabpanel"
-            aria-labelledby="sample-tab"
-            hidden={studioMode !== "sample"}
-          >
-            <div className="studio-layout">
-              <aside className="studio-sidebar">
-                <div className="sidebar-heading">
-                  <Compass size={19} />
-                  <span>YOUR WORKSPACE</span>
-                </div>
-                <div className="studio-progress">
-                  <div className="current">
-                    <span>01</span>
-                    <div>
-                      <strong>Capture</strong>
-                      <small>A new perspective starts here</small>
-                    </div>
-                    <span className="step-dot" />
-                  </div>
-                  <div className={generated ? "current" : ""}>
-                    <span>02</span>
-                    <div>
-                      <strong>Discover</strong>
-                      <small>Explore the blueprint</small>
-                    </div>
-                  </div>
-                  <div>
-                    <span>03</span>
-                    <div>
-                      <strong>Create</strong>
-                      <small>Take the next step</small>
-                    </div>
-                  </div>
-                </div>
-                <div className="capture-tip">
-                  <Camera size={23} />
-                  <h3>A little perspective helps.</h3>
-                  <p>
-                    Use clear light and a simple background. Different angles
-                    tell a better story.
-                  </p>
-                  <div className="angle-sketch" aria-hidden="true">
-                    <div />
-                    <span>↗</span>
-                    <div />
-                    <span>↗</span>
-                    <div />
-                  </div>
-                  <span>FRONT / SIDE / ABOVE</span>
-                </div>
-                <div className="sidebar-foot">
-                  <ShieldCheck size={14} /> Private by design.
-                  <br />
-                  Your photos stay in this browser.
-                </div>
-              </aside>
-              <div className="studio-workbench">
-                <div className="workbench-bar">
-                  <span>
-                    <ScanLine size={15} /> UNTITLED EXPLORATION
-                  </span>
-                  <span>
-                    JPG, PNG, WEBP{" "}
-                    <span className="muted">/ UP TO 3 PHOTOS</span>
-                  </span>
-                </div>
-                <UploadZone
-                  files={files}
-                  setFiles={(next) => {
-                    setGenerated(false);
-                    setFiles(next);
-                  }}
-                  onSelectSample={loadSample}
-                />
-                <ActionArea
-                  hasFiles={files.length > 0}
-                  isLoading={loading}
-                  onGenerate={generate}
-                  hasGenerated={generated}
-                />
-                <div className="privacy-note">
-                  <Check size={13} /> Photos stay in your browser. No sign-up.
-                  Just curiosity.
-                </div>
-              </div>
-            </div>
-            <ResultsSection
-              blueprintData={generated ? sampleBlueprintData : null}
-              isVisible={generated && studioMode === "sample"}
-            />
-          </div>
-        </section>
+        <FieldGuideStories onExplore={() => setStudioMode("mechanism")} />
         <section className="field-guide" aria-labelledby="field-guide-title">
           <div>
             <span className="eyebrow">A FEW FIELD NOTES</span>
@@ -384,11 +392,11 @@ export default function App() {
             {[
               {
                 q: "What can I explore right now?",
-                a: "The object explorer supports many everyday object types with visible-part annotations and editable relationship maps. Manual gear, lever and pulley tools use your confirmed measurements. Unclear objects may need another angle or context. The car is a separate curated design study.",
+                a: "The object explorer creates approximate 3D component concepts, explanations, and unpowered study-model guides for many everyday objects. You can edit parts and export GLB/STL files. Manual gear, lever and pulley tools use your confirmed measurements. Unclear objects may need another angle or context. The car is a separate curated design study.",
               },
               {
                 q: "Are the internal components verified?",
-                a: "No. The sample separates visible features from illustrative internal hypotheses. Exact specifications and hidden mechanisms require physical inspection or testing.",
+                a: "No. Scan geometry is approximate, and the car sample is illustrative. Visible evidence is separated from inferred geometry and suggested roles. Exact specifications and hidden mechanisms require physical inspection or testing.",
               },
               {
                 q: "What happens to my photos?",

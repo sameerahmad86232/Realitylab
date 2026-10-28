@@ -36,3 +36,10 @@ These are explicitly illustrative editorial studies. Clicking a catalog item
 opens the explorer for the user's own photo; it does not claim to analyze the
 illustration or reveal verified internals. The car concept remains a separate
 labeled sample inside the studio.
+
+## Audit delivery derivatives — October 28, 2026
+
+The four runtime presentation images now use WebP derivatives generated from the
+listed original PNGs with sharp, quality 85. No new generated content was added.
+The PNG originals and their provenance are retained. Combined image bytes fell
+from 6,870,814 to 285,032; this is an asset-size comparison, not a measured speedup.

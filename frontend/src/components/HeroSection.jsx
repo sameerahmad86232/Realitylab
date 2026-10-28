@@ -1,4 +1,3 @@
-import React from 'react';
 import { Sparkles, Layers, Cpu, Wrench } from 'lucide-react';
 
 export default function HeroSection() {

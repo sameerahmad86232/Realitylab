@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { ZoomIn, ZoomOut, Eye, Layers } from 'lucide-react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { ZoomIn, ZoomOut } from 'lucide-react';
 
-export default function BlueprintVisualizer({ selectedPart, onSelectPart }) {
+export default function BlueprintVisualizer({ onSelectPart }) {
   const [activeLayer, setActiveLayer] = useState('all'); // 'all', 'exterior', 'interior'
   const [zoomLevel, setZoomLevel] = useState(100);
 
@@ -172,3 +173,5 @@ export default function BlueprintVisualizer({ selectedPart, onSelectPart }) {
     </div>
   );
 }
+
+BlueprintVisualizer.propTypes = { onSelectPart: PropTypes.func.isRequired };

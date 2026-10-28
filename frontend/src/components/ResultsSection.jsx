@@ -1,5 +1,6 @@
-import carPlanImage from "../assets/reality-gt-plan.png";
+import carPlanImage from "../assets/reality-gt-plan.webp";
 import PropTypes from "prop-types";
+import { handleTabKeys } from "../lib/accessibleTabs";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowDownToLine,
@@ -24,7 +25,7 @@ export default function ResultsSection({ blueprintData, isVisible }) {
   const target = useRef(null);
   useEffect(() => {
     if (isVisible)
-      target.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      target.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
   }, [isVisible]);
   if (!isVisible || !blueprintData) return null;
   const observed = blueprintData.observedParts;
@@ -110,10 +111,12 @@ export default function ResultsSection({ blueprintData, isVisible }) {
         className="result-tabs"
         role="tablist"
         aria-label="Exploration views"
+        onKeyDown={handleTabKeys}
       >
         <button
           role="tab"
           aria-selected={tab === "discover"}
+          tabIndex={tab === "discover" ? 0 : -1}
           onClick={() => setTab("discover")}
         >
           <Eye size={16} /> Discover <span>01</span>
@@ -121,6 +124,7 @@ export default function ResultsSection({ blueprintData, isVisible }) {
         <button
           role="tab"
           aria-selected={tab === "build"}
+          tabIndex={tab === "build" ? 0 : -1}
           onClick={() => setTab("build")}
         >
           <Box size={16} /> Make a model <span>02</span>
