@@ -11,16 +11,16 @@ npm run dev
 
 Open http://localhost:3000. Production: `npm run build && npm start`.
 
-## Phase 1 scope
+## Phase 1 design foundation
 
 - Responsive white/silver landing page, self-hosted Geist, blue accents.
 - Original procedural Three.js desk fan with orbit, zoom, explode and pause controls.
 - Lightweight WebGL ribbon shader with pause and reduced-motion support.
 - JPEG/PNG picker, drag/drop, previews, deletion, camera capture and permission recovery.
 - Prepared sample explorer, selectable parts, observed/inferred distinctions, interactive conceptual SVG and SVG download.
-- Uploads remain browser-local, are never presented as analyzed, and are cleared on close. No keys, external model calls, storage or AI costs in this phase.
+- Phase 1/2 established browser-local uploads. Phase 3 adds explicit, consented live model processing (see below).
 
-The fan is an illustrative handcrafted model, not reconstructed from photos or accurate product CAD. The bicycle and clock collection entries are labeled planned. Live AI integration is Phase 3; pressing Analyze explains this and does not send photos. The earlier app was intentionally removed; no old application code was reused.
+The fan is an illustrative handcrafted model, not reconstructed from photos or accurate product CAD. The bicycle and clock collection entries are labeled planned. Live AI integration is now available in Phase 3. Photos are sent only after explicit consent and Analyze. The earlier app was intentionally removed; no old application code was reused.
 
 ## Checks
 
@@ -40,4 +40,13 @@ The capture flow now validates file signatures, size (5 MB), pixel count (20 MP)
 
 Camera capture uses a native accessible dialog with live preview, review, retake, explicit Use photo, device switching when multiple cameras are reported, and readable permission/device/busy/timeout recovery. Tracks stop during review, on close/navigation, and when the tab is hidden. A native device-camera picker is available on mobile. Browser/device support varies; choosing files is always available.
 
-`npm run test:capture` exercises the normalization, validation, mixed uploads, capacity, consent, draft lifecycle, camera review/retake/use, permission denial/retry and accessibility with Chromium's simulated camera. This does not replace testing actual iOS/Android hardware. Live AI remains Phase 3; Analyze sends no network request in this release.
+`npm run test:capture` exercises the normalization, validation, mixed uploads, capacity, consent, draft lifecycle, camera review/retake/use, permission denial/retry and accessibility with Chromium's simulated camera. This does not replace testing actual iOS/Android hardware. Phase 3 now enables consented live analysis; the capture tests intercept scan requests to avoid charges.
+
+
+## Phase 3 · Live Meta analysis
+
+Configure `BASETEN_API_KEY` securely on the server, then restart. The app uses the verified Baseten hackathon model `meta-models/muse-spark-open-1026`. The React app, Next.js API routes and public Render service share the same origin. No separate Python service is needed.
+
+Upload photos, optionally describe your focus, confirm provider consent, and press Analyze. The API validates images and model JSON; results show your photos, component evidence, hypotheses, principles, uncertainty, latency and provider/model provenance. Errors preserve inputs without substituting a sample.
+
+See [Phase 3 engineering and validation](docs/PHASE3.md). Additional checks: `npm run test:api`, `npm run test:live-ui`. Normal tests use fixtures; the opt-in validation script incurs credits.

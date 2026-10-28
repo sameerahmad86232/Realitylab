@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --hostname 0.0.0.0",
+    "dev": "node --use-env-proxy --use-system-ca --env-file-if-exists=.env node_modules/next/dist/bin/next dev --hostname 0.0.0.0",
     "build": "next build",
-    "start": "next start --hostname 0.0.0.0",
+    "start": "node --use-env-proxy --use-system-ca --env-file-if-exists=.env node_modules/next/dist/bin/next start --hostname 0.0.0.0",
     "typecheck": "tsc --noEmit",
     "test:browser": "node tests/design.mjs",
-    "test:capture": "node tests/capture.mjs"
+    "test:capture": "node tests/capture.mjs",
+    "test:api": "node --experimental-strip-types --test tests/scan-api.test.ts",
+    "test:live-ui": "node tests/live-ui.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
@@ -16,7 +18,9 @@
     "next": "^16.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "three": "^0.180.0"
+    "sharp": "^0.35.5",
+    "three": "^0.180.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
@@ -26,5 +30,6 @@
     "@types/three": "^0.180.0",
     "playwright-core": "^1.56.0",
     "typescript": "^5.9.0"
-  }
+  },
+  "type": "module"
 }

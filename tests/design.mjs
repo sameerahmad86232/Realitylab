@@ -7,6 +7,7 @@ const out='/tmp/artifacts/liquid-gallery';await mkdir(out,{recursive:true});
 const errors=[];
 const context=await browser.newContext({viewport:{width:1440,height:1000}});const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
 try{
+await context.route('**/api/scan',route=>route.fulfill({status:503,json:{error:{message:'Test-only backend unavailable. Your photos are preserved.'}}}));
 await page.goto(process.env.TEST_ORIGIN||'http://localhost:3000');
 await page.getByRole('heading',{name:'See beyond the surface.'}).waitFor();
 await page.locator('.stage-canvas canvas').waitFor();
@@ -25,7 +26,7 @@ await page.locator('input[type=file]').first().setInputFiles({name:'invalid.txt'
 const png=await page.screenshot();
 await page.locator('input[type=file]').first().setInputFiles({name:'object.png',mimeType:'image/png',buffer:png});await page.locator('.previews img').waitFor();
 assert.equal(await page.getByRole('button',{name:'Analyze object',exact:true}).isDisabled(),true);
-await page.getByRole('checkbox').check();await page.getByRole('button',{name:'Analyze object',exact:true}).click();await page.getByRole('status').filter({hasText:'Phase 3'}).waitFor();
+await page.getByRole('checkbox').check();await page.getByRole('button',{name:'Analyze object',exact:true}).click();await page.getByRole('alert').filter({hasText:'Test-only backend unavailable'}).waitFor();
 await page.screenshot({path:`${out}/capture-desktop.png`,fullPage:true});
 await page.getByRole('button',{name:'Remove photo 1'}).click();assert.equal(await page.locator('.previews img').count(),0);
 for(const screen of ['capture','home','explore']){
