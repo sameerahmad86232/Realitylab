@@ -17,6 +17,8 @@ npm run dev
 
 Open http://localhost:3000. Production: `npm run build` then `npm start`. Restart after changing server secrets. Render uses `BASETEN_API_KEY` as a server environment secret. The verified model is `meta-models/muse-spark-open-1026` through Baseten; no direct Meta endpoint is assumed.
 
+The [Blueprint Studio update](docs/BLUEPRINT_STUDIO.md) adds graphite drawings, local photo/edge studies and a larger evidence workspace. Edge traces show image contrast, not recovered geometry.
+
 ## Current experience
 
 - Up to three normalized JPEG/PNG photos or camera captures, reviewed before explicit provider consent.

@@ -1,11 +1,11 @@
 'use client';
-import {useEffect,useRef,useState} from 'react';
+import {useEffect,useMemo,useRef,useState} from 'react';
 import {Download,Info,Maximize2,X} from 'lucide-react';
 import {circuitCurrent,circuitSvg,functionalSvg} from '../lib/circuits';
 import type {ScanView} from '../lib/analysis';
 export default function DiagramLab({scan,selected,onSelect}:{scan:ScanView;selected:string;onSelect:(id:string)=>void}){
  const [kind,setKind]=useState<'functional'|'circuit'>('functional'),[closed,setClosed]=useState(false),[full,setFull]=useState(false),[message,setMessage]=useState('');const dialog=useRef<HTMLDialogElement>(null),root=useRef<HTMLElement>(null),pending=useRef<string|null>(null);
- const svg=kind==='functional'?functionalSvg(scan.result.analysis,scan.result.meta,selected,true):circuitSvg(closed,true);
+ const svg=useMemo(()=>kind==='functional'?functionalSvg(scan.result.analysis,scan.result.meta,selected,true):circuitSvg(closed,true),[kind,scan.result.analysis,scan.result.meta,selected,closed]);
  useEffect(()=>{if(pending.current){root.current?.querySelector<SVGElement>(pending.current)?.focus({preventScroll:true});pending.current=null}},[svg]);
  useEffect(()=>{if(!full)return;const previous=document.activeElement as HTMLElement|null;dialog.current?.showModal();return()=>previous?.focus()},[full]);
  function activate(target:EventTarget|null){const el=target instanceof Element?target:null;const part=el?.closest('[data-bp-part]')?.getAttribute('data-bp-part');if(part){if(part!==selected)pending.current=`[data-bp-part="${CSS.escape(part)}"]`;onSelect(part)}if(el?.closest('[data-circuit-switch]')){pending.current='[data-circuit-switch]';setClosed(v=>!v)}}
