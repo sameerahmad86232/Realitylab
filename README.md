@@ -62,3 +62,11 @@ See [Phase 4 behavior and evidence boundaries](docs/PHASE4.md). Checks: `npm run
 Live results now include photo-positioned SVG callouts in classic-blue and paper styles, source-view selection, zoom, linked component selection and portable download. Inferred and unlocated components stay separate; **not to scale** remains visible. Current filters and local marker adjustments carry into the diagram. It is a symbolic educational schematic, not reconstructed geometry.
 
 Exports exclude photos by default. You may explicitly embed the prepared source photo in the SVG you download. No additional AI request is needed. See [Phase 5 semantics, privacy and validation](docs/PHASE5.md). Checks: `npm run test:unit` and `npm run test:blueprint`.
+
+## Phase 6 · Build & Learn and diagram lab
+
+Generate a separate Meta-guided paper/cardboard analogue or ask a question scoped to a scan. Guidance includes materials, observations, estimated time, limitations and local progress. The real object stays untouched; learning requests share the existing provider budget limits and require explicit consent.
+
+The diagram lab adds a source-grounded functional sheet and a separately labeled illustrative LED circuit with a working switch simulation and ideal-current calculation. These do not recover hidden wiring from photographs. Both export SVG. Blueprints gain an expanded drawing view and refined presentation.
+
+See [Phase 6 behavior and validation](docs/PHASE6.md). Checks: `npm run test:learning`, `npm run test:learn-ui`, `npm run test:server-envelope`.

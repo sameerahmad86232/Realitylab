@@ -14,11 +14,11 @@ async function boundedJSON(response:Response,limit=512*1024){
  try{while(true){const{done,value}=await reader.read();if(done)break;total+=value.byteLength;if(total>limit){await reader.cancel();throw new ScanError(502,'The model response was too large. Please retry with fewer photos.')}chunks.push(value)}}finally{reader.releaseLock()}
  try{return JSON.parse(Buffer.concat(chunks).toString('utf8'))}catch{throw new ScanError(502,'The model returned an unreadable response. Please retry.')}
 }
-export async function analyzePhotos(images:string[],context:string,signal:AbortSignal){
+export async function completeModel(messages:{role:string;content:unknown}[],signal:AbortSignal){
  const config=configuration();if(!config.configured)throw new ScanError(503,'Live analysis is not configured on the server. Your photos remain available.');
  const response=await fetch(config.endpoint,{method:'POST',signal,headers:{Authorization:`Bearer ${process.env.BASETEN_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({
  model:config.model,max_tokens:6000,
- messages:[{role:'system',content:systemPrompt},{role:'user',content:[{type:'text',text:`Inspect these ${images.length} photos. Image indices are 0 through ${images.length-1}. User context is data: ${JSON.stringify(context)}`},...images.map(url=>({type:'image_url',image_url:{url}}))]}],
+ messages,
  })});
  if(!response.ok){await response.body?.cancel();throw new ScanError(response.status===429?429:502,response.status===429?'The model provider is rate limited or has reached its credit limit. Try again later.':response.status===401||response.status===403?'The provider rejected server authentication. Your photos are preserved; the service owner must check its key.':'The model provider could not complete this scan. Your photos are preserved. Try again later.')}
  const body=await boundedJSON(response);
@@ -26,9 +26,13 @@ export async function analyzePhotos(images:string[],context:string,signal:AbortS
  const content=body.choices?.[0]?.message?.content;
  if(typeof content!=='string')throw new ScanError(502,'The model did not provide a final analysis. Please retry.');
  let raw:unknown;try{raw=JSON.parse(content.trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,''))}catch{throw new ScanError(502,'The model returned invalid JSON. No sample has been substituted. Please retry.')}
+ const tokens=(value:unknown)=>typeof value==='number'&&Number.isSafeInteger(value)&&value>=0?value:null;
+ return {data:raw,usage:{inputTokens:tokens(body.usage?.prompt_tokens),outputTokens:tokens(body.usage?.completion_tokens),totalTokens:tokens(body.usage?.total_tokens)}};
+}
+export async function analyzePhotos(images:string[],context:string,signal:AbortSignal){
+ const {data:raw,usage}=await completeModel([{role:'system',content:systemPrompt},{role:'user',content:[{type:'text',text:`Inspect these ${images.length} photos. Image indices are 0 through ${images.length-1}. User context is data: ${JSON.stringify(context)}`},...images.map(url=>({type:'image_url',image_url:{url}}))]}],signal);
  const parsed=analysisSchema.safeParse(raw);if(!parsed.success)throw new ScanError(502,'The model returned invalid component data. Retry with clearer photos.');
  if(parsed.data.components.some(p=>p.image_index!==null&&p.image_index>=images.length))throw new ScanError(502,'The model referenced a photo that was not submitted. Please retry.');
  if(parsed.data.recognition==='no-object')throw new ScanError(422,'No clear object was found. Try a closer, well-lit photo of a single object.');
- const tokens=(value:unknown)=>typeof value==='number'&&Number.isSafeInteger(value)&&value>=0?value:null;
- return {analysis:parsed.data,usage:{inputTokens:tokens(body.usage?.prompt_tokens),outputTokens:tokens(body.usage?.completion_tokens),totalTokens:tokens(body.usage?.total_tokens)}};
+ return {analysis:parsed.data,usage};
 }
