@@ -10,6 +10,13 @@ const provider = {
   provider: "TEST-FIXTURE-NOT-LIVE",
   model: "test-bench",
   analyze: async () => scanFixture("mechanism"),
+  prepareExperiment: async () => ({
+    model: "gears",
+    status: "suggested",
+    basis: "Test-only direct pair; not live recognition.",
+    nextObservations: ["Count both wheels manually."],
+    limitations: ["No counts inferred."],
+  }),
   planExperiment: async ({ experiment }) => {
     calls++;
     return {
@@ -87,6 +94,35 @@ try {
     .getByRole("button", { name: /Use these observations in Bench/ })
     .click();
   await p.locator(".bench-source").waitFor();
+  await p
+    .locator(".bench-source .lab-check")
+    .filter({ hasText: "send these photo descriptions" })
+    .getByRole("checkbox")
+    .check();
+  await p
+    .getByRole("button", {
+      name: "Plan measurements from this scan",
+      exact: true,
+    })
+    .click();
+  await p
+    .getByRole("button", { name: "Use suggested gears model", exact: false })
+    .click();
+  assert.equal(
+    await p
+      .getByRole("button", { name: "Predict behavior", exact: true })
+      .isDisabled(),
+    true,
+  );
+  await p
+    .getByText("How to collect real measurements", { exact: true })
+    .click();
+  await p
+    .getByText(
+      "Count the driver and follower teeth yourself; mark the starting positions.",
+      { exact: true },
+    )
+    .waitFor();
   for (const model of ["gears", "lever", "pulley"]) {
     await p.getByLabel("Bench mechanism model").selectOption(model);
     await p

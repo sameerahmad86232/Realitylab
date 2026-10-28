@@ -9,6 +9,8 @@ import { ZodError } from "zod";
 import { modelAnalysisSchema } from "../../shared/schemas.js";
 import { predict, compare } from "../../shared/gearMath.js";
 import {
+  benchPreparationRequestSchema,
+  benchPreparationSchema,
   benchReviewRequestSchema,
   benchReviewSchema,
   evaluateBench,
@@ -82,7 +84,10 @@ export function createApp({
         },
       }),
     );
-  app.use("/api/bench/review", express.json({ limit: "128kb" }));
+  app.use(
+    ["/api/bench/review", "/api/bench/prepare"],
+    express.json({ limit: "128kb" }),
+  );
   app.use(express.json({ limit: "32kb" }));
   app.get("/api/health", (req, res) =>
     res.json({
@@ -327,7 +332,7 @@ export function createApp({
         });
     }
   });
-  app.post("/api/bench/review", analyzeLimit, async (req, res, next) => {
+  async function benchAI(req, res, next, preparation = false) {
     let timer;
     const abort = new AbortController();
     const disconnect = () => {
@@ -335,12 +340,14 @@ export function createApp({
     };
     let acquired = false;
     try {
-      const input = benchReviewRequestSchema.parse(req.body);
-      const result = evaluateBench({
-        setup: input.setup,
-        measurement: input.measurement,
-      });
-      if (!provider.configured || typeof provider.planExperiment !== "function")
+      const input = preparation
+        ? benchPreparationRequestSchema.parse(req.body)
+        : benchReviewRequestSchema.parse(req.body);
+      const result = preparation
+        ? null
+        : evaluateBench({ setup: input.setup, measurement: input.measurement });
+      const method = preparation ? "prepareExperiment" : "planExperiment";
+      if (!provider.configured || typeof provider[method] !== "function")
         throw fail(
           503,
           "AI investigation is unavailable. Deterministic predictions and checks still work.",
@@ -362,12 +369,31 @@ export function createApp({
         ),
       );
       const raw = await Promise.race([
-        provider.planExperiment({
-          experiment: { ...input, consent: undefined, result },
-          signal: abort.signal,
-        }),
+        provider[method](
+          preparation
+            ? { source: input.source, signal: abort.signal }
+            : {
+                experiment: { ...input, consent: undefined, result },
+                signal: abort.signal,
+              },
+        ),
         cancelled,
       ]);
+      const provenance = {
+        provider: provider.provider,
+        model: provider.model,
+        reviewedAt: new Date().toISOString(),
+      };
+      if (preparation) {
+        const preparationResult = benchPreparationSchema.parse(raw);
+        res.json({
+          preparation: preparationResult,
+          provenance,
+          notice:
+            "Suggested model and measurement plan only. No measurements were inferred or experiment performed.",
+        });
+        return;
+      }
       const review = benchReviewSchema.parse(raw);
       const allowed = !input.measurement
         ? ["collect-measurement"]
@@ -411,7 +437,13 @@ export function createApp({
       res.off("close", disconnect);
       if (acquired) active--;
     }
-  });
+  }
+  app.post("/api/bench/review", analyzeLimit, (req, res, next) =>
+    benchAI(req, res, next),
+  );
+  app.post("/api/bench/prepare", analyzeLimit, (req, res, next) =>
+    benchAI(req, res, next, true),
+  );
   app.use("/api", (req, res, next) => next(fail(404, "API route not found.")));
   const dist = fileURLToPath(new URL("../../frontend/dist/", import.meta.url));
   app.use(express.static(dist, { index: "index.html" }));

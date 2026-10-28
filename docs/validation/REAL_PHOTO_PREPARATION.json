@@ -1,0 +1,27 @@
+{
+  "status": 200,
+  "seconds": 5.19,
+  "input": "Actual model observations from a real public clothespin photo; not a physical experiment.",
+  "preparation": {
+    "model": "unsupported",
+    "status": "unsupported",
+    "basis": "Supplied description is a wooden spring clothespin with two wooden arms joined by a central metal torsion spring assembly with central loop and legs hooked over outer surfaces. Per bench definitions, a spring clothespin is explicitly not the ideal static lever due to its unmeasured torsion spring, and no exactly two external gears in direct mesh or ideal equal-tension pulley strands are described. This is based solely on unverified photo-analysis descriptions without independent visual verification of mechanism or measurements.",
+    "nextObservations": [
+      "Non-invasive close view of the central joint to confirm presence of single metal torsion spring between two wooden halves as described, without disassembly",
+      "Count verification that described object has two wooden pieces plus one spring assembly and no external gears or rope/pulley strands",
+      "Side view documenting fulcrum/contact region and outer seating grooves described, noting spring is not modeled for ideal lever"
+    ],
+    "limitations": [
+      "No independent visual verification; decision relies only on unverified supplied descriptions, not original image",
+      "Spring-loaded clip mismatch: unmeasured torsion spring is not modeled in the one static lever with externally measured perpendicular moment arms",
+      "No evidence of supported models: no exactly two external gears in direct mesh, nor ideal pulley with countable supporting strands",
+      "No measured dimensions, forces, torques, tooth counts, or strand counts provided or inferred"
+    ]
+  },
+  "provenance": {
+    "provider": "baseten",
+    "model": "meta-models/muse-spark-open-1026",
+    "reviewedAt": "2026-10-28T03:31:42.889Z"
+  },
+  "notice": "Suggested model and measurement plan only. No measurements were inferred or experiment performed."
+}

@@ -34,3 +34,12 @@ The deterministic tools work without an API key. AI investigation fails honestly
 ## What still requires external proof
 
 A real physical experiment and representative user evaluation have not been conducted by the assistant. Public Render deployment/cold starts have not been verified. A daily monetary quota is not implemented; use provider spend controls for a public demo. This workflow improves the substantive project scope but does not establish hackathon eligibility or competitive ranking. It does not add faithful arbitrary-object reconstruction, hidden-part discovery or verified functional manufacturing plans.
+
+### Real-object preparation and hosted validation
+
+A scan can now request an applicability/measurement plan **before** numerical
+inputs are available. Suggested models are accepted explicitly and leave all
+numerical fields blank. Uncertain or unsupported results never provide an
+executable numerical setup. Built-in measurement guides explain what to count
+or measure for each supported model. See [REAL_WORLD_USE.md](REAL_WORLD_USE.md)
+for actual hosted photo validation and Modal access status.

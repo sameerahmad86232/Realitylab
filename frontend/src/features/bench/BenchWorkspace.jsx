@@ -14,6 +14,7 @@ import {
   benchProjectSchema,
   evaluateBench,
   benchMarkdown,
+  benchMeasurementGuide,
 } from "../../../../shared/bench.js";
 import { api } from "../../lib/api";
 import { downloadFile } from "../../lib/exportReport";
@@ -59,6 +60,8 @@ export default function BenchWorkspace({ source, onSourceChange, onScan }) {
     [result, setResult] = useState(null),
     [trials, setTrials] = useState([]),
     [review, setReview] = useState(null),
+    [preparation, setPreparation] = useState(null),
+    [planConsent, setPlanConsent] = useState(false),
     [consent, setConsent] = useState(false),
     [busy, setBusy] = useState(""),
     [message, setMessage] = useState(""),
@@ -73,6 +76,8 @@ export default function BenchWorkspace({ source, onSourceChange, onScan }) {
     request.current++;
     setBusy("");
     setReview(null);
+    setPreparation(null);
+    setPlanConsent(false);
     setResult(null);
     setConfirmed(false);
     setMeasurementConfirmed(false);
@@ -221,6 +226,15 @@ export default function BenchWorkspace({ source, onSourceChange, onScan }) {
       setMessage(
         "Trial recorded as your reported measurement. Repeat or revise one input to investigate.",
       );
+    });
+  }
+  async function prepare() {
+    await run("prepare", async (signal, id) => {
+      const r = await api("bench/prepare", {
+        body: { source, consent: planConsent },
+        signal,
+      });
+      if (id === request.current) setPreparation(r);
     });
   }
   async function investigate() {
@@ -419,6 +433,92 @@ export default function BenchWorkspace({ source, onSourceChange, onScan }) {
       )}
       {source && (
         <div className="bench-source">
+          <fieldset disabled={!!busy}>
+            <label className="lab-check">
+              <input
+                type="checkbox"
+                checked={planConsent}
+                onChange={(e) => setPlanConsent(e.target.checked)}
+              />
+              <span>
+                I agree to send these photo descriptions to Meta to suggest an
+                applicable model and a measurement plan.
+              </span>
+            </label>
+            <button
+              className="button-lime"
+              disabled={!planConsent}
+              onClick={prepare}
+            >
+              {busy === "prepare" ? (
+                <Loader2 className="spin" size={15} />
+              ) : (
+                <FlaskConical size={15} />
+              )}{" "}
+              Plan measurements from this scan
+            </button>
+          </fieldset>
+          {busy === "prepare" && (
+            <div role="status">
+              <p>
+                Checking whether a supported numerical model applies. No
+                measurements are being inferred.
+              </p>
+              <button
+                className="quiet-button"
+                onClick={() => {
+                  request.current++;
+                  controller.current?.abort();
+                  setBusy("");
+                }}
+              >
+                Cancel planning
+              </button>
+            </div>
+          )}
+          {preparation && (
+            <div className="bench-preparation">
+              <span className="eyebrow">
+                {preparation.preparation.status.replaceAll("-", " ")} /{" "}
+                {preparation.preparation.model}
+              </span>
+              <h4>Before you measure.</h4>
+              <p>{preparation.preparation.basis}</p>
+              <ul>
+                {preparation.preparation.nextObservations.map((x) => (
+                  <li key={x}>{x}</li>
+                ))}
+              </ul>
+              {preparation.preparation.status === "suggested" &&
+                preparation.preparation.model !== "unsupported" && (
+                  <button
+                    className="quiet-button"
+                    disabled={!!busy}
+                    onClick={() => {
+                      setModel(preparation.preparation.model);
+                      setDraft({ ...blank });
+                      invalidate();
+                      setMessage(
+                        "Suggested model selected. Enter your actual measurements and confirm applicability; no values were inferred.",
+                      );
+                    }}
+                  >
+                    Use suggested {preparation.preparation.model} model{" "}
+                    <ArrowRight size={15} />
+                  </button>
+                )}
+              <ul>
+                {preparation.preparation.limitations.map((x) => (
+                  <li key={x}>{x}</li>
+                ))}
+              </ul>
+              <p>
+                Suggested by {preparation.provenance.model}. You must check the
+                applicability.
+              </p>
+            </div>
+          )}
+
           <strong>Photo context · {source.objectName}</strong>
           <p>{source.summary}</p>
           <details>
@@ -467,6 +567,14 @@ export default function BenchWorkspace({ source, onSourceChange, onScan }) {
                   ? "Measure perpendicular distances from the fulcrum to each force line. Use newtons and meters; the lever must be in static balance."
                   : "Count only rope strands directly supporting the moving load. Use newtons and meters; the calculation assumes equal rope tension."}
             </p>
+            <details className="bench-measurement-guide">
+              <summary>How to collect real measurements</summary>
+              <ol>
+                {benchMeasurementGuide[model].map((x) => (
+                  <li key={x}>{x}</li>
+                ))}
+              </ol>
+            </details>
             <div className="bench-fields">
               {required.map((k) => (
                 <label className="lab-label" key={k}>

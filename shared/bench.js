@@ -234,3 +234,46 @@ export function benchMarkdown(project) {
     }),
   ].join("\n");
 }
+
+export const benchPreparationRequestSchema = z
+  .object({ source: benchSourceSchema, consent: z.literal(true) })
+  .strict();
+export const benchPreparationSchema = z
+  .object({
+    model: z.enum(["gears", "lever", "pulley", "unsupported"]),
+    status: z.enum(["suggested", "needs-evidence", "unsupported"]),
+    basis: z.string().trim().min(1).max(1500),
+    nextObservations: z.array(z.string().trim().min(1).max(700)).min(1).max(4),
+    limitations: z.array(z.string().trim().min(1).max(500)).min(1).max(4),
+  })
+  .strict()
+  .superRefine((p, ctx) => {
+    if (
+      (p.status === "unsupported" && p.model !== "unsupported") ||
+      (p.model === "unsupported" && p.status === "suggested")
+    )
+      ctx.addIssue({
+        code: "custom",
+        message: "Unsupported preparations cannot recommend a numerical model.",
+      });
+  });
+export const benchMeasurementGuide = {
+  gears: [
+    "Confirm exactly two external gears mesh directly, with no intervening stages.",
+    "Count the driver and follower teeth yourself; mark the starting positions.",
+    "Record input turns and view both gears from the same side.",
+    "Measure output turns and direction over that same input movement.",
+  ],
+  lever: [
+    "Identify a single fulcrum and confirm a passive static setup.",
+    "Use a ruler to measure perpendicular distances from the fulcrum to the effort and load force lines, in meters.",
+    "Measure the load force with a force meter in newtons; do not infer it from appearance.",
+    "Record effort force at static balance; note lever weight, force-meter zero and any binding.",
+  ],
+  pulley: [
+    "Identify the moving load and trace the rope path.",
+    "Count only rope strands directly supporting the moving load.",
+    "Measure the load force in newtons and intended lift in meters.",
+    "Measure the pull force slowly on a small passive setup; note friction and rope routing.",
+  ],
+};
