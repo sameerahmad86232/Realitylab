@@ -60,9 +60,11 @@ Make the primary path photo → evidence → explanation/drawing → separate ex
 
 ## Phase 6 — latency, availability and spending controls
 
-**Status:** planned; durable infrastructure may require configuration.
+**Status:** timing and shared-quota software implemented; durable deployment configuration and restart evidence pending.
 
 Measure the full user-visible workflow, distinguish upload/provider/render time, and optimize only demonstrated bottlenecks. Add a durable shared quota/usage store and appropriate access controls before broad promotion. Configure provider spend controls through supported settings. Do not describe a per-process counter, ephemeral local disk or arbitrary request count as a guaranteed dollar cap. Test restarts, concurrent users and provider failure recovery.
+
+**Implemented:** new responses report request-read, normalization, shared-quota and provider time; the browser records its full wait and displays provider-reported tokens. An optional atomic Upstash Redis reservation enforces one hourly count across processes and records bounded hourly usage. It supports explicit required/fail-closed and optional/fallback modes. Health and capture UI distinguish shared enforcement from restartable process counters and do not claim a provider billing cap. The current Render service has no shared-store credentials or verified provider cap yet, so this phase is not deployment-complete.
 
 **Exit evidence:** measured workflow timings and failure behavior, quotas persisting across restart, explicit storage/configuration requirements and verified deployment behavior. No guaranteed uptime or latency claim without evidence.
 

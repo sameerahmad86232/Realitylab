@@ -101,6 +101,15 @@ export const scanResultSchema = z
             totalTokens: z.number().int().nonnegative().nullable(),
           })
           .strict(),
+        timing: z
+          .object({
+            requestReadMs: z.number().nonnegative().finite(),
+            normalizationMs: z.number().nonnegative().finite(),
+            quotaMs: z.number().nonnegative().finite(),
+            inferenceMs: z.number().nonnegative().finite(),
+          })
+          .strict()
+          .optional(),
       })
       .strict(),
   })
@@ -112,6 +121,7 @@ export type WorkspaceState = {
   view?: "photo" | "map" | "blueprint";
   adjustments?: Record<string, { x: number; y: number }>;
 };
+export type ClientTiming = { totalMs: number };
 export type ScanView = {
   startInBlueprint?: boolean;
   recorded?: { sourceUrl: string; author: string; license: string };
@@ -124,4 +134,5 @@ export type ScanView = {
     omitted?: boolean;
   }[];
   workspace?: WorkspaceState;
+  clientTiming?: ClientTiming;
 };

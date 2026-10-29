@@ -1,29 +1,32 @@
-# Phase 6 · Build & Learn, diagram lab and blueprint refinement
+# Phase 6 · Measured availability and usage controls
 
-## Model-powered learning
+RealityLab now reports the timing and usage it can actually observe. New scan responses separate request upload/read, image normalization, shared-quota lookup and Meta-provider inference. The result page shows those server segments, the provider-reported token count, and the browser’s full wait from pressing **Analyze object** until a validated response is ready. Unknown token usage stays unknown; the app does not infer dollar cost from tokens.
 
-From a real scan, users can explicitly consent to sending its structured analysis to Baseten for a separate paper/cardboard learning analogue or a scoped follow-up question. No photos are resent. `POST /api/learn` validates request, source UUID, output schema and source-component references. Both scan and learning routes validate the exact frontend envelope before responding, including token metadata, preserving the response-contract fix.
+## Two quota layers
 
-Lessons have 3–7 steps with observations, an allowed materials list, possible household alternatives, model-estimated duration, safety notes and limitations. Materials are restricted to paper, cardboard, pencil, thread, adhesive tape and paper straw. The real scanned object must remain untouched. This feature does not claim to reconstruct or build the actual object. Question answers cannot contain assembly steps. Certain hazardous requests are routed locally to observation-only responses without an inference call; the model prompt also rejects unsupported or hazardous instruction requests. These are conservative constraints, not certified safety review.
+The existing in-process controls still bound concurrency, per-minute traffic and hourly inference requests. They reset whenever a Render process restarts and therefore are not a durable billing cap.
 
-Source evidence and user questions are untrusted data. Invalid guides are rejected without a sample substitute. The route shares scan concurrency, rate and hourly inference limits; timeout, cancellation and late-response protection apply. Cancellation does not guarantee reversal of already incurred provider usage. In-memory step completion, up to five follow-ups, and photo-free learning JSON export are available. Results/progress are not persisted across refresh or leaving the result screen.
+An optional Upstash Redis REST integration adds an atomic shared hourly reservation across processes and restarts. Configure these server-only values:
 
-## Circuit and functional diagrams
+```text
+UPSTASH_REDIS_REST_URL=https://your-database.upstash.io
+UPSTASH_REDIS_REST_TOKEN=secret
+INFERENCE_REQUESTS_PER_HOUR=50
+DURABLE_QUOTA_REQUIRED=true
+```
 
-- **Scanned parts / functional** uses only validated source components and deduplicated model associations. It is not an electrical netlist, pinout or recovered wiring diagram, even for photographed electronics.
-- **Example circuit / LED** is a separate app-authored educational schematic with battery, resistor, switch and LED symbols. It is not inferred from the scan. Toggle the switch to illustrate continuity and ideal current: `(3 V − 2 V) / 330 Ω ≈ 3.0 mA`; an open switch gives zero current. The assumed LED drop and values are illustrative; real parts behave differently. The simulator does not instruct users to energize or modify the scanned device.
-- Both sheets export valid photo-free SVG. Expanded views, keyboard-operable switch and controls, mobile horizontal scrolling, and explicit evidence captions are provided. No model call is needed for diagram rendering or simulation.
+Use `DURABLE_QUOTA_REQUIRED=true` only after testing the store. In required mode, a missing or unavailable store pauses inference with a 503 instead of spending without a shared reservation. When false, a store outage falls back to the process counter and the health/UI status says the durable limit is not enforced. The reservation is one atomic Redis script; concurrent app instances cannot both claim the final slot.
 
-## Blueprint presentation
+Successful requests also make a best-effort write of request-kind and provider-reported token totals to an expiring hourly usage record without delaying the user response. This record is observational. It is not a dollar ledger and is not used to claim a billing cap.
 
-The existing source-grounded blueprint now has a richer gradient drawing field, stronger typography, a more visible source-photo guide, refined controls and an expanded viewing mode. Existing classic/paper styles, zoom, source switching, filtered scope, annotation provenance and photo-free default downloads remain. User opt-in is still required to embed a prepared photo in a shared SVG. A result-section navigator makes parts, blueprint, diagrams and learning easy to reach.
+## Health and provider controls
 
-## Verification
+`/api/health` exposes non-secret capacity status: active requests, process usage and reset behavior, shared-quota state/remaining count, and whether the owner has marked a provider-side spend cap as verified. It never returns store URLs or tokens.
 
-- Existing 14 scan API tests still pass after extracting a shared Meta completion adapter.
-- Seven learning/circuit tests cover the exact public envelope, consent and references, invalid material output, local hazardous-question routing, question/step separation, timeouts, current calculation and SVG escaping.
-- Browser tests invoke the actual learning server handler with a mocked upstream model, rendering its response unchanged in React. They exercise consent, lesson completion, scoped answers, local refusals, cancellation, export, circuit toggles, expanded drawings, mobile layouts and accessibility.
-- The actual scan-handler/frontend regression, blueprint regression, twelve exploration/blueprint unit tests, production build, TypeScript and diff checks pass.
-- A real Meta learning request through the local HTTP endpoint returned a five-step paper hinge model for the recorded CC0 mouse analysis, in about 10 seconds (4,365 reported tokens). The exact validated response is recorded separately in execution artifacts. This demonstrates integration, not guaranteed lesson accuracy or physical prototype verification.
+Set `PROVIDER_SPEND_CAP_VERIFIED=true` only after confirming a supported limit in the Baseten billing dashboard. RealityLab cannot inspect that dashboard and does not automatically establish a dollar cap. The current Render service remains usable with restartable counters while shared-store and provider-cap status are visibly unverified.
 
-Public release checks identify Phase 6 and validate the new route. Provider verification flags reset on redeploy until a new successful scan, as documented for previous phases.
+## Validation and remaining work
+
+Unit checks cover configurable process limits, missing shared storage, atomic reservations, shared rejection, optional fallback and required fail-closed behavior. Existing concurrency tests remain. Browser checks cover the visible availability statement and timing panel without paid calls.
+
+This phase does not add user accounts or per-user entitlements. Broad public promotion still needs an actual shared store, a verified provider billing cap, restart/concurrency deployment checks, and an access policy appropriate to the event.

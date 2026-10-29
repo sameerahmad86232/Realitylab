@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@fontsource-variable/geist";
 import "./globals.css";
 import "./phase5.css";
+import "./phase6.css";
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.RENDER_EXTERNAL_URL || "https://realitylab.onrender.com",

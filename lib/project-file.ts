@@ -66,6 +66,9 @@ const workspace = z
     adjustments: z.record(z.string().max(40), marker),
   })
   .strict();
+const clientTiming = z
+  .object({ totalMs: z.number().nonnegative().finite() })
+  .strict();
 const recorded = z
   .object({
     sourceUrl: z
@@ -90,6 +93,7 @@ export const projectFileSchema = z
     recorded: recorded.optional(),
     photos: z.array(photo).min(1).max(3),
     workspace,
+    client_timing: clientTiming.optional(),
     learning: learningDraftSchema.optional(),
   })
   .strict()
@@ -238,6 +242,7 @@ export async function makeProjectFile(
       view: state.view,
       adjustments: state.adjustments,
     },
+    ...(scan.clientTiming ? { client_timing: scan.clientTiming } : {}),
     ...(learning ? { learning } : {}),
   };
   return projectFileSchema.parse(candidate);
@@ -255,6 +260,7 @@ export function restoreProject(value: unknown) {
       omitted: !p.data_url,
     })),
     workspace: parsed.workspace,
+    ...(parsed.client_timing ? { clientTiming: parsed.client_timing } : {}),
     ...(parsed.recorded ? { recorded: parsed.recorded } : {}),
   };
   return {

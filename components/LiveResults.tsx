@@ -248,7 +248,9 @@ export default function LiveResults({
       <div className="analysis-meta">
         <span>
           <Clock3 size={12} />
-          {(meta.durationMs / 1000).toFixed(1)}s server processing
+          {scan.clientTiming
+            ? `${(scan.clientTiming.totalMs / 1000).toFixed(1)}s total wait`
+            : `${(meta.durationMs / 1000).toFixed(1)}s server processing`}
         </span>
         <span>
           {analysis.recognition === "identified"
@@ -262,6 +264,53 @@ export default function LiveResults({
             : "Token usage unavailable"}
         </span>
       </div>
+      {meta.timing && (
+        <details className="timing-breakdown">
+          <summary>Request timing and usage</summary>
+          <dl>
+            <div>
+              <dt>Total browser wait</dt>
+              <dd>
+                {scan.clientTiming
+                  ? `${(scan.clientTiming.totalMs / 1000).toFixed(2)}s`
+                  : "Unavailable for this saved response"}
+              </dd>
+            </div>
+            <div>
+              <dt>Server total</dt>
+              <dd>{(meta.durationMs / 1000).toFixed(2)}s</dd>
+            </div>
+            <div>
+              <dt>Request upload/read</dt>
+              <dd>{(meta.timing.requestReadMs / 1000).toFixed(2)}s</dd>
+            </div>
+            <div>
+              <dt>Image normalization</dt>
+              <dd>{(meta.timing.normalizationMs / 1000).toFixed(2)}s</dd>
+            </div>
+            <div>
+              <dt>Shared quota check</dt>
+              <dd>{(meta.timing.quotaMs / 1000).toFixed(2)}s</dd>
+            </div>
+            <div>
+              <dt>Meta provider</dt>
+              <dd>{(meta.timing.inferenceMs / 1000).toFixed(2)}s</dd>
+            </div>
+            <div>
+              <dt>Reported tokens</dt>
+              <dd>
+                {meta.usage.totalTokens === null
+                  ? "Unknown"
+                  : meta.usage.totalTokens.toLocaleString()}
+              </dd>
+            </div>
+          </dl>
+          <p>
+            Timing is measured for this request. Token counts come from the
+            provider; unknown does not mean zero. No dollar cost is inferred.
+          </p>
+        </details>
+      )}
       {projectMessage && recoveryNotice && (
         <p className="project-recovery-notice" role="status">
           <Check size={15} />

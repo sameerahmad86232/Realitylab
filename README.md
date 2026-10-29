@@ -33,6 +33,7 @@ The [guided product showcase](docs/GUIDED_DEMO.md) provides a four-chapter recor
 - Functional diagrams and a separate app-authored LED circuit with ideal switch/current behavior.
 - Consented Meta-generated paper/cardboard analogues and scan-grounded follow-up questions.
 - Versioned project save/restore for the investigation, with photos excluded by default and explicit embedding when requested.
+- Per-request browser/server timing, provider-token provenance, and optional atomic shared hourly limits through Upstash Redis.
 - Recorded real fan, bicycle, compass, furniture and mouse analyses: opening uses no new inference credits.
 - Prepared procedural 3D fan, shaders, reduced-motion handling and static WebGL fallback.
 
@@ -52,7 +53,7 @@ flowchart LR
  H[Recorded validated examples] --> F
 ```
 
-No photos or questions are persisted automatically by this app. Users can explicitly download a local project file; photos are excluded unless they opt to embed them. Provider policies still apply. Other browser drafts/edits live in memory. Inference limits are process-local, shared by scan and learning, and reset on restart; they are not a guaranteed billing cap. Use provider billing controls before broad exposure.
+No photos or questions are persisted automatically by this app. Users can explicitly download a local project file; photos are excluded unless they opt to embed them. Provider policies still apply. Other browser drafts/edits live in memory. Inference has restartable process limits and optional shared Redis enforcement; neither establishes a dollar cap. Use a verified shared store and provider billing controls before broad exposure.
 
 See the [full website audit and fixes](docs/FULL_AUDIT.md) for verified coverage and remaining limitations.
 
@@ -123,13 +124,17 @@ Live results now include photo-positioned SVG callouts in classic-blue and paper
 
 Exports exclude photos by default. You may explicitly embed the prepared source photo in the SVG you download. No additional AI request is needed. See [Phase 5 semantics, privacy and validation](docs/PHASE5.md). Checks: `npm run test:unit` and `npm run test:blueprint`.
 
-## Phase 6 · Build & Learn and diagram lab
+## Build & Learn and diagram lab
 
 Generate a separate Meta-guided paper/cardboard analogue or ask a question scoped to a scan. Guidance includes materials, observations, estimated time, limitations and local progress. The real object stays untouched; learning requests share the existing provider budget limits and require explicit consent.
 
 The diagram lab adds a source-grounded functional sheet and a separately labeled illustrative LED circuit with a working switch simulation and ideal-current calculation. These do not recover hidden wiring from photographs. Both export SVG. Blueprints gain an expanded drawing view and refined presentation.
 
-See [Phase 6 behavior and validation](docs/PHASE6.md). Checks: `npm run test:learning`, `npm run test:learn-ui`, `npm run test:server-envelope`.
+See [engineering dossier behavior and validation](docs/ENGINEERING_DOSSIER.md). Checks: `npm run test:learning`, `npm run test:learn-ui`, `npm run test:server-envelope`.
+
+### Phase 6 measured usage controls
+
+[Timing and shared-quota design](docs/PHASE6.md). New responses separate request-read, normalization, quota and provider time while the browser records its complete wait. Optional Upstash enforcement is implemented but is not active until the shared store is configured and tested; the current public service must not be described as having a durable or dollar cap.
 
 ### Project brief and review
 
