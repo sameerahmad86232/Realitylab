@@ -18,3 +18,5 @@ Rehearse on the actual presentation device, check credits, camera permissions an
 A well-presented working demo helps judges assess the project. Selection still depends on the official criteria, eligibility, originality, impact and the judges' evaluation. Record narration, verify the final length and publish an accessible three-minute video before submitting.
 
 Share the tour directly at https://realitylab.onrender.com/?demo=1 and the supporting evidence at https://realitylab.onrender.com/project. Neither link starts a paid inference call.
+
+Phase 4 option: if an actual craft trial has been performed, draft a question from its journal, preview the exact attachment and explicitly send it. Show hypotheses and distinguishing checks as model interpretations. If using a hypothetical software-test scenario, label it hypothetical throughout; do not present it as a physical result. This extra request competes with the three-minute budget, so prefer one clear story over adding it to every feature.

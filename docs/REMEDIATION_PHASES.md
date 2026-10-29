@@ -38,7 +38,7 @@ Choose one low-complexity separate craft activity and make the source/prediction
 
 ## Phase 4 — stronger, bounded Meta reasoning
 
-**Status:** planned; informed by Phase 2/3 failures.
+**Status:** observation-follow-up software implemented; independent correctness/quality evidence pending.
 
 Improve the evidence-to-reasoning loop around actual failures: source-grounded questions, explicit assumptions and consistency checks, and deliberate use of additional views when needed. Any new verification pass must show its cost and limitations. An LLM checking another answer is not independent mechanical validation. Prefer demonstrable quality gains over extra agents, models or calls for their own sake.
 
@@ -93,3 +93,7 @@ Mark each item separately as implemented, automatically checked, manually review
 ### Phase 2 execution note
 
 The software, offline baseline and first four-request controlled run are implemented and automatically checked. The controlled run yielded three valid envelopes and one no-object rejection, with zero automatic retries. See `evaluation/runs/controlled-2026-10-29/report.json`. Human correctness review and independent held-out coverage remain pending; Phase 2 is not evidence-complete.
+
+### Phase 4 software note
+
+`OBSERVATION_REASONING.md` describes the explicit full-report attachment and structured Meta review. Drafting is local; sending is one consented learning request. Stale attachments block sending, source/lesson/step references are checked, and model hypotheses remain unverified. No held-out accuracy or physical success gain has been established.

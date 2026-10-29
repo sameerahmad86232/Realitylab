@@ -149,3 +149,7 @@ See [Phase 6 behavior and validation](docs/PHASE6.md). Checks: `npm run test:lea
 ### Phase 3 physical-trial preparation
 
 [Separate cardboard support study](https://realitylab.onrender.com/trial/stability) and [protocol](docs/physical-trials/STABILITY_PROTOCOL.md). The page provides an app-authored, untested procedure and an entirely blank worksheet, with partial/failure exports and no AI requests. It never marks reports independently verified. Physical trial and user evidence remain missing; `docs/physical-trials/results.json` is intentionally empty.
+
+### Phase 4 observation reasoning
+
+[Workflow and evidence limits](docs/OBSERVATION_REASONING.md). A practical-step journal can draft a question with its full report attached; inspect/update it, consent and explicitly ask Meta for possible explanations and distinguishing observations. Drafting makes no request. Replies and exports preserve the report snapshot and never mark it independently verified.
