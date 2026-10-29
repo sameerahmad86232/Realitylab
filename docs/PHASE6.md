@@ -29,4 +29,6 @@ Set `PROVIDER_SPEND_CAP_VERIFIED=true` only after confirming a supported limit i
 
 Unit checks cover configurable process limits, missing shared storage, atomic reservations, shared rejection, optional fallback and required fail-closed behavior. Existing concurrency tests remain. Browser checks cover the visible availability statement and timing panel without paid calls.
 
+One bounded live request was then made against revision `209c29f`, with no retry. The full request took 15.053 seconds; server timing was 0.192 seconds request read, 0.242 seconds normalization, 0.001 seconds quota check and 14.305 seconds provider inference. Baseten reported 4,460 tokens. See `evaluation/performance/phase6-live.json`. This one curated sample is not an SLA, correctness result or dollar-cost calculation.
+
 This phase does not add user accounts or per-user entitlements. Broad public promotion still needs an actual shared store, a verified provider billing cap, restart/concurrency deployment checks, and an access policy appropriate to the event.
