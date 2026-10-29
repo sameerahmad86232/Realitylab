@@ -8,6 +8,8 @@
 
 **Meta tooling:** Server-side vision inference through Baseten using `meta-models/muse-spark-open-1026` produces schema-validated parts, hypotheses and principles. A separate text-only request creates a constrained paper/cardboard analogue or answers scan-grounded questions. No substitute model is silently used.
 
+**Observation loop:** Separate craft steps expose an optional journal comparing the model’s predicted observation with the user’s actual matching/different/unclear result. Reports bind to the exact lesson, stay in tab memory and export with provenance. User reports are not independent validation; no physical test or measured learning improvement has been established.
+
 **Technical execution:** Browser/server image normalization, explicit consent, server-only credentials, bounded inputs, cancellation/timeouts, shared inference limits, strict JSON and HTTP-envelope validation, linked photo/map/blueprint exploration, local marker adjustments, controlled SVG generation, photo-free exports by default, responsive accessible controls and WebGL fallback.
 
 **Product:** https://realitylab.onrender.com

@@ -133,3 +133,7 @@ See [Phase 6 behavior and validation](docs/PHASE6.md). Checks: `npm run test:lea
 ### Project brief and review
 
 [Project brief & evidence](https://realitylab.onrender.com/project) · [Shareable recorded tour](https://realitylab.onrender.com/?demo=1). The brief links five real response records, exact-model integration, limitations and original-work notes. See [judge readiness](docs/JUDGING_READINESS.md) for remaining physical/user validation and submission tasks. Run `npm run test:project` for brief metrics, responsive/accessibility checks and app handoffs.
+
+### Honest audit and observation journal
+
+[Product audit](docs/HONEST_AUDIT.md) prioritizes evidence gaps over cosmetic changes. Build & Learn now separates completion from actual user-reported outcomes: expand a step’s “Record your test result,” compare expected versus actual, and export the journal with the dossier. Records are tab-memory only and are not independently verified. Uncertain identifications surface a suggested next view and edit-photo action without automatic inference.
