@@ -31,3 +31,5 @@ It submits a clearly tagged **hypothetical-test** report about the recorded fan 
 ## Remaining evidence gate
 
 The software now connects an observation to source-grounded follow-up reasoning. A before/after evaluation on independent held-out cases, real human review and physical trial evidence are still missing. Successful schema validation or a plausible Meta response does not close those Phase 2–4 gates or establish a causal correctness gain. The Phase 3 result file remains empty until an actual trial is supplied.
+
+The first real hypothetical probe passed the integration contract but exposed overconfident material wording and an unsupported simulation hypothesis. Its unmodified request/response are retained in `evaluation/observation-reasoning/before`. The prompt was then tightened; the saved input can be replayed explicitly for a same-input comparison with `--request evaluation/observation-reasoning/before/request.json`. This is not an independent held-out evaluation or a physical result, and assistant critique is not a human correctness label.
