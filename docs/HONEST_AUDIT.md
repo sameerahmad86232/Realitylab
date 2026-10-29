@@ -32,3 +32,5 @@ Unit checks cover false-success prevention, lesson/step binding and preserving f
 Next human proof: try one separate craft proposal, record the actual failure/success honestly, get intended-user feedback on one concrete task, test physical mobile hardware, record the three-minute public demo, and verify eligibility/submission requirements. No testimonials, physical results, measured impact or final video have been fabricated.
 
 Meta usage is real but still consists primarily of a vision request and grounded text requests. There is no autonomous verification agent, physical measurement pipeline or model fine-tuning. Do not claim those capabilities. The journal makes failures inspectable; it does not automatically correct them or turn self-reports into ground truth. More AI calls alone would not establish technical depth or usefulness.
+
+Visual review caught nested cards squeezing the observation editor on small phones despite passing page-overflow checks. Mobile step cards now stack the progress control above the full-width content; the browser test additionally requires at least 180px of journal width at the tested screen sizes.
