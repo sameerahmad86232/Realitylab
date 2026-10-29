@@ -2,7 +2,7 @@
 
 **Suggested problem statement:** Build for Your World. Choose Indie Developer versus Startup from the team's actual eligibility.
 
-**Pitch:** RealityLab helps curious makers connect the visible parts of an everyday object to how it works. Meta vision and reasoning turn photographs into an evidence-linked investigation: component roles, conceptual blueprints, typical construction and a separate hands-on proposal. Users can inspect the evidence and challenge hidden-part hypotheses.
+**Pitch:** RealityLab helps makers preparing hands-on demonstrations explain one visible principle in an everyday mechanism. Meta vision and reasoning connect photographed evidence to component roles, a conceptual drawing and a separate craft proposal. The observation journal keeps the model's prediction separate from what the user actually reports.
 
 **Impact:** Curious makers and learners often recognize an object without understanding its behavior. RealityLab links component roles and working principles back to source photos and makes uncertainty visible. Actual learning outcomes and demand still need user evaluation.
 
@@ -31,3 +31,5 @@
 Before submission, verify repository/video visibility, contributor list, eligibility and deadline against the organizer's current dashboard.
 
 See `JUDGING_READINESS.md` for rubric evidence and remaining human validation. The excluded-project examples make a generic image-analyzer or education-chatbot framing weak; demonstrate the linked engineering investigation and verify eligibility with the organizer.
+
+Phase 1 narrows the intended user/task; it does not establish demand or a learning benefit. See `REMEDIATION_PHASES.md` and `research/PHASE_1_PROTOCOL.md`.

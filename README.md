@@ -1,6 +1,6 @@
 # RealityLab · Liquid Gallery
 
-Evidence-linked engineering exploration from everyday-object photographs.
+For makers preparing hands-on demonstrations: explain one visible principle from an everyday-object photograph, then test a separate craft study.
 
 **Live:** https://realitylab.onrender.com
 
@@ -137,3 +137,7 @@ See [Phase 6 behavior and validation](docs/PHASE6.md). Checks: `npm run test:lea
 ### Honest audit and observation journal
 
 [Product audit](docs/HONEST_AUDIT.md) prioritizes evidence gaps over cosmetic changes. Build & Learn now separates completion from actual user-reported outcomes: expand a step’s “Record your test result,” compare expected versus actual, and export the journal with the dossier. Records are tab-memory only and are not independently verified. Uncertain identifications surface a suggested next view and edit-photo action without automatic inference.
+
+### Phased remediation
+
+[Ordered phases and all 32 audit mappings](docs/REMEDIATION_PHASES.md). Phase 1 aligns the home, capture and project brief around one maker-demonstration task. [Pilot protocol](docs/research/PHASE_1_PROTOCOL.md) and the empty participant template define future validation; no user outcomes have been measured.

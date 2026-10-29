@@ -10,7 +10,7 @@ try{
 await context.route('**/api/health',r=>r.fulfill({json:{analysis:{configured:true}}}));
 await context.route('**/api/scan',route=>route.fulfill({status:503,json:{error:{message:'Test-only backend unavailable. Your photos are preserved.'}}}));
 await page.goto(process.env.TEST_ORIGIN||'http://localhost:3000');
-await page.getByRole('heading',{name:'See beyond the surface.'}).waitFor();
+await page.getByRole('heading',{name:'See beyond the surface.'}).waitFor();await page.getByRole('heading',{name:'One object. One principle. Something you can put to the test.',exact:true}).waitFor();await page.getByRole('button',{name:'Prepare a demonstration',exact:true}).click();await page.getByRole('heading',{name:'Choose what to investigate.',exact:true}).waitFor();await page.getByRole('button',{name:'RealityLab home',exact:true}).click();
 await page.locator('.stage-canvas canvas').waitFor();
 const workflow=page.getByRole('group',{name:'Explore the product workflow'});await workflow.getByRole('button',{name:/Make/}).click();await page.getByText('Turn understanding into a project.',{exact:true}).waitFor();assert.equal(await workflow.getByRole('button',{name:/Make/}).getAttribute('aria-pressed'),'true');await workflow.getByRole('button',{name:/Observe/}).click();await page.locator('.atlas-art img').scrollIntoViewIfNeeded();await page.waitForFunction(()=>document.querySelector('.atlas-art img')?.naturalWidth>0);
 await page.waitForTimeout(1200);

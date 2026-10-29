@@ -13,6 +13,11 @@ try{
  await context.route('**/api/scan',route=>route.fulfill({status:503,json:{error:{message:'Test-only backend unavailable. Your photos are preserved.'}}}));
  await page.addInitScript(()=>{window.__cameraTracks=[];const original=navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);navigator.mediaDevices.getUserMedia=async(...args)=>{const s=await original(...args);window.__cameraTracks.push(...s.getTracks());return s}});
  await page.goto(origin);await page.getByRole('button',{name:'Scan object',exact:true}).click();
+ await page.getByRole('heading',{name:'Choose what to investigate.',exact:true}).waitFor();
+ const focus=page.getByRole('textbox',{name:/What should we focus on/});
+ await page.getByRole('button',{name:/What keeps it stable/}).click();assert.match(await focus.inputValue(),/support or stability/);assert.equal(await page.getByRole('button',{name:/What keeps it stable/}).getAttribute('aria-pressed'),'true');assert.deepEqual(requests,[],'Choosing an investigation does not upload');
+ await focus.fill('Explain the visible hinge.');assert.equal(await page.getByRole('button',{name:/What keeps it stable/}).getAttribute('aria-pressed'),'false');await focus.fill('');
+ await page.getByText('More exploratory object focuses',{exact:true}).click();await page.getByRole('group',{name:'Object exploration focus'}).getByRole('button',{name:'Textiles',exact:true}).click();assert.match(await focus.inputValue(),/fabric structure/);await focus.fill('');await page.getByText('More exploratory object focuses',{exact:true}).click();
  const input=page.locator('input[type=file]').first();
  const photo=await page.evaluate(async()=>{const c=document.createElement('canvas');c.width=2400;c.height=1800;const ctx=c.getContext('2d');ctx.fillStyle='#edf2ff';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='#365482';ctx.fillRect(500,400,1200,800);return c.toDataURL('image/png').split(',')[1]});
  const bytes=Buffer.from(photo,'base64');
