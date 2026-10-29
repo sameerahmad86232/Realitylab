@@ -15,3 +15,5 @@ Local development and fixture-based CI can run without private access secrets; d
 Run `npm run build && npm run test:prod-security` to start an isolated production-mode Next.js server on localhost with **test-only** private-access credentials. The test verifies `/access`, valid and invalid sessions, cookie security attributes, login throttling, unauthenticated scan/learn rejection, and authenticated scan fail-closed behavior when durable Redis is absent. It makes no external model calls and does not use actual production secrets. GitHub CI runs this after the unit/build suite.
 
 This is a test of the server logic, **not** confirmation that the live Render credentials, reverse proxy, branch selection, billing settings, or any provider account are configured. Those still require deployment-level verification.
+
+The private form endpoint validates POST Origin against `APP_ORIGIN` (or Render's `RENDER_EXTERNAL_URL`) rather than an internal reverse-proxy URL. Set `APP_ORIGIN` to the **exact public HTTPS origin** if using a custom domain. The redirect target is likewise restricted to the configured origin; do not trust unvalidated forwarding headers.

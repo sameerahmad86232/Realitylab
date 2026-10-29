@@ -6,8 +6,16 @@ const attempts = new Map<string, { count: number; until: number }>();
 
 export async function POST(request: Request) {
   // Form-only endpoint with origin validation. Do not record passcodes in logs or URLs.
-  const host = new URL(request.url);
-  if (request.headers.get("origin") !== host.origin)
+  // Next.js may receive an internal URL behind Render's reverse proxy.
+  // Validate against our configured public origin, never an untrusted forwarded host.
+  const configuredOrigin = process.env.APP_ORIGIN || process.env.RENDER_EXTERNAL_URL || request.url;
+  let publicOrigin: string;
+  try {
+    publicOrigin = new URL(configuredOrigin).origin;
+  } catch {
+    return new Response("Private access origin is unavailable.", { status: 503 });
+  }
+  if (request.headers.get("origin") !== publicOrigin)
     return new Response("Origin rejected.", { status: 403 });
   const ip = request.headers.get("x-forwarded-for")?.split(",").at(-1)?.trim() || "unknown";
   const now = Date.now();
@@ -27,11 +35,11 @@ export async function POST(request: Request) {
   }
   if (!validAccessCode(code)) {
     attempts.set(ip, { count: (prior?.until && prior.until > now ? prior.count : 0) + 1, until: now + 15 * 60_000 });
-    return NextResponse.redirect(new URL("/access?error=invalid", host.origin), 303);
+    return NextResponse.redirect(new URL("/access?error=invalid", publicOrigin), 303);
   }
   if (!accessStatus().configured) return new Response("Private access is unavailable.", { status: 503 });
   attempts.delete(ip);
-  const response = NextResponse.redirect(new URL("/", host.origin), 303);
+  const response = NextResponse.redirect(new URL("/", publicOrigin), 303);
   response.cookies.set(ACCESS_COOKIE, newSession().value, {
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
