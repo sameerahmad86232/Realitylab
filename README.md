@@ -141,3 +141,7 @@ See [Phase 6 behavior and validation](docs/PHASE6.md). Checks: `npm run test:lea
 ### Phased remediation
 
 [Ordered phases and all 32 audit mappings](docs/REMEDIATION_PHASES.md). Phase 1 aligns the home, capture and project brief around one maker-demonstration task. [Pilot protocol](docs/research/PHASE_1_PROTOCOL.md) and the empty participant template define future validation; no user outcomes have been measured.
+
+### Phase 2 evaluation
+
+[Evaluation workflow and limits](evaluation/README.md): `npm run eval:recorded` and `npm run eval:plan` run offline; paid calls require explicit live mode and a 1–4 request limit. The suite retains the known screwdriver failure, separates controlled transforms from held-out objects, and binds actual human reviews to input/result hashes. No recognition accuracy is inferred from valid JSON.

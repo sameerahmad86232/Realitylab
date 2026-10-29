@@ -18,7 +18,7 @@ The numbered issues below refer to the 32-item audit in the conversation. They a
 
 ## Phase 2 — recognition and evidence evaluation
 
-**Status:** next.
+**Status:** software workflow implemented; independent held-out and human review evidence pending.
 
 Create a versioned evaluation manifest, separate curated examples from held-out cases, and provide a repeatable runner/review workflow. Include familiar/unfamiliar objects, difficult lighting, clutter, crop/occlusion and multi-view comparisons. Record request failures, identity correctness, observed/inferred mistakes, marker placement and token/latency data. Human labels must be explicit and independent of the model; unknown labels stay unknown. Preserve failed cases and denominators. Paid evaluation is opt-in and bounded; do not silently spend credits or claim fixtures establish accuracy.
 
