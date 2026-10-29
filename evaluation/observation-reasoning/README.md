@@ -16,3 +16,9 @@ These are assistant observations, not human accuracy labels or an expert mechani
 ## Same-input comparison
 
 The validation script supports an explicit `--request` replay of this saved hypothetical request. Each invocation with `--live` makes at most one learning call. Repeating a test after a prompt change is a separate documented experiment, not a hidden automatic retry. A second result should be retained alongside the first, with its deployed revision and usage. Even improved wording on this one known scenario would not establish an accuracy or physical-reasoning gain on independent held-out cases.
+
+## Second deployed probe and residual issues
+
+`after/` retains the second one-call response against revision `edab852a61f7a06971ce75053518d6668da24bcb`. `comparison.json` verifies that the JSON request was identical. The response again passed the structured contract and source binding, with 5,576 returned tokens and 13.874s client time. Total for the two probes: 2 learning requests, 0 automatic retries and 10,648 known tokens. No further requests were made to select a more flattering response.
+
+Assistant inspection found that the after response more explicitly attributed the object description to the supplied analysis and did not invent a simulator error. However, one limitation still described cast-metal behavior of the actual pedestal too definitely, and other mechanistic statements remain assumptions. Those residual issues are preserved, not scored as resolved by a human reviewer. Prompt improvements and labels do not guarantee factual correctness. There is no measured quality/accuracy gain, independent held-out result or physical test in this comparison.

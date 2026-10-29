@@ -97,3 +97,7 @@ The software, offline baseline and first four-request controlled run are impleme
 ### Phase 4 software note
 
 `OBSERVATION_REASONING.md` describes the explicit full-report attachment and structured Meta review. Drafting is local; sending is one consented learning request. Stale attachments block sending, source/lesson/step references are checked, and model hypotheses remain unverified. No held-out accuracy or physical success gain has been established.
+
+### Phase 4 integration note
+
+Two explicit hypothetical requests passed the live observation-review contract before/after a prompt adjustment. `evaluation/observation-reasoning/comparison.json` verifies identical request content and retains limitations in both answers. No accuracy or general quality gain is established; residual material-language overconfidence and independent review remain open. The Phase 3 physical results remain empty.

@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "case_kind": "Hypothetical software integration scenario, not a physical trial or held-out recognition case",
+  "identical_request": true,
+  "request_sha256": "37eaa4f0efc0254e9178196a41dba0f82ee0fbffa6212ac200de4b1d136e619c",
+  "before_revision": "3d57f5f2c2ae7d9a2b041f2e9c5d6817f3ce8b69",
+  "after_revision": "edab852a61f7a06971ce75053518d6668da24bcb",
+  "learning_requests": 2,
+  "automatic_retries": 0,
+  "known_total_tokens": 10648,
+  "before_client_ms": 13387,
+  "after_client_ms": 13874,
+  "assessment_source": "Assistant reading of the output; not an independent human correctness review",
+  "observations": [
+    "Both responses passed the frontend contract and lesson/step binding.",
+    "The after response attributed more of the source description to the supplied analysis and did not invent a simulator error.",
+    "The after response still used cast-metal wording too definitely in a limitation and contained assumptions requiring review.",
+    "Neither response establishes actual craft behavior, verified construction materials or a correct physical cause."
+  ],
+  "quality_improvement_established": false,
+  "accuracy_claim": null,
+  "physical_trial_performed": false,
+  "independent_human_reviews": 0
+}

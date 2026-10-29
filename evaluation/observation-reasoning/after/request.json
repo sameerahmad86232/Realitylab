@@ -1,0 +1,185 @@
+{
+  "analysis": {
+    "object_name": "Vintage GE Table Electric Fan",
+    "summary": "Main foreground object is a vintage four-blade GE table fan on a flared pedestal base, enclosed by a wire guard cage with central GE emblem, displayed on a museum plinth. Visible structure indicates an electric axial-flow fan design; internal drive details are not visible and are inferred only from form.",
+    "category": "Household appliance / historic electric fan",
+    "recognition": "identified",
+    "components": [
+      {
+        "id": "part-1",
+        "name": "Wire Guard Cage",
+        "function": "Encloses rotating blades to reduce contact while allowing airflow",
+        "observed": true,
+        "evidence": "Large spherical open cage of concentric wire rings and bent wire supports surrounding blades, visible in sharp focus in foreground",
+        "material_candidates": [
+          "steel wire",
+          "painted metal"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.51,
+          "y": 0.43
+        },
+        "connections": []
+      },
+      {
+        "id": "part-2",
+        "name": "Fan Blades and Rotor Hub",
+        "function": "Rotates to move air when driven; visible blades attached at center",
+        "observed": true,
+        "evidence": "Four light blue-gray blades with curved profile and small notch near tip, riveted to central hub behind guard",
+        "material_candidates": [
+          "painted steel",
+          "aluminum alloy"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.47,
+          "y": 0.45
+        },
+        "connections": []
+      },
+      {
+        "id": "part-3",
+        "name": "Central Hub Medallion",
+        "function": "Covers and secures blade attachment point, displays branding",
+        "observed": true,
+        "evidence": "Circular red badge with silver script monogram GE at exact center of blade assembly",
+        "material_candidates": [
+          "painted metal",
+          "enamelled metal"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.572,
+          "y": 0.318
+        },
+        "connections": []
+      },
+      {
+        "id": "part-4",
+        "name": "Pedestal Base and Mount",
+        "function": "Supports fan head and provides stable upright platform",
+        "observed": true,
+        "evidence": "Flared blue-gray pedestal with flanged circular foot on cream display block, with visible mounting screws and small toggle on side",
+        "material_candidates": [
+          "cast metal",
+          "painted steel"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.479,
+          "y": 0.849
+        },
+        "connections": []
+      },
+      {
+        "id": "part-5",
+        "name": "Motor Housing",
+        "function": "Encloses drive motor behind blades; connects base to rotor",
+        "observed": true,
+        "evidence": "Gray cylindrical housing directly behind blade hub, partially occluded by guard and blades, connecting to pedestal neck",
+        "material_candidates": [
+          "painted steel",
+          "cast metal"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.445,
+          "y": 0.527
+        },
+        "connections": []
+      },
+      {
+        "id": "part-6",
+        "name": "Internal Electric Motor and Wiring",
+        "function": "Inferred to provide torque to blade assembly when powered",
+        "observed": false,
+        "evidence": "Not directly visible; inferred from presence of enclosed housing and fan typology as an electric fan, no cord or internals visible in this frontal view",
+        "material_candidates": [
+          "copper windings",
+          "steel laminations",
+          "insulation"
+        ],
+        "confidence": "uncertain",
+        "image_index": null,
+        "marker": null,
+        "connections": []
+      }
+    ],
+    "principles": [
+      {
+        "name": "Axial-Flow Air Movement",
+        "explanation": "Visible pitched blades, when rotated on central axis, are shaped to push air forward along axis; guard allows through-flow while blocking large objects",
+        "component_ids": [
+          "part-2",
+          "part-1",
+          "part-3"
+        ]
+      },
+      {
+        "name": "Enclosed Electromechanical Drive (Inferred)",
+        "explanation": "Housing behind hub suggests an enclosed electric motor drives the rotor; detailed mechanism, power and control method cannot be confirmed from this image alone",
+        "component_ids": [
+          "part-5",
+          "part-6",
+          "part-2"
+        ]
+      },
+      {
+        "name": "Protective Guarding and Stable Mounting",
+        "explanation": "Wire cage creates physical barrier around high-speed blades, while flared pedestal provides tipping resistance for tabletop use",
+        "component_ids": [
+          "part-1",
+          "part-4",
+          "part-5"
+        ]
+      }
+    ],
+    "uncertainty": [
+      "Exact manufacturing date, model number, and specifications not legible in photo",
+      "Motor type, voltage, power, oscillation or speed-control features not visible",
+      "Material composition, surface finish condition, and internal wear cannot be verified from image",
+      "Whether object is operational, modified, or restored",
+      "Background posters and adjacent fans are display context, not evidence of this unit's operation"
+    ],
+    "next_steps": [
+      "Photograph rear and side views to show motor nameplate, cord, switch, and oscillation components if present",
+      "Capture close-up of base markings and medallion without flash glare for identification",
+      "Include scale reference and overall display context while avoiding powering the device"
+    ],
+    "safety_notes": [
+      "Antique electrical appliances may have degraded insulation and should not be energized without professional inspection",
+      "Treat as museum display object; do not disassemble or attempt to operate",
+      "Guard does not guarantee safety; assume blade assembly could cause injury if powered",
+      "No wiring, repair, or restoration instructions are provided from this visual inspection alone"
+    ]
+  },
+  "source_request_id": "abb5852e-5e2a-4533-910a-42121b5eaa99",
+  "kind": "question",
+  "question": "Review this separate craft-study report. Compare the prediction with the reported result, challenge any questionable assumption, and suggest a safe observation that could distinguish possible explanations. The report is not independent verification.",
+  "consent": true,
+  "observation_context": {
+    "source_request_id": "abb5852e-5e2a-4533-910a-42121b5eaa99",
+    "lesson_request_id": "dee1bf5a-fe8d-4f59-a339-3cc4aab1e05f",
+    "step_index": 0,
+    "step_title": "Form the flared base",
+    "instruction": "Take a pre-sized square of cardboard about hand-size, fold edges under slightly to create a flat stable foot, then tape a small folded cardboard ring on top to mark the pedestal center. No cutting needed; fold or tear to shape.",
+    "prediction": "Base sits flat on table and does not rock when tapped lightly.",
+    "actual": "Hypothetical software probe only, not a physical trial: one folded corner touches first and the cardboard base rocks instead of lying flat.",
+    "outcome": "different",
+    "reported_at": "2026-10-29T08:30:43.774Z",
+    "report_type": "hypothetical-test",
+    "component_ids": [
+      "part-1",
+      "part-2",
+      "part-4",
+      "part-5"
+    ]
+  }
+}
