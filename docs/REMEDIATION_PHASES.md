@@ -89,3 +89,7 @@ Review the current implementation against the older default branch, resolve the 
 ## Tracking rule
 
 Mark each item separately as implemented, automatically checked, manually reviewed, or physically/user tested. Do not call all 32 issues “fixed” because eight documents, a better pitch or a test harness exist. None of the planned evidence has been fabricated or collected automatically.
+
+### Phase 2 execution note
+
+The software, offline baseline and first four-request controlled run are implemented and automatically checked. The controlled run yielded three valid envelopes and one no-object rejection, with zero automatic retries. See `evaluation/runs/controlled-2026-10-29/report.json`. Human correctness review and independent held-out coverage remain pending; Phase 2 is not evidence-complete.

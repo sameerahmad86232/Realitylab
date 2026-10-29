@@ -56,3 +56,9 @@ Review mode checks saved-image and payload digests. Stale bindings, invented par
 ## Remaining gate
 
 The software can reproducibly capture outputs and support review. It has not supplied independent human labels, a representative held-out dataset, physical mechanism validation or measured learning benefit. Those remain open Phase 2/3 evidence requirements.
+
+## Recorded controlled run — 29 October 2026
+
+[`runs/controlled-2026-10-29/report.json`](runs/controlled-2026-10-29/report.json) captures exactly four live requests against release `evaluation-workflow-v18`, revision `c4562141bb7eca6e1a17b2e1d2754351aea4844e`, with no retries. Three returned valid analysis envelopes (darkened bicycle, cropped fan, full fan plus the same crop); the synthetic blank returned the expected no-object 422. The saved prepared images allow hash-bound review. The rotated-mouse condition was not executed. These cases reuse known objects and are not an independent accuracy benchmark.
+
+The model identified the three object-containing inputs as bicycle/fan variants; that is a description of the output, not a human correctness rating. Parts, materials, markers and principles remain unreviewed. Known usage totals 13,897 tokens for three successful envelopes; usage for the no-object response was not returned and is unknown, not zero. Server processing for the three successful envelopes ranged from 12.66s to 20.798s. A separate health request exceeded a 20s timeout while the evaluation health check and all four scan requests completed; its cause is unknown. No uptime or latency improvement is claimed.
