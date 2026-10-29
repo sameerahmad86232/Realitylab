@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "measured_at": "2026-10-29T13:29:46.577Z",
+  "origin": "https://realitylab.onrender.com",
+  "source_revision": "209c29f099232ef4b5b2cd4ab358c7b5a29d1bbe",
+  "release": "measured-usage-controls-v22",
+  "case_id": "fan",
+  "split": "curated",
+  "http_requests": 1,
+  "automatic_retries": 0,
+  "http_status": 200,
+  "outcome": "valid-result",
+  "request_id": "f1485831-a5d7-4080-b1a1-78856312b2b4",
+  "provider": "Baseten",
+  "model": "meta-models/muse-spark-open-1026",
+  "elapsed_ms": 15053,
+  "server_ms": 14740,
+  "timing": {
+    "request_read_ms": 192,
+    "normalization_ms": 242,
+    "quota_ms": 1,
+    "inference_ms": 14305
+  },
+  "usage": {
+    "input_tokens": 2408,
+    "output_tokens": 2052,
+    "total_tokens": 4460
+  },
+  "input_sha256": "30b4254fb7c1c6d955d5514458743519c0b70bb8edd8f7c7d69b9b65cc7dec98",
+  "image_sha256": [
+    "43c944f138f8ad4ed0e6fe32ed62534fa3be6494c34cfaab5553ba53d20404fc"
+  ],
+  "response_sha256": "1c5a2bfaa8929de71abda2ed5fa86d87c582c4c5bb6d18f8f47daf5077fa2a72",
+  "durable_quota_state": "not-configured",
+  "provider_spend_cap_verified": false,
+  "human_correctness_reviews": 0,
+  "accuracy_claim": null,
+  "dollar_cost": null,
+  "notices": [
+    "This is one curated-object request, not a latency distribution or service-level guarantee.",
+    "A valid response envelope does not establish identification or engineering correctness.",
+    "Provider-reported tokens are retained; no dollar cost is inferred.",
+    "The process-local request count was active. Durable shared enforcement and a provider spend cap were not configured."
+  ]
+}

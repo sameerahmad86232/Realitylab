@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "run_id": "2026-10-29T03-51-13-218Z-68ae7f10",
+  "manifest_sha256": "6e1932dadc8869d3f03dfd360ea9a64f6a68f6de67ad215e617c8fb7bbd2450f",
+  "http_requests": 0,
+  "summary": {
+    "selected_cases": 11,
+    "executed_cases": 6,
+    "historical_cases": 6,
+    "live_attempts": 0,
+    "splits": {
+      "curated": 5,
+      "known-failure": 1,
+      "controlled-challenge": 5,
+      "held-out": 0
+    },
+    "outcomes": {
+      "valid-result": 6,
+      "no-object-rejection": 0,
+      "http-error": 0,
+      "invalid-envelope": 0,
+      "timeout": 0,
+      "setup-error": 0,
+      "not-run": 5
+    },
+    "structural_results": 6,
+    "token_usage": {
+      "known_total_tokens": 28353,
+      "unknown_executed_cases": 0,
+      "notice": "Unknown usage is not zero usage; no dollar cost is inferred."
+    },
+    "human_identity_ratings": {
+      "correct": 0,
+      "incorrect": 0,
+      "uncertain": 0,
+      "not-reviewed": 0
+    },
+    "human_reviewed_cases": 0,
+    "human_identity_reviewed_cases": 0,
+    "identity_pending_results": 6,
+    "review_issues": [],
+    "server_ms": {
+      "min": 13189,
+      "max": 21376,
+      "median": 15396
+    },
+    "accuracy_claim": null,
+    "notices": [
+      "A valid envelope is not a correct identification or mechanical explanation.",
+      "Curated examples and transforms of them are not independent held-out evidence.",
+      "Source-file identity references are not human correctness reviews.",
+      "Human-review counts exclude unknown, stale, invalid and duplicate bindings; no measured accuracy is asserted.",
+      "A no-object rejection is an API behavior, not an expert judgment about the image."
+    ]
+  },
+  "notice": "Historical envelopes and known failure, no independent human correctness reviews. Does not establish accuracy."
+}

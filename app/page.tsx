@@ -1,0 +1,787 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import { productScope } from "../lib/product-scope";
+import MobileNavigation from "../components/MobileNavigation";
+import ConnectionNotice from "../components/ConnectionNotice";
+import LiveResults from "../components/LiveResults";
+import DemoGallery from "../components/DemoGallery";
+import type { ScanView } from "../lib/analysis";
+import CapturePanel from "../components/CapturePanel";
+import dynamic from "next/dynamic";
+import {
+  ArrowUpRight,
+  ArrowRight,
+  Aperture,
+  Camera,
+  Upload,
+  MoveUpRight,
+  Sun,
+  Scan,
+  Layers3,
+  X,
+  Check,
+  ShieldCheck,
+  ChevronRight,
+  Pause,
+  Play,
+  PlayCircle,
+  Maximize2,
+  Info,
+  Download,
+  RotateCcw,
+} from "lucide-react";
+import Shader from "../components/Shader";
+import ProjectImportButton from "../components/ProjectImportButton";
+const DemoTheater = dynamic(() => import("../components/DemoTheater"), {
+  ssr: false,
+  loading: () => (
+    <div className="demo-bootstrap" role="status">
+      Opening the guided view…
+    </div>
+  ),
+});
+const FanStage = dynamic(() => import("../components/FanStage"), {
+  ssr: false,
+  loading: () => (
+    <div className="fan-stage loading">Preparing the gallery…</div>
+  ),
+});
+type Part = {
+  id: string;
+  name: string;
+  role: string;
+  evidence: string;
+  material: string;
+  observed: boolean;
+  x: number;
+  y: number;
+};
+const parts: Part[] = [
+  {
+    id: "guard",
+    name: "Front guard",
+    role: "Creates a barrier around the rotating blades.",
+    evidence:
+      "The prepared model shows concentric wire rings in front of the blades.",
+    material: "Metal wire, shown as an illustrative material.",
+    observed: true,
+    x: 50,
+    y: 23,
+  },
+  {
+    id: "blades",
+    name: "Fan blades",
+    role: "Their angled surfaces move air when the rotor turns.",
+    evidence: "Three broad curved surfaces are shown around the central hub.",
+    material: "Illustrative metal; real fans may use plastic or metal.",
+    observed: true,
+    x: 63,
+    y: 40,
+  },
+  {
+    id: "motor",
+    name: "Motor housing",
+    role: "A typical electric fan contains a motor that drives the blade shaft.",
+    evidence:
+      "The housing is represented behind the guard. Its internal construction is not modeled.",
+    material: "Housing and internal materials vary by product.",
+    observed: false,
+    x: 38,
+    y: 41,
+  },
+  {
+    id: "stand",
+    name: "Stand & base",
+    role: "Supports the fan head and helps keep the assembly upright.",
+    evidence: "A vertical support joins the head to a broad circular base.",
+    material: "Illustrative metal; not a verified specification.",
+    observed: true,
+    x: 50,
+    y: 75,
+  },
+];
+function Blueprint({
+  selected,
+  onSelect,
+}: {
+  selected: string;
+  onSelect: (id: string) => void;
+}) {
+  return (
+    <svg
+      viewBox="0 0 700 250"
+      className="blueprint"
+      role="group"
+      aria-label="Conceptual desk fan schematic, not to scale"
+    >
+      <defs>
+        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+          <path
+            d="M 20 0 L 0 0 0 20"
+            fill="none"
+            stroke="#e6ecf5"
+            strokeWidth=".6"
+          />
+        </pattern>
+      </defs>
+      <rect width="700" height="250" fill="url(#grid)" />
+      <g fill="none" stroke="#7d8ba4" strokeWidth="1.5">
+        <circle cx="340" cy="97" r="72" />
+        <circle cx="340" cy="97" r="66" />
+        <circle cx="340" cy="97" r="49" />
+        <circle cx="340" cy="97" r="18" />
+        {Array.from({ length: 18 }, (_, i) => (
+          <path
+            key={i}
+            d="M340 25V169"
+            transform={`rotate(${i * 10} 340 97)`}
+          />
+        ))}
+        <path d="M330 169V210H350V169M300 210Q340 198 380 210L390 222H290Z" />
+        <path d="M340 79C360 40 398 56 384 88Q370 110 340 97M324 106C283 112 279 72 302 65Q330 60 340 97M349 108C371 142 335 165 318 145Q305 123 340 97" />
+      </g>
+      {parts.map((p, i) => {
+        const [x, y] = [
+          [386, 43],
+          [382, 102],
+          [290, 95],
+          [350, 199],
+        ][i];
+        const lx = i % 2 ? 510 : 140;
+        return (
+          <g
+            key={p.id}
+            onClick={() => onSelect(p.id)}
+            className="diagram-part"
+            role="button"
+            tabIndex={0}
+            aria-label={`Select ${p.name}`}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onSelect(p.id);
+              }
+            }}
+          >
+            <path
+              d={`M${x} ${y}H${lx}`}
+              stroke={selected === p.id ? "#1457f5" : "#a5b0c2"}
+              fill="none"
+            />
+            <circle
+              cx={x}
+              cy={y}
+              r="4"
+              fill={selected === p.id ? "#1457f5" : "#7d8ba4"}
+            />
+            <text
+              x={lx + (i % 2 ? 8 : -8)}
+              y={y + 4}
+              textAnchor={i % 2 ? "start" : "end"}
+              fill={selected === p.id ? "#1457f5" : "#556278"}
+              fontSize="12"
+            >
+              {p.name}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+export default function Home() {
+  const [screen, setScreen] = useState<
+      "home" | "capture" | "explore" | "results"
+    >("home"),
+    [selected, setSelected] = useState("guard"),
+    [tab, setTab] = useState<"model" | "blueprint">("model"),
+    [paused, setPaused] = useState(false),
+    [demo, setDemo] = useState(false);
+  const [scan, setScan] = useState<ScanView | null>(null),
+    [draft, setDraft] = useState(0),
+    [projectNotice, setProjectNotice] = useState({ message: "", id: 0 });
+  const scanRef = useRef(scan),
+    mounted = useRef(false);
+  scanRef.current = scan;
+  useEffect(() => {
+    const restore = () => {
+      const hash = location.hash.slice(1);
+      if (
+        ![
+          "",
+          "home",
+          "capture",
+          "explore",
+          "results",
+          "how-it-works",
+          "collection",
+        ].includes(hash)
+      )
+        return;
+      const next =
+        hash === "capture"
+          ? "capture"
+          : hash === "explore"
+            ? "explore"
+            : hash === "results"
+              ? scanRef.current
+                ? "results"
+                : "capture"
+              : "home";
+      setScreen(next);
+      if (hash === "results" && !scanRef.current)
+        history.replaceState(history.state, "", "#capture");
+      if (hash === "how-it-works" || hash === "collection")
+        requestAnimationFrame(() =>
+          document.getElementById(hash)?.scrollIntoView({ block: "start" }),
+        );
+    };
+    restore();
+    addEventListener("popstate", restore);
+    addEventListener("hashchange", restore);
+    return () => {
+      removeEventListener("popstate", restore);
+      removeEventListener("hashchange", restore);
+    };
+  }, []);
+  useEffect(() => {
+    document.title = {
+      home: "RealityLab — A closer look at the everyday",
+      capture: "Scan an object — RealityLab",
+      explore: "Prepared fan sample — RealityLab",
+      results: "Object exploration — RealityLab",
+    }[screen];
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
+    document.getElementById("main")?.focus({ preventScroll: true });
+    if (location.hash !== "#how-it-works")
+      window.scrollTo({ top: 0, behavior: "instant" });
+  }, [screen]);
+  useEffect(() => {
+    const url = new URL(location.href);
+    if (url.searchParams.get("demo") === "1") {
+      setDemo(true);
+      url.searchParams.delete("demo");
+      history.replaceState(
+        history.state,
+        "",
+        url.pathname + url.search + url.hash,
+      );
+    }
+  }, []);
+  const part = parts.find((p) => p.id === selected)!;
+  function go(s: typeof screen, anchor: string = s) {
+    const hash = `#${anchor}`;
+    if (location.hash !== hash) history.pushState(history.state, "", hash);
+    setScreen(s);
+    requestAnimationFrame(() => {
+      if (anchor === "how-it-works")
+        document.getElementById(anchor)?.scrollIntoView({ block: "start" });
+      else window.scrollTo({ top: 0, behavior: "instant" });
+    });
+  }
+  function download() {
+    const svg = document.querySelector(".blueprint");
+    if (!svg) return;
+    const blob = new Blob([new XMLSerializer().serializeToString(svg)], {
+      type: "image/svg+xml",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "realitylab-conceptual-fan.svg";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  return (
+    <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <header className="header">
+        <button
+          className="brand"
+          onClick={() => go("home")}
+          aria-label="RealityLab home"
+        >
+          <Aperture size={26} strokeWidth={1.8} />
+          <span>
+            Reality<span className="brand-light">Lab</span>
+          </span>
+        </button>
+        <nav aria-label="Main navigation">
+          <button
+            className={
+              screen === "explore" || screen === "results" ? "active" : ""
+            }
+            onClick={() => go(scan ? "results" : "explore")}
+          >
+            Explore
+          </button>
+          <button
+            className="presentation-link"
+            aria-haspopup="dialog"
+            onClick={() => setDemo(true)}
+          >
+            Guided demo <PlayCircle size={12} />
+          </button>
+          <a
+            href="/#how-it-works"
+            onClick={(e) => {
+              e.preventDefault();
+              go("home", "how-it-works");
+            }}
+          >
+            How it works <ArrowUpRight size={12} />
+          </a>
+        </nav>
+        <MobileNavigation hasResult={!!scan} onNavigate={go} />
+        <div className="header-right">
+          <ProjectImportButton
+            className="header-project-button"
+            onOpen={(restored, message) => {
+              setScan(restored);
+              setProjectNotice((current) => ({ message, id: current.id + 1 }));
+              go("results");
+            }}
+          />
+          <button
+            className="primary small"
+            aria-label="Scan object"
+            title="Scan object"
+            onClick={() => go("capture")}
+          >
+            <Camera size={15} />
+            <span>Scan object</span>
+            <ArrowUpRight size={15} />
+          </button>
+        </div>
+      </header>
+      <main id="main" tabIndex={-1}>
+        <ConnectionNotice />
+        {screen === "home" && (
+          <>
+            <section className="hero">
+              <Shader paused={paused} active={!demo} />
+              <div className="hero-copy">
+                <p className="eyebrow">
+                  <span className="short-line" /> A CLOSER LOOK AT THE EVERYDAY
+                </p>
+                <h1>
+                  See beyond
+                  <br />
+                  the <span>surface.</span>
+                </h1>
+                <p className="hero-description">
+                  For makers preparing hands-on demonstrations.
+                  <br />
+                  Photograph an object, explain one principle,
+                  <br className="desktop-break" /> then test a separate craft
+                  study.
+                </p>
+                <div className="hero-actions">
+                  <button className="primary" onClick={() => go("capture")}>
+                    Scan an object <ArrowUpRight size={18} />
+                  </button>
+                  <button
+                    className="secondary hero-demo-button"
+                    aria-haspopup="dialog"
+                    onClick={() => setDemo(true)}
+                  >
+                    <PlayCircle size={17} />
+                    See it in action
+                  </button>
+                </div>
+                <div className="hero-sample-row">
+                  <button onClick={() => go("explore")}>
+                    Explore sample <ArrowRight size={13} />
+                  </button>
+                  <span>Prepared 3D concept</span>
+                </div>
+                {scan && (
+                  <button
+                    className="resume-exploration secondary"
+                    onClick={() => go("results")}
+                  >
+                    Resume your exploration <ArrowRight size={15} />
+                  </button>
+                )}
+                <p className="hero-meta">
+                  <ShieldCheck size={14} /> Real photo evidence. Explicit
+                  hypotheses.
+                </p>
+              </div>
+              <div className="hero-stage">
+                <FanStage active={!demo} />
+                <button className="sample-tag" onClick={() => go("explore")}>
+                  <span className="sample-icon">
+                    <Layers3 size={18} />
+                  </span>
+                  <span>
+                    <strong>
+                      A familiar object.
+                      <br />
+                      An unfamiliar perspective.
+                    </strong>
+                    <small>Explore the prepared fan sample</small>
+                  </span>
+                  <ArrowUpRight size={15} />
+                </button>
+              </div>
+              <div className="hero-bottom">
+                <span>01 — THE DESK FAN</span>
+                <span>Concept model · Not reconstructed</span>
+                <button
+                  onClick={() => setPaused((p) => !p)}
+                  aria-label={
+                    paused
+                      ? "Play background effects"
+                      : "Pause background effects"
+                  }
+                >
+                  {paused ? <Play size={13} /> : <Pause size={13} />} Effects{" "}
+                  {paused ? "paused" : "on"}
+                </button>
+              </div>
+            </section>
+            <section className="intro-strip">
+              <p>
+                Less guessing.
+                <br />
+                <strong>More understanding.</strong>
+              </p>
+              <div>
+                <Scan />
+                <span>
+                  Start with a photo<small>Bring your own perspective.</small>
+                </span>
+              </div>
+              <div>
+                <Layers3 />
+                <span>
+                  Follow the connections
+                  <small>Make sense of the moving parts.</small>
+                </span>
+              </div>
+              <div>
+                <Sun />
+                <span>
+                  Find the principle
+                  <small>Take a little curiosity further.</small>
+                </span>
+              </div>
+            </section>
+            <section
+              className="maker-mission"
+              aria-labelledby="maker-mission-title"
+            >
+              <div>
+                <p className="eyebrow">{productScope.audience}</p>
+                <h2 id="maker-mission-title">
+                  One object. One principle.
+                  <br />
+                  <span>Something you can put to the test.</span>
+                </h2>
+                <p>
+                  {productScope.task} Keep each explanation linked to the
+                  photograph and record what actually happens.
+                </p>
+                <button className="secondary" onClick={() => go("capture")}>
+                  Prepare a demonstration <ArrowUpRight size={15} />
+                </button>
+                <br />
+                <a className="mission-trial-link" href="/trial/stability">
+                  Try the separate stability-study worksheet{" "}
+                  <ArrowUpRight size={12} />
+                </a>
+              </div>
+              <ol>
+                <li>
+                  <span>01</span>
+                  <div>
+                    <strong>Explain a visible part</strong>
+                    <p>
+                      Point to its evidence and distinguish it from a
+                      hidden-part hypothesis.
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  <span>02</span>
+                  <div>
+                    <strong>Make the principle inspectable</strong>
+                    <p>
+                      Use a source-linked conceptual drawing, not a
+                      manufacturing specification.
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  <span>03</span>
+                  <div>
+                    <strong>Compare prediction with observation</strong>
+                    <p>
+                      Try a separate craft study and record a matching,
+                      different or unclear result.
+                    </p>
+                  </div>
+                </li>
+              </ol>
+              <p className="mission-boundary">
+                A maker-workshop prototype. Object recognition and proposed
+                activities still need evaluation; physical results and user
+                benefit are not established.
+              </p>
+            </section>
+            <section className="section sample-section" id="collection">
+              <div className="section-top">
+                <div>
+                  <p className="eyebrow">THE EXPLORATION COLLECTION</p>
+                  <h2>
+                    Ordinary outside.
+                    <br />
+                    <span>Extraordinary within.</span>
+                  </h2>
+                </div>
+                <p>
+                  Explore five recorded photo analyses.
+                  <br />
+                  No upload. No new inference request.
+                </p>
+              </div>
+              <DemoGallery
+                onResult={(result) => {
+                  setScan(result);
+                  go("results");
+                }}
+              />
+            </section>
+            <section className="section how" id="how-it-works">
+              <div>
+                <p className="eyebrow">FROM WHAT TO HOW</p>
+                <h2>
+                  A different kind
+                  <br />
+                  of closer look.
+                </h2>
+                <p>
+                  Observations first. Possibilities second.
+                  <br />
+                  Always room for a better question.
+                </p>
+              </div>
+              <div className="how-steps">
+                {[
+                  [
+                    "01",
+                    "Bring an object",
+                    "Upload a photo or use your camera. A clear view is a good beginning.",
+                  ],
+                  [
+                    "02",
+                    "Explore its parts",
+                    "Discover component roles, possible materials, and the connections between them.",
+                  ],
+                  [
+                    "03",
+                    "Test one principle",
+                    "Explore a separate craft proposal. Compare its prediction with your actual observation; record failures too.",
+                  ],
+                ].map(([n, title, body]) => (
+                  <div key={n}>
+                    <span>{n}</span>
+                    <div>
+                      <h3>{title}</h3>
+                      <p>{body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+            <section className="closing">
+              <p className="eyebrow">CURIOSITY IS A GOOD STARTING POINT.</p>
+              <h2>What will you look at differently?</h2>
+              <button className="primary" onClick={() => go("capture")}>
+                Start exploring <ArrowUpRight size={17} />
+              </button>
+            </section>
+          </>
+        )}
+        <CapturePanel
+          key={draft}
+          active={screen === "capture"}
+          onHome={() => go("home")}
+          onSample={() => go("explore")}
+          onChange={() => setScan(null)}
+          onResult={(result) => {
+            setScan(result);
+            go("results");
+          }}
+        />
+        {screen === "results" && scan && (
+          <LiveResults
+            key={`${scan.result.meta.requestId}-${projectNotice.id}`}
+            scan={scan}
+            recoveryNotice={projectNotice.message}
+            onEdit={() => go("capture")}
+            onNew={() => {
+              setScan(null);
+              setProjectNotice((current) => ({ message: "", id: current.id }));
+              setDraft((n) => n + 1);
+              go("capture");
+            }}
+          />
+        )}
+        {screen === "explore" && (
+          <section className="explore-page section">
+            <div className="breadcrumb">
+              <button onClick={() => go("home")}>Collection</button>
+              <ChevronRight size={12} /> Desk fan{" "}
+              <span className="sample-label">Prepared sample · No AI call</span>
+            </div>
+            <div className="explore-heading">
+              <div>
+                <p className="eyebrow">01 / AIR & MOTION</p>
+                <h1>
+                  The everyday,
+                  <br />
+                  <span>explained.</span>
+                </h1>
+              </div>
+              <p>
+                A desk fan turns rotation into airflow.
+                <br />
+                Explore a simplified concept of its major parts.
+              </p>
+            </div>
+            <div className="explorer">
+              <div className="explorer-stage">
+                <div className="tabs" role="group" aria-label="Sample view">
+                  <button
+                    aria-pressed={tab === "model"}
+                    onClick={() => setTab("model")}
+                  >
+                    <RotateCcw size={14} />
+                    3D concept
+                  </button>
+                  <button
+                    aria-pressed={tab === "blueprint"}
+                    onClick={() => setTab("blueprint")}
+                  >
+                    <Layers3 size={14} />
+                    Blueprint
+                  </button>
+                </div>
+                {tab === "model" ? (
+                  <FanStage active={!demo} />
+                ) : (
+                  <div className="diagram-wrap">
+                    <Blueprint selected={selected} onSelect={setSelected} />
+                    <p>Conceptual · Not to scale · Not reconstructed</p>
+                    <button className="secondary" onClick={download}>
+                      <Download size={15} />
+                      Download SVG
+                    </button>
+                  </div>
+                )}
+              </div>
+              <aside className="inspector">
+                <div className="inspector-top">
+                  <span>COMPONENTS</span>
+                  <span>04</span>
+                </div>
+                <div className="parts-list">
+                  {parts.map((p, i) => (
+                    <button
+                      key={p.id}
+                      aria-pressed={selected === p.id}
+                      onClick={() => setSelected(p.id)}
+                    >
+                      <span className="part-number">0{i + 1}</span>
+                      {p.name}
+                      <ChevronRight size={15} />
+                    </button>
+                  ))}
+                </div>
+                <div className="part-detail" aria-live="polite">
+                  <span
+                    className={`evidence-tag ${part.observed ? "" : "inferred"}`}
+                  >
+                    {part.observed ? <Check size={12} /> : <Info size={12} />}{" "}
+                    {part.observed ? "Visible in sample" : "Inferred mechanism"}
+                  </span>
+                  <h2>{part.name}</h2>
+                  <h4>WHAT IT DOES</h4>
+                  <p>{part.role}</p>
+                  <h4>THE EVIDENCE</h4>
+                  <p>{part.evidence}</p>
+                  <h4>POSSIBLE MATERIAL</h4>
+                  <p>{part.material}</p>
+                </div>
+                <p className="inspector-foot">
+                  <Info size={14} /> A learning model, not a product
+                  specification.
+                </p>
+              </aside>
+            </div>
+            <div className="evidence-legend">
+              <span>
+                <i className="dot" /> Observed: represented in this sample
+              </span>
+              <span>
+                <i className="dot gray" /> Inferred: a typical explanation, not
+                verified
+              </span>
+              <span>No measurements. No hidden-part certainty.</span>
+            </div>
+            <div className="learn-preview">
+              <Sun size={25} />
+              <div>
+                <p className="eyebrow">THE PRINCIPLE / ROTATIONAL MOTION</p>
+                <h3>A turn becomes a breeze.</h3>
+                <p>
+                  A typical motor rotates a shaft connected to angled blades.
+                  The blades push air, while the guard and base serve different
+                  supporting roles. This is a general explanation, not a
+                  diagnosis of a real fan.
+                </p>
+              </div>
+              <button className="secondary" onClick={() => go("capture")}>
+                Bring your own object <ArrowUpRight size={15} />
+              </button>
+            </div>
+          </section>
+        )}
+        {demo && (
+          <DemoTheater
+            onClose={() => setDemo(false)}
+            onOpen={(result) => {
+              setScan(result);
+              setDemo(false);
+              go("results");
+            }}
+            onScan={() => {
+              setDemo(false);
+              go("capture");
+            }}
+          />
+        )}
+      </main>
+      <footer>
+        <button className="brand" onClick={() => go("home")}>
+          <Aperture size={19} />
+          <span>
+            Reality<span className="brand-light">Lab</span>
+          </span>
+        </button>
+        <p>Made for the way curiosity works.</p>
+        <a className="project-brief-link" href="/project">
+          Project brief & evidence <ArrowUpRight size={13} />
+        </a>
+        <span>Engineering, made visible.</span>
+      </footer>
+    </>
+  );
+}

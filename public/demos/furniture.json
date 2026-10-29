@@ -1,0 +1,172 @@
+{
+  "analysis": {
+    "object_name": "Small round cafe table with black molded side chairs",
+    "summary": "Primary foreground objects are a small round table and three matching black side chairs arranged against a white wall on carpet; scope is the seating set as the most prominent foreground furniture, excluding wall, floor, glass partition and bottle as surrounding props.",
+    "category": "furniture and structures",
+    "recognition": "identified",
+    "components": [
+      {
+        "id": "part-1",
+        "name": "Molded chair shell - seat and backrest",
+        "function": "Provides seated support surface for occupant",
+        "observed": true,
+        "evidence": "Glossy black one-piece contoured shell with curved upright backrest and integrated seat clearly visible on middle chair, with matching shape on left and partial right chair, light reflection along edge",
+        "material_candidates": [
+          "molded polypropylene",
+          "ABS plastic",
+          "polycarbonate blend"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.38,
+          "y": 0.73
+        },
+        "connections": [
+          "part-2"
+        ]
+      },
+      {
+        "id": "part-2",
+        "name": "Chair leg frame - tubular metal legs",
+        "function": "Supports chair shell above floor",
+        "observed": true,
+        "evidence": "Four slender silvery tubular legs per chair extending from under shell to dark carpet, two front legs of middle chair prominently in foreground, rear legs partially visible",
+        "material_candidates": [
+          "steel",
+          "aluminum alloy",
+          "chrome-plated metal"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.5,
+          "y": 0.89
+        },
+        "connections": [
+          "part-1"
+        ]
+      },
+      {
+        "id": "part-3",
+        "name": "Round table top",
+        "function": "Horizontal surface for placing small objects",
+        "observed": true,
+        "evidence": "Circular white surface with faint grey marbling and thin dark rim with gold-tone edge bevel, centered against wall with teal bottle resting on it",
+        "material_candidates": [
+          "laminate over engineered board",
+          "MDF with melamine face",
+          "sintered stone veneer"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.735,
+          "y": 0.665
+        },
+        "connections": [
+          "part-4"
+        ]
+      },
+      {
+        "id": "part-4",
+        "name": "Table leg assembly - splayed legs",
+        "function": "Supports table top and transfers load to floor",
+        "observed": true,
+        "evidence": "Three dark angled struts splaying outward from under tabletop to carpet, visible as matte black legs with slight taper",
+        "material_candidates": [
+          "powder-coated steel",
+          "painted metal"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.72,
+          "y": 0.815
+        },
+        "connections": [
+          "part-3",
+          "part-5"
+        ]
+      },
+      {
+        "id": "part-5",
+        "name": "Leg foot caps",
+        "function": "Contact point with floor, may protect flooring and add friction",
+        "observed": true,
+        "evidence": "Small gold-colored conical caps at tips of table legs, most distinct on right-front leg near carpet and faintly on rear leg",
+        "material_candidates": [
+          "brass-toned metal",
+          "metallic-coated plastic"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.834,
+          "y": 0.915
+        },
+        "connections": [
+          "part-4"
+        ]
+      }
+    ],
+    "principles": [
+      {
+        "name": "Vertical load transfer to floor",
+        "explanation": "Visible form suggests weight on tabletop or chair seat would travel downward through respective legs to carpet; actual joint strength, fasteners, and load capacity are not visible and are inferred only from arrangement",
+        "component_ids": [
+          "part-1",
+          "part-2",
+          "part-3",
+          "part-4"
+        ]
+      },
+      {
+        "name": "Stability from splayed footprint",
+        "explanation": "Angled table legs appear to widen the base relative to the top, which likely improves tipping resistance; effectiveness depends on hidden attachment rigidity and floor levelness not assessable in photo",
+        "component_ids": [
+          "part-3",
+          "part-4",
+          "part-5"
+        ]
+      },
+      {
+        "name": "Shell curvature for rigidity",
+        "explanation": "Curved molded chair shell likely gains stiffness from its three-dimensional contour without visible additional bracing; material thickness and internal reinforcement are not visible",
+        "component_ids": [
+          "part-1"
+        ]
+      }
+    ],
+    "uncertainty": [
+      "Exact materials, wall thickness, and manufacturing method of shells, tabletop, and legs cannot be determined from image",
+      "Internal construction, hidden fasteners, welds, or brackets attaching chair legs to shell and table legs to top are not visible",
+      "Precise dimensions, weight, weight rating, and stability on carpet are not measurable from this single perspective",
+      "Condition of undersides, hidden wear, cracks, or previous repairs not shown",
+      "Brand, age, and compliance with any safety standards not visible",
+      "Whether floor is level and furniture is stable cannot be judged from photo"
+    ],
+    "next_steps": [
+      "Take a closer eye-level photo of chair leg-to-shell junction from side to see attachment without moving furniture",
+      "Photograph underside of table if accessible without lifting, to observe leg bracket form",
+      "Capture a wider angle showing full right chair and surrounding partition for context"
+    ],
+    "safety_notes": [
+      "Photo alone cannot assess structural integrity, weight limits, or tip-over risk; do not stand on chairs or table",
+      "Check for wobble and loose joints in person before use; carpet may conceal uneven footing",
+      "Keep away from open flame or heat sources; material flammability unknown from image"
+    ]
+  },
+  "meta": {
+    "requestId": "6c53911a-60da-46b0-bb40-d260c1c2892e",
+    "provider": "Baseten",
+    "model": "meta-models/muse-spark-open-1026",
+    "durationMs": 21376,
+    "analyzedAt": "2026-10-28T12:27:03.505Z",
+    "usage": {
+      "inputTokens": 2262,
+      "outputTokens": 4566,
+      "totalTokens": 6828
+    }
+  }
+}

@@ -1,0 +1,98 @@
+.timing-breakdown {
+  margin: 14px 0 24px;
+  border: 1px solid #cfdae3;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #486174;
+}
+.timing-breakdown summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.timing-breakdown summary:focus-visible {
+  outline: 3px solid #1457f5;
+  outline-offset: 3px;
+}
+.timing-breakdown dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  border-top: 1px solid #d7e1e8;
+}
+.timing-breakdown dl > div {
+  padding: 12px 14px;
+  border-right: 1px solid #d7e1e8;
+  border-bottom: 1px solid #d7e1e8;
+}
+.timing-breakdown dt {
+  font-size: 9px;
+  color: #647b8d;
+}
+.timing-breakdown dd {
+  margin: 6px 0 0;
+  font: 12px monospace;
+  color: #294b63;
+}
+.timing-breakdown > p {
+  padding: 12px 14px;
+  font-size: 9px;
+  line-height: 1.8;
+  color: #607687;
+}
+.capacity-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 15px 0;
+  padding: 12px 13px;
+  border: 1px solid #d8cda9;
+  border-radius: 7px;
+  background: #faf7ed;
+  color: #675a37;
+  font-size: 10px;
+  line-height: 1.75;
+}
+.capacity-note svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+@media (max-width: 760px) {
+  .timing-breakdown dl {
+    grid-template-columns: 1fr 1fr;
+  }
+  .timing-breakdown dl > div {
+    padding: 11px;
+  }
+  .capacity-note {
+    font-size: 9px;
+  }
+}
+
+/* WCAG AA contrast on recorded/restored construction and learning dossiers.
+   These surfaces must stay legible even with the mobile viewport. */
+.construction-sequence .stage-kicker {
+  color: #234651 !important;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+}
+.construction-sequence p,
+.construction-review ul,
+.construction-review li {
+  color: #244550 !important;
+  font-size: 12px;
+}
+.lesson-steps p {
+  color: #314b63 !important;
+  font-size: 12px;
+}
+.lesson-steps .step-check {
+  color: #243f60;
+  background: #f7faff;
+}
+.lesson-steps small {
+  color: #2c4b71;
+}

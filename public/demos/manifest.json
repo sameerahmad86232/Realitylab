@@ -1,0 +1,67 @@
+[
+  {
+    "id": "fan",
+    "label": "The desk fan",
+    "width": 960,
+    "height": 1285,
+    "source": {
+      "page": "https://commons.wikimedia.org/wiki/File:GE_Vortalex_fan,_c._1950_(NMAH_2006.0139.01).jpg",
+      "author": "Crawdad Blues",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    "analyzedAt": "2026-10-28T11:55:08.115Z"
+  },
+  {
+    "id": "bicycle",
+    "label": "The bicycle",
+    "width": 960,
+    "height": 720,
+    "source": {
+      "page": "https://commons.wikimedia.org/wiki/File:Bicycle_02.jpg",
+      "author": "Shams948",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    "analyzedAt": "2026-10-28T11:55:23.754Z"
+  },
+  {
+    "id": "compass",
+    "label": "The compass",
+    "width": 960,
+    "height": 721,
+    "source": {
+      "page": "https://commons.wikimedia.org/wiki/File:Clock_unsplash.jpg",
+      "author": "Photo by Aaron Burden on Unsplash",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    "analyzedAt": "2026-10-28T11:55:39.591Z"
+  },
+  {
+    "id": "furniture",
+    "label": "The cafe table & chairs",
+    "width": 960,
+    "height": 1188,
+    "source": {
+      "page": "https://commons.wikimedia.org/wiki/File:Empty_Chairs.jpg",
+      "author": "Kullatan Kin",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    "analyzedAt": "2026-10-28T12:27:03.505Z"
+  },
+  {
+    "id": "electronics",
+    "label": "The computer mouse",
+    "width": 960,
+    "height": 640,
+    "source": {
+      "page": "https://commons.wikimedia.org/wiki/File:ComputerMouseCloseup.jpg",
+      "author": "Raysonho @ Open Grid Scheduler / Grid Engine",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    },
+    "analyzedAt": "2026-10-28T12:27:30.295Z"
+  }
+]

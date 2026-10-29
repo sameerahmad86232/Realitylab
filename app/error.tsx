@@ -1,0 +1,3 @@
+'use client';
+import {Aperture,RotateCcw} from 'lucide-react';
+export default function ErrorPage({reset}:{error:Error&{digest?:string};reset:()=>void}){return <main className="recovery-page"><a className="recovery-brand" href="/"><Aperture size={23}/>RealityLab</a><p className="eyebrow">LET’S TRY THAT AGAIN</p><h1>A pause in<br/>the exploration.</h1><p>This view couldn’t be displayed. Try loading it again, or return home. A page reload clears browser-only drafts.</p><div><button className="primary" onClick={reset}><RotateCcw size={16}/>Try again</button><a className="secondary" href="/">Return home</a></div></main>}

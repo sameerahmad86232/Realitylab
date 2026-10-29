@@ -1,0 +1,9 @@
+'use client';
+import {useEffect,useRef,useState} from 'react';
+import {Menu,Home,ScanLine,Layers3,ArrowRight,Info} from 'lucide-react';
+export default function MobileNavigation({hasResult,onNavigate}:{hasResult:boolean;onNavigate:(screen:'home'|'capture'|'explore'|'results',anchor?:string)=>void}){
+ const root=useRef<HTMLDetailsElement>(null),[expanded,setExpanded]=useState(false);
+ useEffect(()=>{const outside=(event:PointerEvent)=>{if(event.target instanceof Node&&!root.current?.contains(event.target)&&root.current)root.current.open=false};document.addEventListener('pointerdown',outside);return()=>document.removeEventListener('pointerdown',outside)},[]);
+ function go(screen:'home'|'capture'|'explore'|'results',anchor?:string){if(root.current)root.current.open=false;onNavigate(screen,anchor);requestAnimationFrame(()=>document.getElementById('main')?.focus({preventScroll:true}))}
+ return <details ref={root} className="mobile-navigation" onToggle={event=>setExpanded(event.currentTarget.open)} onBlur={event=>{if(root.current&&!root.current.contains(event.relatedTarget))root.current.open=false}} onKeyDown={event=>{if(event.key==='Escape'&&root.current?.open){event.preventDefault();root.current.open=false;root.current.querySelector('summary')?.focus()}}}><summary role="button" aria-expanded={expanded} aria-controls="mobile-navigation-panel"><Menu size={18}/><span>Menu</span></summary><div id="mobile-navigation-panel" role="navigation" aria-label="Mobile navigation"><button onClick={()=>go('home')}><Home size={16}/>Go home</button><button onClick={()=>go('capture')}><ScanLine size={16}/>Start a new scan</button><button onClick={()=>go('explore')}><Layers3 size={16}/>Open prepared sample</button>{hasResult&&<button onClick={()=>go('results')}><ArrowRight size={16}/>Return to result</button>}<button onClick={()=>go('home','how-it-works')}><Info size={16}/>How it works</button></div></details>
+}

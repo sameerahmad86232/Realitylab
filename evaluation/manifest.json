@@ -1,0 +1,210 @@
+{
+  "version": 1,
+  "description": "Historical curated records plus explicitly related controlled challenges; no held-out cases yet. Source-file labels are references, not independent correctness judgments.",
+  "cases": [
+    {
+      "id": "fan",
+      "split": "curated",
+      "label": "The desk fan",
+      "input": {
+        "path": "public/demos/fan.jpg",
+        "transform": "none"
+      },
+      "source": {
+        "description": "The desk fan",
+        "author": "Crawdad Blues",
+        "license": "CC0",
+        "url": "https://commons.wikimedia.org/wiki/File:GE_Vortalex_fan,_c._1950_(NMAH_2006.0139.01).jpg"
+      },
+      "reference_identity": "The desk fan",
+      "archived_response": "public/demos/fan.json",
+      "expected_technical_outcome": "result"
+    },
+    {
+      "id": "bicycle",
+      "split": "curated",
+      "label": "The bicycle",
+      "input": {
+        "path": "public/demos/bicycle.jpg",
+        "transform": "none"
+      },
+      "source": {
+        "description": "The bicycle",
+        "author": "Shams948",
+        "license": "CC0",
+        "url": "https://commons.wikimedia.org/wiki/File:Bicycle_02.jpg"
+      },
+      "reference_identity": "The bicycle",
+      "archived_response": "public/demos/bicycle.json",
+      "expected_technical_outcome": "result"
+    },
+    {
+      "id": "compass",
+      "split": "curated",
+      "label": "The compass",
+      "input": {
+        "path": "public/demos/compass.jpg",
+        "transform": "none"
+      },
+      "source": {
+        "description": "The compass",
+        "author": "Photo by Aaron Burden on Unsplash",
+        "license": "CC0",
+        "url": "https://commons.wikimedia.org/wiki/File:Clock_unsplash.jpg"
+      },
+      "reference_identity": "The compass",
+      "archived_response": "public/demos/compass.json",
+      "expected_technical_outcome": "result"
+    },
+    {
+      "id": "furniture",
+      "split": "curated",
+      "label": "The cafe table & chairs",
+      "input": {
+        "path": "public/demos/furniture.jpg",
+        "transform": "none"
+      },
+      "source": {
+        "description": "The cafe table & chairs",
+        "author": "Kullatan Kin",
+        "license": "CC0",
+        "url": "https://commons.wikimedia.org/wiki/File:Empty_Chairs.jpg"
+      },
+      "reference_identity": "The cafe table & chairs",
+      "archived_response": "public/demos/furniture.json",
+      "expected_technical_outcome": "result"
+    },
+    {
+      "id": "electronics",
+      "split": "curated",
+      "label": "The computer mouse",
+      "input": {
+        "path": "public/demos/electronics.jpg",
+        "transform": "none"
+      },
+      "source": {
+        "description": "The computer mouse",
+        "author": "Raysonho @ Open Grid Scheduler / Grid Engine",
+        "license": "CC0",
+        "url": "https://commons.wikimedia.org/wiki/File:ComputerMouseCloseup.jpg"
+      },
+      "reference_identity": "The computer mouse",
+      "archived_response": "public/demos/electronics.json",
+      "expected_technical_outcome": "result"
+    },
+    {
+      "id": "cropped-screwdriver",
+      "split": "known-failure",
+      "label": "Double-beard screwdriver, cropped view",
+      "input": {
+        "path": "evaluation/assets/double-beard-screwdriver.jpg",
+        "transform": "none"
+      },
+      "source": {
+        "description": "File:Screwdriver - Double beard.jpg",
+        "author": "Andrew Pertsev",
+        "license": "CC0",
+        "url": "https://commons.wikimedia.org/wiki/File:Screwdriver_-_Double_beard.jpg"
+      },
+      "reference_identity": "Double-beard screwdriver (source-file label, not an independent expert annotation)",
+      "archived_response": "evaluation/records/double-beard-screwdriver.json",
+      "expected_technical_outcome": "result"
+    },
+    {
+      "id": "bicycle-dark",
+      "split": "controlled-challenge",
+      "label": "Bicycle, deliberately darkened",
+      "input": {
+        "path": "public/demos/bicycle.jpg",
+        "transform": "darken"
+      },
+      "source": {
+        "description": "The bicycle",
+        "author": "Shams948",
+        "license": "CC0",
+        "url": "https://commons.wikimedia.org/wiki/File:Bicycle_02.jpg"
+      },
+      "reference_identity": "The bicycle",
+      "archived_response": null,
+      "expected_technical_outcome": "either"
+    },
+    {
+      "id": "fan-crop",
+      "split": "controlled-challenge",
+      "label": "Fan, central crop removes most context",
+      "input": {
+        "path": "public/demos/fan.jpg",
+        "transform": "center-crop"
+      },
+      "source": {
+        "description": "The desk fan",
+        "author": "Crawdad Blues",
+        "license": "CC0",
+        "url": "https://commons.wikimedia.org/wiki/File:GE_Vortalex_fan,_c._1950_(NMAH_2006.0139.01).jpg"
+      },
+      "reference_identity": "The desk fan",
+      "archived_response": null,
+      "expected_technical_outcome": "either"
+    },
+    {
+      "id": "mouse-rotated",
+      "split": "controlled-challenge",
+      "label": "Mouse, rotated 90 degrees",
+      "input": {
+        "path": "public/demos/electronics.jpg",
+        "transform": "rotate90"
+      },
+      "source": {
+        "description": "The computer mouse",
+        "author": "Raysonho @ Open Grid Scheduler / Grid Engine",
+        "license": "CC0",
+        "url": "https://commons.wikimedia.org/wiki/File:ComputerMouseCloseup.jpg"
+      },
+      "reference_identity": "The computer mouse",
+      "archived_response": null,
+      "expected_technical_outcome": "either"
+    },
+    {
+      "id": "blank-scene",
+      "split": "controlled-challenge",
+      "label": "Synthetic neutral canvas with no object",
+      "input": {
+        "path": null,
+        "transform": "blank"
+      },
+      "source": {
+        "description": "Solid neutral canvas generated by the evaluation runner; no photographed object.",
+        "author": "RealityLab",
+        "license": "CC0",
+        "url": null
+      },
+      "reference_identity": null,
+      "archived_response": null,
+      "expected_technical_outcome": "no-object"
+    },
+    {
+      "id": "fan-context-pair",
+      "split": "controlled-challenge",
+      "label": "Fan full image plus crop of that same image; not a second physical angle",
+      "input": {
+        "path": "public/demos/fan.jpg",
+        "transform": "none"
+      },
+      "additional_views": [
+        {
+          "path": "public/demos/fan.jpg",
+          "transform": "center-crop"
+        }
+      ],
+      "source": {
+        "description": "The desk fan",
+        "author": "Crawdad Blues",
+        "license": "CC0",
+        "url": "https://commons.wikimedia.org/wiki/File:GE_Vortalex_fan,_c._1950_(NMAH_2006.0139.01).jpg"
+      },
+      "reference_identity": "The desk fan",
+      "archived_response": null,
+      "expected_technical_outcome": "either"
+    }
+  ]
+}

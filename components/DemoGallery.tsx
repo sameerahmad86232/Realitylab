@@ -1,0 +1,16 @@
+'use client';
+import {useEffect,useRef,useState} from 'react';
+import VisualAtlas from './VisualAtlas';
+import {ArrowUpRight} from 'lucide-react';
+import type {ScanView} from '../lib/analysis';
+import {loadRecordedExample} from '../lib/recorded-examples';
+const examples=[['fan','01 / AIR & MOTION','The desk fan'],['bicycle','02 / MOTION & TRANSMISSION','The bicycle'],['compass','03 / DIRECTION & MAGNETISM','The compass'],['furniture','04 / STRUCTURE & SUPPORT','The cafe table & chairs'],['electronics','05 / INPUT & ELECTRONICS','The computer mouse']];
+export default function DemoGallery({onResult}:{onResult:(scan:ScanView)=>void}){
+ const [loading,setLoading]=useState(''),[error,setError]=useState('');const pending=useRef<AbortController|null>(null);
+ useEffect(()=>()=>pending.current?.abort(),[]);
+ async function open(id:string,blueprint=false){pending.current?.abort();const controller=new AbortController();pending.current=controller;setLoading(id);setError('');const signal=AbortSignal.any([controller.signal,AbortSignal.timeout(15000)]);
+  try{const result=await loadRecordedExample(id,signal);if(!controller.signal.aborted)onResult({...result,startInBlueprint:blueprint});
+  }catch(e){if(!controller.signal.aborted){setError(e instanceof Error&&e.message.startsWith('Example')?e.message:'This recorded example could not be loaded. Please retry.');setLoading('')}}
+ }
+ return <><VisualAtlas onExplore={()=>open('fan',true)}/><section className="studio-showcase" aria-label="Blueprint studio preview"><div className="studio-showcase-copy"><p className="eyebrow">THE BLUEPRINT STUDIO</p><h3>From a familiar object.<br/><span>To a sharper understanding.</span></h3><p>Study the real photo. Follow the callouts. Explore a technical drawing that keeps evidence in view.</p><div className="showcase-tags"><span>Photo study</span><span>Edge study</span><span>SVG export</span></div><button className="primary" aria-busy={loading==='fan'} onClick={()=>open('fan',true)}>Explore the studio <ArrowUpRight size={16}/></button><small>Recorded Meta example · Conceptual, not to scale</small></div><div className="studio-showcase-image"><div><i/><span>REALITYLAB / EVIDENCE WORKSPACE</span><span>01</span></div><img src="/demos/blueprint-preview.svg" width="1100" height="923" alt="Conceptual fan blueprint with a real source photo and component callouts; inferred internals listed separately" loading="lazy"/></div></section><div className="collection">{examples.map(([id,kicker,label])=><button key={id} className="sample-card available recorded-card" onClick={()=>open(id)} aria-busy={loading===id}><img src={`/demos/${id}.jpg`} alt="" loading="lazy"/><div className="card-caption"><span><small>{kicker}</small><strong>{label}</strong></span><span className="round-arrow"><ArrowUpRight/></span></div><span className="card-badge">{loading===id?'Opening…':'Recorded Meta scan'}</span></button>)}</div><p className="demo-notice">Real model responses, recorded in advance. Opening an example makes no new AI call. Photos: CC0; attribution inside each result.</p>{error&&<p role="alert">{error}</p>}</>;
+}

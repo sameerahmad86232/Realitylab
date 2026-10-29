@@ -1,0 +1,180 @@
+{
+  "source": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/ComputerMouseCloseup.jpg/960px-ComputerMouseCloseup.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:ComputerMouseCloseup.jpg",
+    "author": "Raysonho @ Open Grid Scheduler / Grid Engine",
+    "license": "CC0"
+  },
+  "status": 200,
+  "elapsedMs": 10469,
+  "analysis": {
+    "object_name": "Lenovo wired optical computer mouse",
+    "summary": "Black wired Lenovo mouse viewed from above-rear on white background, showing curved top shell, integrated click buttons, red scroll wheel, and attached cable extending out of frame.",
+    "category": "computer peripherals",
+    "recognition": "identified",
+    "components": [
+      {
+        "id": "part-1",
+        "name": "Top housing / palm shell",
+        "function": "Encloses internal electronics and provides ergonomic hand support",
+        "observed": true,
+        "evidence": "Matte black domed shell with Lenovo logo on rear and visible side contour and reflections on top surface",
+        "material_candidates": [
+          "ABS plastic"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.825,
+          "y": 0.565
+        },
+        "connections": []
+      },
+      {
+        "id": "part-2",
+        "name": "Integrated left/right click buttons",
+        "function": "Transmit press inputs for primary selection actions",
+        "observed": true,
+        "evidence": "Paired seam lines flanking the scroll wheel on the forward dorsal surface of the housing",
+        "material_candidates": [
+          "ABS plastic"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.842,
+          "y": 0.412
+        },
+        "connections": [
+          "part-3"
+        ]
+      },
+      {
+        "id": "part-3",
+        "name": "Scroll wheel",
+        "function": "Enables vertical scrolling and middle-click input",
+        "observed": true,
+        "evidence": "Small red ridged wheel protruding in central gap between button seams at front of mouse",
+        "material_candidates": [
+          "plastic, elastomer grip"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.84,
+          "y": 0.37
+        },
+        "connections": [
+          "part-2"
+        ]
+      },
+      {
+        "id": "part-4",
+        "name": "Wired cable",
+        "function": "Carries power and data between mouse and host computer",
+        "observed": true,
+        "evidence": "Thin black flexible cable exiting from front center and curving across upper right of image",
+        "material_candidates": [
+          "PVC jacket, copper conductors"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.652,
+          "y": 0.322
+        },
+        "connections": [
+          "part-1"
+        ]
+      },
+      {
+        "id": "part-5",
+        "name": "Optical tracking sensor assembly (underside)",
+        "function": "Illuminates surface and detects motion to translate into cursor movement",
+        "observed": false,
+        "evidence": "Not visible in top-down view; inferred as typical hidden component for modern wired mice rather than ball-type",
+        "material_candidates": [
+          "semiconductor sensor, plastic lens"
+        ],
+        "confidence": "uncertain",
+        "image_index": null,
+        "marker": null,
+        "connections": []
+      },
+      {
+        "id": "part-6",
+        "name": "Internal PCB with microswitches and controller",
+        "function": "Registers button/wheel inputs and communicates via wired protocol to computer",
+        "observed": false,
+        "evidence": "Internal structure not photographed; inferred as standard hidden electronics beneath housing and buttons",
+        "material_candidates": [
+          "FR4 PCB, metal contacts"
+        ],
+        "confidence": "uncertain",
+        "image_index": null,
+        "marker": null,
+        "connections": []
+      }
+    ],
+    "principles": [
+      {
+        "name": "Hinged button actuation via microswitch",
+        "explanation": "Pressing the flexible top shell/button area likely deflects to actuate a tactile microswitch on the internal PCB, creating an electrical click signal",
+        "component_ids": [
+          "part-2",
+          "part-6"
+        ]
+      },
+      {
+        "name": "Optical motion tracking",
+        "explanation": "Hidden underside sensor likely illuminates the surface with LED and captures sequential images to compute displacement, sent as cursor data through the cable",
+        "component_ids": [
+          "part-5",
+          "part-4"
+        ]
+      },
+      {
+        "name": "Rotary encoder scroll input",
+        "explanation": "Rotation of the visible wheel likely turns an internal encoder that generates scroll pulses, with a press action for middle-click",
+        "component_ids": [
+          "part-3",
+          "part-6"
+        ]
+      }
+    ],
+    "uncertainty": [
+      "Underside sensor model, resolution, or connector type not visible in this single top view",
+      "Internal PCB layout, switch types, and controller specifications cannot be established from photo",
+      "Exact materials, manufacturing date, or model number not legible beyond Lenovo logo",
+      "Surface texture, weight, cable length, and bottom glide pads not shown",
+      "Whether mouse uses USB-A, USB-C, or other interface at cable end outside frame"
+    ],
+    "next_steps": [
+      "Photograph underside, front, and side views to document sensor opening, feet, and cable entry",
+      "Capture close-up of scroll wheel and button seams in good lighting without opening the device",
+      "If label present underneath, photograph regulatory markings for model identification"
+    ],
+    "safety_notes": [
+      "Do not disassemble or cut cable; internal electronics carry low voltage but sharp edges and small parts present risk",
+      "This analysis identifies visible external features only and cannot verify electrical safety or functionality",
+      "Avoid using damaged cables to prevent intermittent connection or overheating at host port"
+    ]
+  },
+  "usage": {
+    "inputTokens": 1517,
+    "outputTokens": 1822,
+    "totalTokens": 3339
+  },
+  "meta": {
+    "requestId": "40f76651-fc04-4a7b-a0b2-e8c17691c49d",
+    "provider": "Baseten",
+    "model": "meta-models/muse-spark-open-1026",
+    "durationMs": 10367,
+    "analyzedAt": "2026-10-28T07:03:46.459Z",
+    "usage": {
+      "inputTokens": 1517,
+      "outputTokens": 1822,
+      "totalTokens": 3339
+    }
+  }
+}

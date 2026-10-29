@@ -1,0 +1,169 @@
+{
+  "analysis": {
+    "object_name": "Lenovo wired computer mouse",
+    "summary": "Primary foreground object is a black wired Lenovo optical mouse on a white surface, shown from a top-rear angle with curved ergonomic shell, red scroll wheel, and attached black cable extending out of frame.",
+    "category": "consumer electronics",
+    "recognition": "identified",
+    "components": [
+      {
+        "id": "part-1",
+        "name": "Main housing shell",
+        "function": "Forms ergonomic body that supports hand and encloses internal elements",
+        "observed": true,
+        "evidence": "Matte black curved dome with white Lenovo logo on rear hump visible on white background",
+        "material_candidates": [
+          "plastic polymer"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.78,
+          "y": 0.57
+        },
+        "connections": []
+      },
+      {
+        "id": "part-2",
+        "name": "Left and right click buttons",
+        "function": "Provide primary press inputs",
+        "observed": true,
+        "evidence": "Two front zones defined by thin seam lines diverging from scroll wheel on top surface",
+        "material_candidates": [
+          "plastic polymer"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.76,
+          "y": 0.41
+        },
+        "connections": [
+          "part-1"
+        ]
+      },
+      {
+        "id": "part-3",
+        "name": "Scroll wheel",
+        "function": "Allows vertical scrolling or secondary input via rotation and press",
+        "observed": true,
+        "evidence": "Small red textured wheel centered between button seams at front of mouse",
+        "material_candidates": [
+          "plastic polymer",
+          "elastomer-like surface"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.753,
+          "y": 0.344
+        },
+        "connections": [
+          "part-1",
+          "part-2"
+        ]
+      },
+      {
+        "id": "part-4",
+        "name": "Attached cable",
+        "function": "Physical tether for power and data connection to computer",
+        "observed": true,
+        "evidence": "Thin black flexible cord exiting front center of mouse and curving across white surface",
+        "material_candidates": [
+          "plastic-insulated cord",
+          "rubber-like sheath"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.695,
+          "y": 0.261
+        },
+        "connections": [
+          "part-1"
+        ]
+      },
+      {
+        "id": "part-5",
+        "name": "Side contour panels",
+        "function": "Define grip area and lateral shape of housing",
+        "observed": true,
+        "evidence": "Darker glossy side wall visible along left flank of mouse beneath matte top shell",
+        "material_candidates": [
+          "plastic polymer"
+        ],
+        "confidence": "supported",
+        "image_index": 0,
+        "marker": {
+          "x": 0.65,
+          "y": 0.56
+        },
+        "connections": [
+          "part-1"
+        ]
+      }
+    ],
+    "principles": [
+      {
+        "name": "Depressible button input",
+        "explanation": "Visible seams suggest top front sections can flex downward, likely to actuate internal switches beneath for click input; switch type not visible and remains inferred.",
+        "component_ids": [
+          "part-1",
+          "part-2"
+        ]
+      },
+      {
+        "name": "Rotational scroll input",
+        "explanation": "Exposed red wheel position between buttons is consistent with a scroll control that translates finger-driven rotation into scroll commands; internal encoder not visible.",
+        "component_ids": [
+          "part-3"
+        ]
+      },
+      {
+        "name": "Wired power and data interface",
+        "explanation": "Attached cord indicates reliance on physical connection rather than battery/radio, likely carrying both power and signal between mouse and host device; connector and protocol not shown.",
+        "component_ids": [
+          "part-4"
+        ]
+      },
+      {
+        "name": "Ergonomic surface shaping",
+        "explanation": "Asymmetric curved dome and sloped sides provide a contoured contact surface that distributes hand pressure and guides finger placement.",
+        "component_ids": [
+          "part-1",
+          "part-5"
+        ]
+      }
+    ],
+    "uncertainty": [
+      "Underside sensor type, feet, labeling and tracking technology not visible in this top view",
+      "Internal construction including switches, encoders, circuit board and sensor not observable",
+      "Cable termination connector type, length and condition not shown",
+      "Exact material composition, surface finish and manufacturing method cannot be verified from photo alone",
+      "Precise dimensions, weight and right- or left-hand specific ergonomics not determinable",
+      "Functional condition, responsiveness or wear cannot be assessed from a static image"
+    ],
+    "next_steps": [
+      "Photograph the underside to show sensor window, feet and regulatory markings",
+      "Photograph the cable end connector to confirm interface type",
+      "Include a scale reference or multiple angles to better document shape and size"
+    ],
+    "safety_notes": [
+      "Low-voltage peripheral but avoid exposure to liquids, heat or cable damage",
+      "Do not disassemble or modify housing; internal electronics not user-serviceable from this view",
+      "Avoid pulling or sharply bending cable to prevent strain on entry point",
+      "Clean only exterior with dry or lightly damp cloth when disconnected, per manufacturer guidance"
+    ]
+  },
+  "meta": {
+    "requestId": "ba28211c-cbba-48ac-8e72-4295a060f25b",
+    "provider": "Baseten",
+    "model": "meta-models/muse-spark-open-1026",
+    "durationMs": 13189,
+    "analyzedAt": "2026-10-28T12:27:30.295Z",
+    "usage": {
+      "inputTokens": 1639,
+      "outputTokens": 2532,
+      "totalTokens": 4171
+    }
+  }
+}

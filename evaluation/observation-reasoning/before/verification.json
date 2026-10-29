@@ -1,0 +1,21 @@
+{
+  "origin": "https://realitylab.onrender.com",
+  "sourceRevision": "3d57f5f2c2ae7d9a2b041f2e9c5d6817f3ce8b69",
+  "status": 200,
+  "frontendAccepted": true,
+  "structuredReview": true,
+  "lessonAndStepBound": true,
+  "reportType": "hypothetical-test",
+  "physicalTrialPerformed": false,
+  "qualityImprovementEstablished": false,
+  "learningRequests": 1,
+  "automaticRetries": 0,
+  "elapsedMs": 13387,
+  "model": "meta-models/muse-spark-open-1026",
+  "usage": {
+    "inputTokens": 2339,
+    "outputTokens": 2733,
+    "totalTokens": 5072
+  },
+  "probePassed": true
+}

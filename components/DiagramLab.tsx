@@ -1,0 +1,212 @@
+"use client";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Download, Info, Maximize2, X } from "lucide-react";
+import { circuitCurrent, circuitSvg, functionalSvg } from "../lib/circuits";
+import type { ScanView } from "../lib/analysis";
+export default function DiagramLab({
+  scan,
+  selected,
+  onSelect,
+}: {
+  scan: ScanView;
+  selected: string;
+  onSelect: (id: string) => void;
+}) {
+  const [kind, setKind] = useState<"functional" | "circuit">("functional"),
+    [closed, setClosed] = useState(false),
+    [full, setFull] = useState(false),
+    [message, setMessage] = useState("");
+  const dialog = useRef<HTMLDialogElement>(null),
+    root = useRef<HTMLElement>(null),
+    pending = useRef<string | null>(null);
+  const svg = useMemo(
+    () =>
+      kind === "functional"
+        ? functionalSvg(scan.result.analysis, scan.result.meta, selected, true)
+        : circuitSvg(closed, true),
+    [kind, scan.result.analysis, scan.result.meta, selected, closed],
+  );
+  useEffect(() => {
+    if (pending.current) {
+      root.current
+        ?.querySelector<SVGElement>(pending.current)
+        ?.focus({ preventScroll: true });
+      pending.current = null;
+    }
+  }, [svg]);
+  useEffect(() => {
+    if (!full) return;
+    const previous = document.activeElement as HTMLElement | null;
+    dialog.current?.showModal();
+    return () => previous?.focus();
+  }, [full]);
+  function activate(target: EventTarget | null) {
+    const el = target instanceof Element ? target : null;
+    const part = el?.closest("[data-bp-part]")?.getAttribute("data-bp-part");
+    if (part) {
+      if (part !== selected)
+        pending.current = `[data-bp-part="${CSS.escape(part)}"]`;
+      onSelect(part);
+    }
+    if (el?.closest("[data-circuit-switch]")) {
+      pending.current = "[data-circuit-switch]";
+      setClosed((v) => !v);
+    }
+  }
+  function download() {
+    const output =
+      kind === "functional"
+        ? functionalSvg(scan.result.analysis, scan.result.meta, selected)
+        : circuitSvg(closed);
+    const url = URL.createObjectURL(
+      new Blob([output], { type: "image/svg+xml" }),
+    );
+    const a = document.createElement("a");
+    a.href = url;
+    a.download =
+      kind === "functional"
+        ? "realitylab-functional-sheet.svg"
+        : "realitylab-example-led-circuit.svg";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setMessage(
+      "SVG downloaded. It contains no photos. Circuit examples are separate from the scanned device.",
+    );
+  }
+  const drawing = (expanded = false) => (
+    <div
+      className="diagram-lab-scroll"
+      role="region"
+      tabIndex={0}
+      aria-label="Scrollable diagram"
+      onClick={(e) => activate(e.target)}
+      onKeyDown={(e) => {
+        if (
+          ["Enter", " "].includes(e.key) &&
+          e.target instanceof Element &&
+          e.target.closest("[data-bp-part],[data-circuit-switch]")
+        ) {
+          e.preventDefault();
+          activate(e.target);
+        }
+      }}
+    >
+      <div
+        className="diagram-lab-sheet"
+        dangerouslySetInnerHTML={{
+          __html: expanded
+            ? (kind === "functional"
+                ? functionalSvg(
+                    scan.result.analysis,
+                    scan.result.meta,
+                    selected,
+                  )
+                : circuitSvg(closed)
+              )
+                .replaceAll("circuit-grid", "expanded-circuit-grid")
+                .replaceAll("led-light", "expanded-led-light")
+            : svg,
+        }}
+      />
+    </div>
+  );
+  return (
+    <section ref={root} id="diagram-lab" className="diagram-lab">
+      <div className="learning-section-heading">
+        <div>
+          <p className="eyebrow">VISUAL ENGINEERING</p>
+          <h3>Diagrams that explain.</h3>
+        </div>
+        <span className="not-to-scale">Conceptual</span>
+      </div>
+      <div className="diagram-lab-tabs" aria-label="Diagram type">
+        <button
+          aria-pressed={kind === "functional"}
+          onClick={() => setKind("functional")}
+        >
+          Scanned parts / functional
+        </button>
+        <details className="optional-circuit">
+          <summary>Optional example</summary>
+          <button
+            aria-pressed={kind === "circuit"}
+            onClick={() => setKind("circuit")}
+          >
+            Open separate LED circuit
+          </button>
+        </details>
+      </div>
+      <p className="diagram-context">
+        {kind === "functional"
+          ? "This sheet uses your scan’s components. Association lines do not establish electrical wiring."
+          : "A separate, app-authored circuit example. It is not the scanned object’s wiring, even when your photo shows electronics."}
+      </p>
+      {drawing()}
+      <div className="diagram-actions">
+        {kind === "circuit" && (
+          <button
+            className="primary"
+            aria-pressed={closed}
+            onClick={() => setClosed((v) => !v)}
+          >
+            {closed ? "Open example switch" : "Close example switch"}
+          </button>
+        )}
+        <button className="secondary" onClick={() => setFull(true)}>
+          <Maximize2 size={14} />
+          Expand diagram
+        </button>
+        <button className="secondary" onClick={download}>
+          <Download size={14} />
+          Download diagram SVG
+        </button>
+      </div>
+      {kind === "circuit" && (
+        <p className="circuit-current" role="status">
+          {closed
+            ? `Ideal current ≈ ${circuitCurrent(true).toFixed(1)} mA. The simulated LED is on.`
+            : "Open switch: no complete path, 0 mA. The simulated LED is off."}
+        </p>
+      )}
+      <p className="source-disclaimer">
+        <Info size={14} /> Circuit simulation assumes a 3 V source, 2 V LED drop
+        and 330 Ω resistor. It does not verify real component ratings or
+        authorize modifying the scanned object.
+      </p>
+      <p className="blueprint-status" role="status">
+        {message}
+      </p>
+      {full && (
+        <dialog
+          ref={dialog}
+          className="drawing-dialog"
+          aria-label="Expanded diagram"
+          onCancel={(e) => {
+            e.preventDefault();
+            setFull(false);
+          }}
+        >
+          <div className="drawing-dialog-heading">
+            <h2>
+              {kind === "circuit"
+                ? "Illustrative circuit lab"
+                : "Functional component sheet"}
+            </h2>
+            <button
+              className="icon-button"
+              aria-label="Close expanded diagram"
+              onClick={() => setFull(false)}
+            >
+              <X />
+            </button>
+          </div>
+          {drawing(true)}
+          <p>
+            Educational schematic · Not to scale · No verified wiring recovered
+            from photos.
+          </p>
+        </dialog>
+      )}
+    </section>
+  );
+}

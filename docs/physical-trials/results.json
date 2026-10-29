@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "protocol_id": "cardboard-support-comparison-v1",
+  "status": "not-physically-tested",
+  "physical_trials": [],
+  "independent_reviews": [],
+  "notice": "No physical result has been supplied. Automated browser fixtures are not experiments."
+}
