@@ -129,3 +129,7 @@ Generate a separate Meta-guided paper/cardboard analogue or ask a question scope
 The diagram lab adds a source-grounded functional sheet and a separately labeled illustrative LED circuit with a working switch simulation and ideal-current calculation. These do not recover hidden wiring from photographs. Both export SVG. Blueprints gain an expanded drawing view and refined presentation.
 
 See [Phase 6 behavior and validation](docs/PHASE6.md). Checks: `npm run test:learning`, `npm run test:learn-ui`, `npm run test:server-envelope`.
+
+### Project brief and review
+
+[Project brief & evidence](https://realitylab.onrender.com/project) · [Shareable recorded tour](https://realitylab.onrender.com/?demo=1). The brief links five real response records, exact-model integration, limitations and original-work notes. See [judge readiness](docs/JUDGING_READINESS.md) for remaining physical/user validation and submission tasks. Run `npm run test:project` for brief metrics, responsive/accessibility checks and app handoffs.

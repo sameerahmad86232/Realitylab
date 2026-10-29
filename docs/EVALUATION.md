@@ -13,3 +13,9 @@ All three returned valid envelopes. Manual review found the main object identiti
 The original images, response timestamps, request IDs and token counts are in `public/demos`. Photo source attribution is in `sources.json`; the Commons filename “Clock unsplash.jpg” actually depicts a compass. Opening saved examples performs no inference. Build & Learn requires fresh consent and makes a new request.
 
 Next evaluation: diverse unseen objects, poor lighting/occlusion, multi-view consistency, empty/ambiguous scenes, marker placement scoring by people, evidence-label error rate and measured learning usefulness. Do not extrapolate production accuracy from these three examples.
+
+## Additional examples and failures
+
+The gallery also includes recorded furniture (5 parts, 21.376s) and mouse (5 parts, 13.189s) responses. Both main identities were relevant in manual review, but their labels, materials and details are unverified model claims. The five successful records are curated examples, not a denominator for accuracy. A cropped screwdriver was not correctly identified; a first fan craft proposal was mechanically inconsistent and was rejected. See `ENGINEERING_DOSSIER.md` for that evaluation and prompt revision. The revised fan activity remains physically untested.
+
+`/project` derives the displayed counts and timings directly from all five saved response files at build time and links their JSON/source credits. A dedicated browser check compares every displayed metric to those files, checks accessible/mobile layouts and the handoffs into the actual demo, gallery and capture workflow without inference calls.
