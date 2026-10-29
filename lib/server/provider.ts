@@ -15,6 +15,7 @@ async function boundedJSON(response:Response,limit=512*1024){
  try{return JSON.parse(Buffer.concat(chunks).toString('utf8'))}catch{throw new ScanError(502,'The model returned an unreadable response. Please retry.')}
 }
 export async function completeModel(messages:{role:string;content:unknown}[],signal:AbortSignal){
+ if(process.env.NODE_ENV==="production"&&process.env.PROVIDER_SPEND_CAP_VERIFIED!=="true")throw new ScanError(503,"Live AI is paused until the provider spending cap is confirmed. Recorded examples remain available.");
  const config=configuration();if(!config.configured)throw new ScanError(503,'Live analysis is not configured on the server. Your photos remain available.');
  const response=await fetch(config.endpoint,{method:'POST',signal,headers:{Authorization:`Bearer ${process.env.BASETEN_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({
  model:config.model,max_tokens:6000,

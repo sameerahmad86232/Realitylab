@@ -4,6 +4,7 @@ import {
   reserveInferenceBudget,
 } from "./limits.ts";
 import { randomUUID } from "node:crypto";
+import { assertPaidAccess } from "./access.ts";
 import { completeModel, configuration, ScanError } from "./provider.ts";
 import { scanState } from "./scan.ts";
 import {
@@ -48,6 +49,7 @@ export async function handleLearn(request: Request) {
         403,
         "Use Build & Learn from the RealityLab website.",
       );
+    assertPaidAccess(request);
     if (!request.headers.get("content-type")?.includes("application/json"))
       throw new ScanError(415, "Send a JSON learning request.");
     const deadline = new AbortController();

@@ -606,6 +606,7 @@ export default function CapturePanel({
             />
             <small>{context.length} / 500 characters</small>
           </label>
+          <p className="capacity-note"><Info size={13} /><span>Live AI requires a private preview session. <a href="/access">Unlock scanning and learning</a> before using provider credits.</span></p>
           {configured === false && (
             <p className="message" role="status">
               Live analysis is not configured yet. Your photos stay here; the

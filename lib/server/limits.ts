@@ -43,7 +43,8 @@ export function durableQuotaConfiguration() {
     configured: Boolean(url && token),
     url,
     token,
-    required: process.env.DURABLE_QUOTA_REQUIRED === "true",
+    // Production must not silently fall back to restartable process counters.
+    required: process.env.NODE_ENV === "production" || process.env.DURABLE_QUOTA_REQUIRED === "true",
   };
 }
 

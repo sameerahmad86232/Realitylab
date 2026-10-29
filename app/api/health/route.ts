@@ -1,4 +1,5 @@
 import { configuration } from "../../../lib/server/provider";
+import { accessStatus } from "../../../lib/server/access";
 import { scanState } from "../../../lib/server/scan";
 import {
   durableQuotaConfiguration,
@@ -23,6 +24,12 @@ export async function GET() {
         model,
         liveVerified: scanState.lastSuccess !== null,
         lastSuccess: scanState.lastSuccess,
+      },
+      security: {
+        ...accessStatus(),
+        sharedQuotaRequired: durable.required,
+        billingCapConfirmed: process.env.PROVIDER_SPEND_CAP_VERIFIED === "true",
+        livePaidRequestsReady: accessStatus().configured && quota.state === "enforced" && process.env.PROVIDER_SPEND_CAP_VERIFIED === "true",
       },
       capacity: {
         activeRequests: scanState.active,
