@@ -145,3 +145,7 @@ See [Phase 6 behavior and validation](docs/PHASE6.md). Checks: `npm run test:lea
 ### Phase 2 evaluation
 
 [Evaluation workflow and limits](evaluation/README.md): `npm run eval:recorded` and `npm run eval:plan` run offline; paid calls require explicit live mode and a 1–4 request limit. The suite retains the known screwdriver failure, separates controlled transforms from held-out objects, and binds actual human reviews to input/result hashes. No recognition accuracy is inferred from valid JSON.
+
+### Phase 3 physical-trial preparation
+
+[Separate cardboard support study](https://realitylab.onrender.com/trial/stability) and [protocol](docs/physical-trials/STABILITY_PROTOCOL.md). The page provides an app-authored, untested procedure and an entirely blank worksheet, with partial/failure exports and no AI requests. It never marks reports independently verified. Physical trial and user evidence remain missing; `docs/physical-trials/results.json` is intentionally empty.

@@ -28,7 +28,7 @@ Create a versioned evaluation manifest, separate curated examples from held-out 
 
 ## Phase 3 — real activities and user outcomes
 
-**Status:** planned; physical/user participation required.
+**Status:** app-authored procedure and blank worksheet implemented; physical/user participation still required.
 
 Choose one low-complexity separate craft activity and make the source/prediction/actual-result loop demonstrable. Build it physically, document failures and revise it. Use the Phase 1 moderator script with intended users, record actual preparation time and task outcomes, and compare against their existing workflow without inventing a control result. Retain photos/video only with the participant's agreement. Do not promote generated or self-reported content to independently verified evidence.
 

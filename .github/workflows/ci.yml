@@ -29,3 +29,4 @@ jobs:
           npm run test:resilience
           npm run test:theater
           npm run test:project
+          npm run test:trial
