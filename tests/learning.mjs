@@ -376,9 +376,13 @@ try {
     name: "Attached observation report",
   });
   await attachment.waitFor();
-  assert.equal(
-    await questionBox.evaluate((item) => document.activeElement === item),
-    true,
+  // Focus is scheduled by requestAnimationFrame after the attachment mounts.
+  // Wait for the user-visible focus transition instead of racing the next frame.
+  const questionHandle = await questionBox.elementHandle();
+  await page.waitForFunction(
+    (element) => document.activeElement === element,
+    questionHandle,
+    { timeout: 5000 },
   );
   assert.equal(calls, 1, "Drafting must not call inference");
   assert.equal(
