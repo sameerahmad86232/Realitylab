@@ -11,7 +11,7 @@ for(const path of ['scan','learn'])await context.route(`**/api/${path}`,route=>{
 try{
  await page.goto(`${origin}/project`);await page.getByRole('heading',{name:'From “what is it?” to “how does it work?”'}).waitFor();
  assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'),`${origin.startsWith('https:')?origin:'https://realitylab.onrender.com'}/project`);
- const cards=page.locator('.project-record');assert.equal(await cards.count(),5);
+ assert.equal(await page.getByRole('link',{name:'View code',exact:true}).getAttribute('href'),'https://github.com/sameerahmad86232/Realitylab/tree/codex/realitylab-live-explorer');assert.equal(await page.getByRole('link',{name:'Public repository',exact:true}).getAttribute('href'),'https://github.com/sameerahmad86232/Realitylab/tree/codex/realitylab-live-explorer');const cards=page.locator('.project-record');assert.equal(await cards.count(),5);
  const ids=['fan','bicycle','compass','furniture','electronics'];
  for(let i=0;i<ids.length;i++){
   const record=JSON.parse(await readFile(new URL(`../public/demos/${ids[i]}.json`,import.meta.url),'utf8'));

@@ -18,7 +18,9 @@
 
 **Recorded tour:** https://realitylab.onrender.com/?demo=1 (explicitly recorded; no new inference on opening)
 
-**Code:** https://github.com/sameerahmad86232/Realitylab
+**Code for the deployed implementation:** https://github.com/sameerahmad86232/Realitylab/tree/codex/realitylab-live-explorer
+
+**Review:** https://github.com/sameerahmad86232/Realitylab/pull/1. The repository default `main` currently contains the older Vite implementation; do not submit the root URL alone as the location of the current code.
 
 **Video and contributors:** Add the actual three-minute public video URL, contributor names and representative before submission. See DEMO_SCRIPT.md. Nothing has been submitted automatically.
 

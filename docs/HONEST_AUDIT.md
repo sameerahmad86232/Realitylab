@@ -34,3 +34,7 @@ Next human proof: try one separate craft proposal, record the actual failure/suc
 Meta usage is real but still consists primarily of a vision request and grounded text requests. There is no autonomous verification agent, physical measurement pipeline or model fine-tuning. Do not claim those capabilities. The journal makes failures inspectable; it does not automatically correct them or turn self-reports into ground truth. More AI calls alone would not establish technical depth or usefulness.
 
 Visual review caught nested cards squeezing the observation editor on small phones despite passing page-overflow checks. Mobile step cards now stack the progress control above the full-width content; the browser test additionally requires at least 180px of journal width at the tested screen sizes.
+
+## Repository review mismatch
+
+The GitHub default branch `main` points to an older Vite frontend (`39141b3`), while Render deploys `codex/realitylab-live-explorer`. Project-header/footer code links and the submission draft now target the actual implementation branch, and the public project brief identifies the mismatch. PR #1 remains the review entry point. No default-branch setting or merge was changed. This is a material submission issue: confirm the submitted source link reaches the deployed code rather than relying on the root repository URL alone.
