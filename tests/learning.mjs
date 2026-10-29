@@ -419,10 +419,18 @@ try {
       })),
       [],
     );
-    if (width !== 320)
-      await attachment.screenshot({
+    if (width !== 320) {
+      // A focused text area may still be scrolling during the viewport change.
+      // Capture the page after instant scrolling instead of waiting for an
+      // element-screenshot stability check on an animated document.
+      await attachment.evaluate((item) =>
+        item.scrollIntoView({ behavior: "instant", block: "center" }),
+      );
+      await page.screenshot({
         path: `/tmp/artifacts/observation-reasoning/attachment-${width}.png`,
+        animations: "disabled",
       });
+    }
   }
   await page.setViewportSize({ width: 1440, height: 1000 });
   await questionBox.fill("Review this case without assuming the cause.");
