@@ -5,6 +5,7 @@ import {
   reserveInferenceBudget,
 } from "./limits.ts";
 import { randomUUID } from "node:crypto";
+import { assertPaidAccess } from "./access.ts";
 import { analyzePhotos, configuration, ScanError } from "./provider.ts";
 import { scanResultSchema } from "../analysis.ts";
 type ScanState = {
@@ -143,6 +144,7 @@ export async function handleScan(request: Request) {
         403,
         "This scan must be submitted from the RealityLab website.",
       );
+    assertPaidAccess(request);
     if (!configuration().configured)
       throw new ScanError(
         503,

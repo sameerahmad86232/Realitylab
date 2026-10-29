@@ -71,3 +71,28 @@
     font-size: 9px;
   }
 }
+
+/* WCAG AA contrast on recorded/restored construction and learning dossiers.
+   These surfaces must stay legible even with the mobile viewport. */
+.construction-sequence .stage-kicker {
+  color: #234651 !important;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+}
+.construction-sequence p,
+.construction-review ul,
+.construction-review li {
+  color: #244550 !important;
+  font-size: 12px;
+}
+.lesson-steps p {
+  color: #314b63 !important;
+  font-size: 12px;
+}
+.lesson-steps .step-check {
+  color: #243f60;
+  background: #f7faff;
+}
+.lesson-steps small {
+  color: #2c4b71;
+}

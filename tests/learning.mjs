@@ -376,9 +376,13 @@ try {
     name: "Attached observation report",
   });
   await attachment.waitFor();
-  assert.equal(
-    await questionBox.evaluate((item) => document.activeElement === item),
-    true,
+  // Focus is scheduled by requestAnimationFrame after the attachment mounts.
+  // Wait for the user-visible focus transition instead of racing the next frame.
+  const questionHandle = await questionBox.elementHandle();
+  await page.waitForFunction(
+    (element) => document.activeElement === element,
+    questionHandle,
+    { timeout: 5000 },
   );
   assert.equal(calls, 1, "Drafting must not call inference");
   assert.equal(
@@ -415,10 +419,18 @@ try {
       })),
       [],
     );
-    if (width !== 320)
-      await attachment.screenshot({
+    if (width !== 320) {
+      // A focused text area may still be scrolling during the viewport change.
+      // Capture the page after instant scrolling instead of waiting for an
+      // element-screenshot stability check on an animated document.
+      await attachment.evaluate((item) =>
+        item.scrollIntoView({ behavior: "instant", block: "center" }),
+      );
+      await page.screenshot({
         path: `/tmp/artifacts/observation-reasoning/attachment-${width}.png`,
+        animations: "disabled",
       });
+    }
   }
   await page.setViewportSize({ width: 1440, height: 1000 });
   await questionBox.fill("Review this case without assuming the cause.");
