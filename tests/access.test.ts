@@ -31,7 +31,7 @@ test("private session uses constant-time passcode matching and expires", () => {
   assert.throws(()=>assertPaidAccess(req),(e)=>e instanceof ScanError&&e.status===401);
 });
 test("production denies paid inference without private session and shared store",async()=>{
-  process.env.NODE_ENV="production";
+  Object.assign(process.env, { NODE_ENV: "production" });
   delete process.env.REALITYLAB_ACCESS_CODE;
   delete process.env.REALITYLAB_SESSION_SECRET;
   delete process.env.DURABLE_QUOTA_REQUIRED;
