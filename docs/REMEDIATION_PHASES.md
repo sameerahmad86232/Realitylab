@@ -48,9 +48,11 @@ Improve the evidence-to-reasoning loop around actual failures: source-grounded q
 
 ## Phase 5 — a simpler, recoverable project workflow
 
-**Status:** planned.
+**Status:** implemented in software; usability evidence pending.
 
 Make the primary path photo → evidence → explanation/drawing → separate experiment obvious. Keep unrelated example circuits secondary. Provide validated save/restore for investigations, clear photo-inclusion controls, versioned exports and intelligible recovery. Avoid saving photos silently. Revisit the prepared 3D asset if it still creates the wrong expectation.
+
+**Implemented:** results now show a three-stage evidence → drawing → experiment path; the unrelated LED circuit sits behind an optional control. A versioned project file restores the scan envelope, current view, marker corrections, lesson, follow-ups, progress and observation journal. Component, lesson, step, observation and photo references are checked before opening. Photos are excluded by default and represented as visibly omitted after restoration; an explicit checkbox embeds prepared JPEG/PNG bytes. Nothing is stored automatically or sent during save/restore. The prepared 3D fan remains clearly labeled as a handcrafted concept rather than reconstruction.
 
 **Exit evidence:** users can complete the task without touring every panel; exported work can be restored with schema/reference checks; mobile layout and recovery tests pass.
 

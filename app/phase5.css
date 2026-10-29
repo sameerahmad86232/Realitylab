@@ -1,0 +1,219 @@
+.project-open-control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.header-project-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #c8d5df;
+  background: #fff;
+  color: #34536a;
+  border-radius: 7px;
+  min-height: 37px;
+  padding: 0 12px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.header-project-button:hover {
+  background: #f2f6f9;
+}
+.project-open-error {
+  position: absolute;
+  z-index: 20;
+  right: 0;
+  top: calc(100% + 9px);
+  width: min(320px, 80vw);
+  padding: 11px 12px;
+  border: 1px solid #d7b5ad;
+  border-radius: 7px;
+  background: #fff5f2;
+  color: #7c3f35;
+  font-size: 10px;
+  line-height: 1.7;
+  box-shadow: 0 15px 35px #18344922;
+}
+.project-path {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex-wrap: wrap;
+  margin: 25px 0 16px;
+  padding: 13px 16px;
+  border: 1px solid #d5e1e9;
+  border-radius: 9px;
+  background: #f7fafc;
+  color: #4a6477;
+  font-size: 11px;
+}
+.project-path span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.project-path b {
+  font: 9px monospace;
+  color: #24608e;
+}
+.project-recovery-notice {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  margin: 18px 0;
+  border: 1px solid #a9cbb8;
+  border-radius: 8px;
+  background: #eff8f2;
+  color: #345e49;
+  font-size: 11px;
+  line-height: 1.8;
+}
+.project-recovery-notice svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.photo-omitted-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 14px;
+  margin-top: 10px;
+  border: 1px solid #c8d8e2;
+  border-radius: 7px;
+  background: #f2f7fa;
+  color: #466579;
+  font-size: 10px;
+  line-height: 1.8;
+}
+.photo-omitted-notice svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.project-save {
+  margin-top: 38px;
+  padding: 29px;
+  border: 1px solid #b9cedc;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #edf5fa, #fff);
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 30px;
+}
+.project-save .eyebrow {
+  color: #3f6884;
+  font-size: 8px;
+  margin-bottom: 12px;
+}
+.project-save h3 {
+  font-size: 27px;
+  font-weight: 500;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+.project-save > div > p:not(.eyebrow) {
+  font-size: 12px;
+  line-height: 1.9;
+  color: #526b7d;
+  margin-top: 13px;
+}
+.project-save-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+}
+.project-save-actions label {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 13px;
+  border: 1px solid #c8d9e4;
+  border-radius: 8px;
+  background: #fff;
+  color: #34566e;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.project-save-actions input {
+  margin-top: 3px;
+}
+.project-save-actions span {
+  display: block;
+}
+.project-save-actions small {
+  display: block;
+  color: #617787;
+  font-size: 9px;
+  line-height: 1.7;
+  margin-top: 4px;
+}
+.project-save-actions button {
+  justify-content: center;
+}
+.project-save-status {
+  grid-column: 1/-1;
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid #d0dfe8;
+  color: #4b687a;
+  font-size: 10px;
+  line-height: 1.8;
+}
+.diagram-lab-tabs .optional-circuit {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.diagram-lab-tabs .optional-circuit summary {
+  cursor: pointer;
+  border: 1px dashed #b8c9d4;
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: #607483;
+  font-size: 10px;
+  list-style-position: inside;
+}
+.diagram-lab-tabs .optional-circuit button {
+  margin-top: 7px;
+  width: 100%;
+}
+@media (max-width: 760px) {
+  .header-project-button {
+    width: 38px;
+    padding: 0;
+    justify-content: center;
+    font-size: 0;
+  }
+  .header-project-button svg {
+    width: 16px;
+    height: 16px;
+  }
+  .project-path {
+    gap: 7px;
+    padding: 11px;
+    font-size: 9px;
+  }
+  .project-path svg {
+    width: 10px;
+  }
+  .project-save {
+    grid-template-columns: 1fr;
+    padding: 21px 15px;
+    gap: 22px;
+  }
+  .project-save h3 {
+    font-size: 24px;
+  }
+  .project-save-status {
+    grid-column: auto;
+  }
+  .project-open-error {
+    position: fixed;
+    top: 75px;
+    right: 12px;
+  }
+  .diagram-lab-tabs .optional-circuit {
+    width: 100%;
+  }
+}

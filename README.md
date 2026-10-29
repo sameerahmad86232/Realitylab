@@ -32,6 +32,7 @@ The [guided product showcase](docs/GUIDED_DEMO.md) provides a four-chapter recor
 - Linked inspector, filters/search, relationship map, local marker edits and conceptual SVG blueprints with themes, expansion and downloads.
 - Functional diagrams and a separate app-authored LED circuit with ideal switch/current behavior.
 - Consented Meta-generated paper/cardboard analogues and scan-grounded follow-up questions.
+- Versioned project save/restore for the investigation, with photos excluded by default and explicit embedding when requested.
 - Recorded real fan, bicycle, compass, furniture and mouse analyses: opening uses no new inference credits.
 - Prepared procedural 3D fan, shaders, reduced-motion handling and static WebGL fallback.
 
@@ -51,7 +52,7 @@ flowchart LR
  H[Recorded validated examples] --> F
 ```
 
-No photos or questions are persisted by this app. Provider policies still apply. Browser drafts/edits live in memory. Inference limits are process-local, shared by scan and learning, and reset on restart; they are not a guaranteed billing cap. Use provider billing controls before broad exposure.
+No photos or questions are persisted automatically by this app. Users can explicitly download a local project file; photos are excluded unless they opt to embed them. Provider policies still apply. Other browser drafts/edits live in memory. Inference limits are process-local, shared by scan and learning, and reset on restart; they are not a guaranteed billing cap. Use provider billing controls before broad exposure.
 
 See the [full website audit and fixes](docs/FULL_AUDIT.md) for verified coverage and remaining limitations.
 
@@ -75,6 +76,7 @@ npm run test:demos
 npm run test:audit
 npm run test:resilience
 npm run test:theater
+npm run test:recovery
 ```
 
 Browser suites use fixtures and make no paid calls. GitHub Actions checks without secrets. The opt-in `node --use-env-proxy --use-system-ca scripts/curate-demos.mjs --live` makes three paid scans without automatic retry and overwrites saved examples. They do not need regeneration for normal use.
@@ -100,7 +102,6 @@ The capture flow now validates file signatures, size (5 MB), pixel count (20 MP)
 Camera capture uses a native accessible dialog with live preview, review, retake, explicit Use photo, device switching when multiple cameras are reported, and readable permission/device/busy/timeout recovery. Tracks stop during review, on close/navigation, and when the tab is hidden. A native device-camera picker is available on mobile. Browser/device support varies; choosing files is always available.
 
 `npm run test:capture` exercises the normalization, validation, mixed uploads, capacity, consent, draft lifecycle, camera review/retake/use, permission denial/retry and accessibility with Chromium's simulated camera. This does not replace testing actual iOS/Android hardware. Phase 3 now enables consented live analysis; the capture tests intercept scan requests to avoid charges.
-
 
 ## Phase 3 · Live Meta analysis
 
