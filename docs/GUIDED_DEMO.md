@@ -14,3 +14,6 @@ The modal uses native focus containment, Escape dismissal, focus restoration, re
 `npm run test:theater` verifies four chapters, observations/inference markers, photo/edge overlays, construction-stage controls, cached workspace handoff, 320/390/1440 bounds, accessibility, reduced motion, graphics pause, failed-asset retry, Escape/focus restoration and the real capture handoff. The suite asserts zero inference requests and can run against the public origin using the verified Node HTTPS transport.
 
 For judging, combine the tour with a genuinely fresh scan and describe the recording accurately. A clearer demo path helps evaluators inspect the work; it cannot guarantee hackathon selection. The official three-minute submission video still needs recording/narration and a public link.
+
+### Practical-study refinement
+The final chapter now includes every recorded craft instruction and its expected observation, with a separate numbered step selector. Safety notes and limitations are available in the same card. This is a recorded, untested proposal, not a verified build. No new inference requests are made. The browser suite checks all five instructions, selected state, observations, safety disclosure, mobile layout and accessibility.
