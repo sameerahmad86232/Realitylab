@@ -26,6 +26,7 @@ import BuildLearn from "./BuildLearn";
 import DiagramLab from "./DiagramLab";
 import ConceptBlueprint from "./ConceptBlueprint";
 import ComponentMap from "./ComponentMap";
+import ReverseEngineeringWorkbench from "./ReverseEngineeringWorkbench";
 import { getLearningDraft } from "../lib/learning-cache";
 import { makeProjectFile } from "../lib/project-file";
 export default function LiveResults({
@@ -47,7 +48,7 @@ export default function LiveResults({
       scan.workspace?.image ?? analysis.components[0]?.image_index ?? 0,
     ),
     [view, setView] = useState<"photo" | "map" | "blueprint">(
-      scan.workspace?.view || (scan.startInBlueprint ? "blueprint" : "photo"),
+      scan.workspace?.view || "blueprint",
     );
   const [filter, setFilter] = useState<EvidenceFilter>("all"),
     [query, setQuery] = useState(""),
@@ -321,22 +322,22 @@ export default function LiveResults({
       )}
       <div className="project-path" aria-label="Primary investigation path">
         <span>
-          <b>01</b> Evidence
+          <b>01</b> Blueprint
         </span>
         <ChevronRight size={13} />
         <span>
-          <b>02</b> Drawing
+          <b>02</b> Components
         </span>
         <ChevronRight size={13} />
         <span>
-          <b>03</b> Experiment
+          <b>03</b> Recreate
         </span>
       </div>
       <div className="evidence-dashboard">
         <div>
-          <span>EXPLORATION / 01</span>
-          <strong>Look closer. Understand more.</strong>
-          <p>Your evidence, organized into an engineering workspace.</p>
+          <span>REVERSE ENGINEERING / 01</span>
+          <strong>Begin with the blueprint.</strong>
+          <p>Trace each proposed part back to visible evidence or a clearly labeled inference.</p>
         </div>
         <dl>
           <div>
@@ -359,7 +360,7 @@ export default function LiveResults({
             explorer.current?.scrollIntoView({ block: "start" });
           }}
         >
-          Continue to drawing <ArrowUpRight size={16} />
+          View blueprint first <ArrowUpRight size={16} />
         </button>
       </div>
       <div
@@ -368,30 +369,29 @@ export default function LiveResults({
         aria-label="Primary investigation sections"
       >
         <button
-          onClick={() => {
-            setView("photo");
-            explorer.current?.scrollIntoView({ block: "start" });
-          }}
-        >
-          01 · Evidence
-        </button>
-        <button
           aria-label="Open blueprint"
           onClick={() => {
             setView("blueprint");
             explorer.current?.scrollIntoView({ block: "start" });
           }}
         >
-          02 · Drawing
+          01 · Blueprint
         </button>
         <button
-          onClick={() =>
-            document
-              .getElementById("build-learn")
-              ?.scrollIntoView({ block: "start" })
-          }
+          onClick={() => {
+            setView("photo");
+            explorer.current?.scrollIntoView({ block: "start" });
+          }}
         >
-          03 · Experiment
+          Inspect source photos
+        </button>
+        <button
+          onClick={() => document.getElementById("reverse-workbench")?.scrollIntoView({ block: "start" })}
+        >
+          02 · Components
+        </button>
+        <button onClick={() => document.getElementById("build-learn")?.scrollIntoView({ block: "start" })}>
+          03 · Recreate
         </button>
       </div>
       <div className="exploration-toolbar">
@@ -800,6 +800,7 @@ export default function LiveResults({
           ? `${Object.keys(adjustments).length} local marker adjustment(s).`
           : ""}
       </p>
+      <ReverseEngineeringWorkbench scan={scan} selected={selected} onSelect={(id) => select(id, true)} />
       <div className="result-bottom">
         <div className="principle-list">
           <p className="eyebrow">HOW IT MAY WORK</p>
