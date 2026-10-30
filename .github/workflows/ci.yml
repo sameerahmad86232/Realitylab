@@ -33,3 +33,4 @@ jobs:
           npm run test:project
           npm run test:trial
           npm run test:recovery
+          npm run test:devices

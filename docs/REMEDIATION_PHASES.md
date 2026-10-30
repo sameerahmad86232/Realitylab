@@ -72,9 +72,11 @@ Measure the full user-visible workflow, distinguish upload/provider/render time,
 
 ## Phase 7 — physical devices and accessibility
 
-**Status:** planned; real hardware/assistive-technology participation required.
+**Status:** automated safeguards implemented; real hardware/assistive-technology participation required.
 
 Test actual iOS Safari/Android cameras, weak GPU/WebGL fallback, keyboard-only navigation, reduced motion and screen readers. Document device/browser versions and observed defects, fix reproducible issues and repeat affected checks. Simulated camera and axe results remain separate from hardware/human findings.
+
+**Implemented:** coarse-pointer and narrow-screen controls receive 44-pixel targets; forced-colors and reduced-motion modes have explicit CSS behavior. A dedicated fixture-only browser check covers emulated phone layouts, target sizes, keyboard navigation, reduced motion, forced colors, inaccessible WebGL fallback and automated accessibility. `PHASE7_DEVICE_MATRIX.md` keeps those results separate from the still-empty physical-device and human assistive-technology rows.
 
 **Exit evidence:** completed device/assistive-technology matrix with actual observations and remaining limits.
 
