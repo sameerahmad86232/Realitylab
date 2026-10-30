@@ -360,7 +360,7 @@ export default function LiveResults({
             explorer.current?.scrollIntoView({ block: "start" });
           }}
         >
-          Open blueprint <ArrowUpRight size={16} />
+          View blueprint first <ArrowUpRight size={16} />
         </button>
       </div>
       <div
