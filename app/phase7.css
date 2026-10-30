@@ -68,3 +68,18 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Use comfortable contrast for compact labels in saved/restored investigations. */
+.principle-parts button {
+  color: #203b5c;
+  background: #eef2f8;
+  border-color: #b8c6d8;
+}
+
+.construction-caption {
+  color: #29444e !important;
+}
+
+.observation-journal summary > small {
+  color: #294839;
+}
