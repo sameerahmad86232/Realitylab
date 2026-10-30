@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import { Box, Check, ExternalLink, Hammer, Info, Search } from "lucide-react";
-import type { ScanView } from "../lib/analysis";
+import { Box, Check, ExternalLink, Hammer, ImagePlus, Info, Search } from "lucide-react";
+import type { Analysis, ScanView } from "../lib/analysis";
 
 type Route = "undecided" | "make" | "source";
 
@@ -16,9 +16,17 @@ export default function ReverseEngineeringWorkbench({
 }) {
   const { analysis } = scan.result;
   const [routes, setRoutes] = useState<Record<string, Route>>({});
+  const [images, setImages] = useState<Record<string,string>>({});
+  const [busy, setBusy] = useState("");
+  const [error, setError] = useState("");
   const decided = Object.values(routes).filter((route) => route !== "undecided").length;
   const query = (part: string, intent: string) =>
     `https://duckduckgo.com/?q=${encodeURIComponent(`${analysis.object_name} ${part} ${intent}`)}`;
+  async function illustrate(part: Analysis["components"][number]) {
+    setBusy(part.id);setError("");
+    try { const response=await fetch("/api/component-image",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({object_name:analysis.object_name,component_name:part.name,component_function:part.function,evidence_status:part.observed?"observed":"inferred",materials:part.material_candidates})});const body=await response.json();if(!response.ok||!body.image)throw Error(body.error?.message||"The illustration could not be created.");setImages(old=>({...old,[part.id]:body.image})); }
+    catch(e){setError(e instanceof Error?e.message:"The illustration could not be created.");}finally{setBusy("");}
+  }
 
   return (
     <section id="reverse-workbench" className="reverse-workbench" aria-labelledby="reverse-workbench-title">
@@ -36,12 +44,12 @@ export default function ReverseEngineeringWorkbench({
           const route = routes[part.id] || "undecided";
           return <article key={part.id} className={selected === part.id ? "selected" : ""}>
             <button className="component-technical-thumb" onClick={() => onSelect(part.id)} aria-label={`Inspect ${part.name}`}>
-              {part.observed && part.image_index !== null && !scan.photos[part.image_index]?.omitted ? <img src={scan.photos[part.image_index].url} alt={`Source-photo detail for ${part.name}`} style={{display:"block",width:"100%",height:150,objectFit:"cover",objectPosition:part.marker ? `${part.marker.x*100}% ${part.marker.y*100}%` : "center"}}/> : <svg viewBox="0 0 240 150" role="img" aria-label={`Generated technical study for ${part.name}`}>
+              {images[part.id] ? <img src={images[part.id]} alt={`AI-generated conceptual illustration of ${part.name}`} style={{display:"block",width:"100%",height:150,objectFit:"cover"}}/> : part.observed && part.image_index !== null && !scan.photos[part.image_index]?.omitted ? <img src={scan.photos[part.image_index].url} alt={`Source-photo detail for ${part.name}`} style={{display:"block",width:"100%",height:150,objectFit:"cover",objectPosition:part.marker ? `${part.marker.x*100}% ${part.marker.y*100}%` : "center"}}/> : <svg viewBox="0 0 240 150" role="img" aria-label={`Generated technical study for ${part.name}`}>
                 <path d="M18 24H222V126H18Z M36 42H204V108H36Z"/>
                 <circle cx="120" cy="75" r="28"/><path d="M48 75H92M148 75H192M120 30V47M120 103V120"/>
                 <text x="120" y="80">{String(index + 1).padStart(2,"0")}</text>
               </svg>}
-              <span>{part.observed ? "SOURCE-PHOTO DETAIL" : "INFERRED TECHNICAL STUDY"}</span>
+              <span>{images[part.id] ? "AI CONCEPT · NOT SOURCE EVIDENCE" : part.observed ? "SOURCE-PHOTO DETAIL" : "INFERRED TECHNICAL STUDY"}</span>
             </button>
             <div className="component-workbench-copy">
               <div className="component-card-heading"><span>{String(index + 1).padStart(2,"0")}</span><div><strong style={{display:"block",fontSize:16}}>{part.name}</strong><small>{part.confidence === "supported" ? "Evidence supported" : "Uncertain"}</small></div></div>
@@ -54,6 +62,7 @@ export default function ReverseEngineeringWorkbench({
                 <button aria-pressed={route === "make"} onClick={() => setRoutes(old => ({...old,[part.id]:route === "make" ? "undecided" : "make"}))}><Hammer size={14}/>{route === "make" && <Check size={12}/>}Recreate</button>
                 <button aria-pressed={route === "source"} onClick={() => setRoutes(old => ({...old,[part.id]:route === "source" ? "undecided" : "source"}))}><Box size={14}/>{route === "source" && <Check size={12}/>}Source</button>
               </div>
+              <button className="component-generate" disabled={!!busy} onClick={()=>illustrate(part)}><ImagePlus size={14}/>{busy===part.id?"Generating concept…":images[part.id]?"Regenerate AI concept":"Generate AI component concept"}</button>
               <div className="component-research-links">
                 <a href={query(part.name,"replacement part dimensions")} target="_blank" rel="noreferrer"><Search size={12}/>Find references<ExternalLink size={11}/></a>
                 <a href={query(part.name,"DIY fabrication tutorial")} target="_blank" rel="noreferrer"><Hammer size={12}/>Fabrication research<ExternalLink size={11}/></a>
@@ -62,6 +71,7 @@ export default function ReverseEngineeringWorkbench({
           </article>;
         })}
       </div>
+      {error&&<p className="message" role="alert">{error}</p>}
     </section>
   );
 }
