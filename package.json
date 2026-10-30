@@ -30,7 +30,8 @@
     "test:trial": "node tests/stability-trial.mjs",
     "test:recovery": "node tests/project-recovery.mjs",
     "test:security": "node --experimental-strip-types --test tests/access.test.ts",
-    "test:prod-security": "node tests/production-security.mjs"
+    "test:prod-security": "node tests/production-security.mjs",
+    "test:devices": "node tests/device-accessibility.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

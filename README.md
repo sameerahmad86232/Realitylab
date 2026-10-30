@@ -104,6 +104,8 @@ Camera capture uses a native accessible dialog with live preview, review, retake
 
 `npm run test:capture` exercises the normalization, validation, mixed uploads, capacity, consent, draft lifecycle, camera review/retake/use, permission denial/retry and accessibility with Chromium's simulated camera. This does not replace testing actual iOS/Android hardware. Phase 3 now enables consented live analysis; the capture tests intercept scan requests to avoid charges.
 
+`npm run test:devices` adds fixture-only Chromium checks for emulated phone layouts, coarse-pointer target sizes, keyboard entry, forced colors, reduced motion and missing-camera recovery. The [Phase 7 device matrix](docs/PHASE7_DEVICE_MATRIX.md) keeps these automated results separate from physical iOS/Android, low-power GPU and human assistive-technology checks.
+
 ## Phase 3 · Live Meta analysis
 
 Configure `BASETEN_API_KEY` securely on the server, then restart. The app uses the verified Baseten hackathon model `meta-models/muse-spark-open-1026`. The React app, Next.js API routes and public Render service share the same origin. No separate Python service is needed.

@@ -1,0 +1,85 @@
+/* Phase 7 device and assistive-technology safeguards. */
+@media (max-width: 760px), (pointer: coarse) {
+  .icon-button,
+  .upload-actions .primary,
+  .upload-actions .secondary,
+  .stage-controls button,
+  .text-link,
+  .breadcrumb button,
+  .result-jumps button,
+  .principle-parts button,
+  .mobile-navigation summary {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .text-link,
+  .breadcrumb button,
+  .principle-parts button {
+    padding-block: 10px;
+  }
+}
+
+@media (forced-colors: active) {
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea,
+  summary,
+  .dropzone,
+  .message,
+  .capacity-note,
+  .stage-fallback {
+    forced-color-adjust: auto;
+  }
+
+  .dot,
+  .short-line,
+  .callout-point {
+    background: CanvasText;
+  }
+
+  .primary,
+  .secondary,
+  .step-check,
+  .sample-card,
+  .stage-controls,
+  .camera-modal {
+    border: 1px solid ButtonText;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Use comfortable contrast for compact labels in saved/restored investigations. */
+.principle-parts button {
+  color: #203b5c;
+  background: #eef2f8;
+  border-color: #b8c6d8;
+}
+
+.construction-caption {
+  color: #29444e !important;
+}
+
+.observation-journal summary > small {
+  color: #294839;
+}
