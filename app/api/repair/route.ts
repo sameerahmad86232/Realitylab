@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { repairPlanSchema } from "../../../lib/repair";
+import { repairPlanSchema, enforceSafetyBoundary } from "../../../lib/repair";
 import { completeModel, configuration, ScanError } from "../../../lib/server/provider";
 import { assertPaidAccess } from "../../../lib/server/access";
 import { reserveDurableInferenceBudget, reserveInferenceBudget, recordDurableUsage } from "../../../lib/server/limits";
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
     const parsed = repairPlanSchema.safeParse(data);
     if (!parsed.success) throw new ScanError(502, "The AI returned an incomplete repair plan. Please retry with a clearer photo.");
     void recordDurableUsage("scan",usage.totalTokens);
-    return json({plan:parsed.data, meta:{requestId, provider:"Baseten", model:configuration().model, durationMs:Date.now()-started}});
+    return json({plan:enforceSafetyBoundary(parsed.data, problem), meta:{requestId, provider:"Baseten", model:configuration().model, durationMs:Date.now()-started}});
   } catch (error) {
     const status = error instanceof ScanError ? error.status : request.signal.aborted ? 499 : error instanceof DOMException && error.name === "TimeoutError" ? 504 : 502;
     const message = error instanceof ScanError ? error.message : status === 504 ? "Repair analysis timed out. Try a smaller photo." : status === 499 ? "The request was cancelled." : "The repair plan could not be completed. Your photos remain on your device.";
