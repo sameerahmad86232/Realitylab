@@ -32,7 +32,8 @@
     "test:security": "node --experimental-strip-types --test tests/access.test.ts",
     "test:prod-security": "node tests/production-security.mjs",
     "test:devices": "node tests/device-accessibility.mjs",
-    "test:repair": "node --experimental-strip-types --test tests/repair.test.ts"
+    "test:repair": "node --experimental-strip-types --test tests/repair.test.ts",
+    "test:fix-ui": "node tests/fix-studio.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
