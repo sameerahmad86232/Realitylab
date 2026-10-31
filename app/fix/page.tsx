@@ -150,7 +150,7 @@ export default function RealityLabFix(){
       rec.ondataavailable=e=>{if(e.data.size)piecesRef.current.push(e.data);};
       rec.onstop=async()=>{stream.getTracks().forEach(t=>t.stop());const b=new Blob(piecesRef.current,{type:rec.mimeType||"audio/webm"});
         if(!b.size)return;
-        try{const fd=new FormData();fd.append("file",b,"note.webm");const response=await fetch("/api/fix/transcribe",{method:"POST",body:fd});const val=await response.json();if(!response.ok)throw new Error(val.error||"Transcription unavailable.");setNote(s=>[s,val.text].filter(Boolean).join(" "));}
+        try{const wav=await wavFromRecorded(b);const fd=new FormData();fd.append("file",wav,"note.wav");const response=await fetch("/api/fix/transcribe",{method:"POST",body:fd});const val=await response.json();if(!response.ok)throw new Error(val.error||"Transcription unavailable.");setNote(s=>[s,val.text].filter(Boolean).join(" "));}
         catch(e){setVoiceError(e instanceof Error?e.message:"Unable to transcribe.");}
       };
       rec.start();setRecording(true);
