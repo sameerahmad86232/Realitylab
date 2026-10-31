@@ -15,7 +15,7 @@ cp .env.example .env
 npm run dev
 ```
 
-Open http://localhost:3000. Production: `npm run build` then `npm start`. Restart after changing server secrets. Render uses `BASETEN_API_KEY` as a server environment secret. The verified analysis model is `meta-models/muse-spark-open-1026` through Baseten. Optional per-component concept art uses the direct Meta image API only when `META_API_KEY` and the currently supported `META_IMAGE_MODEL` identifier are configured server-side.
+Open http://localhost:3000. Production: `npm run build` then `npm start`. Restart after changing server secrets. Render uses `BASETEN_API_KEY` as a server environment secret. The verified analysis model is `meta-models/muse-spark-open-1026` through Baseten. Optional per-component concept art uses the direct Meta image API only when `META_API_KEY` is configured server-side (the default model is `muse-image-1.0`; `META_IMAGE_MODEL` can override it).
 
 The [Blueprint Studio update](docs/BLUEPRINT_STUDIO.md) adds graphite drawings, local photo/edge studies and a larger evidence workspace. Edge traces show image contrast, not recovered geometry.
 
@@ -24,6 +24,10 @@ The [engineering dossier update](docs/ENGINEERING_DOSSIER.md) adds generated con
 The [Visual Atlas](docs/VISUAL_ATLAS.md) includes original generated editorial artwork, workflow icons, SVG accents and reduced-motion-aware interactions.
 
 The [guided product showcase](docs/GUIDED_DEMO.md) provides a four-chapter recorded tour from the homepage’s “See it in action” button.
+
+## Fix Studio — hackathon MVP
+
+Visit **/fix** to upload an object photo and report a symptom. The new safety-first Meta repair route returns possible causes, steps, tools and stop conditions; users can optionally generate one paid component concept visual per step. The prepared sample uses no credits. See [Fix Studio setup and demo](docs/FIX_STUDIO.md).
 
 ## Current experience
 
