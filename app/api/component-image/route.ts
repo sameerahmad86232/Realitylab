@@ -32,8 +32,8 @@ export async function POST(request: Request) {
       throw new ScanError(415, "Send a JSON component request.");
     const input = requestSchema.parse(await request.json());
     const key = process.env.META_API_KEY;
-    const model = process.env.META_IMAGE_MODEL;
-    if (!key || !model)
+    const model = process.env.META_IMAGE_MODEL || "muse-image-1.0";
+    if (!key)
       throw new ScanError(503, "Meta component illustration is not configured yet.");
     reserveInferenceBudget(scanState);
     await reserveDurableInferenceBudget(request.signal);
