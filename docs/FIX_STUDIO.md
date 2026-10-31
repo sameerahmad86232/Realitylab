@@ -14,7 +14,7 @@
 - `PROVIDER_SPEND_CAP_VERIFIED=true` — required by the existing provider implementation in production **only after independently confirming the actual provider spending cap**. Do not set this without verification.
 - `REALITYLAB_ACCESS_CODE` (at least 16 chars) and `REALITYLAB_SESSION_SECRET` (at least 32 chars) — required for the existing private access gate in production. Unlock at `/access`.
 - `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` — durable request quotas are mandatory in production under the existing limits policy.
-- `META_API_KEY` and `META_IMAGE_MODEL` — optional **direct Meta image generation**; the chosen model and `/images/generations` compatibility must be verified in the participant dashboard. The UI clearly reports if the service is not configured; no illustration is fabricated.
+- `META_API_KEY` and optional `META_IMAGE_MODEL` — **direct Meta image generation** uses the official `muse-image-1.0` model by default. Confirm account eligibility and generation access in the participant dashboard. The UI clearly reports if the service is not configured; no illustration is fabricated.
 - `APP_ORIGIN` — optional origin restriction; can default to `RENDER_EXTERNAL_URL`.
 
 Never put these secrets in client code, GitHub, screenshots, or demo recordings.
