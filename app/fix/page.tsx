@@ -29,10 +29,10 @@ export default function FixStudio() {
   const [error, setError] = useState("");
   const fileInput = useRef<HTMLInputElement>(null);
   const controller = useRef<AbortController | null>(null);
+  const photoUrls = useRef<string[]>([]);
   const inFlight = useRef(false);
 
-  useEffect(() => () => { photos.forEach(p => URL.revokeObjectURL(p.url)); }, [photos]);
-  useEffect(() => () => controller.current?.abort(), []);
+  useEffect(() => () => { photoUrls.current.forEach(url => URL.revokeObjectURL(url)); controller.current?.abort(); }, []);
 
   function addPhotos(files: FileList | File[]) {
     const chosen = Array.from(files);
@@ -40,7 +40,7 @@ export default function FixStudio() {
     if (chosen.length + photos.length > 2) { setError("You can upload up to two photos."); return; }
     const invalid = chosen.find(f => !["image/jpeg","image/png"].includes(f.type) || !f.size || f.size > 5 * 1024 * 1024);
     if (invalid) { setError("Use JPG or PNG photos under 5 MB each."); return; }
-    setPhotos(current => [...current, ...chosen.map(file => ({ file, url: URL.createObjectURL(file) }))]);
+    setPhotos(current => [...current, ...chosen.map(file => { const url = URL.createObjectURL(file); photoUrls.current.push(url); return {file, url}; })]);
     setConsent(false);
     setError("");
   }
