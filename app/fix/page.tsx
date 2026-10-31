@@ -92,6 +92,25 @@ function demoResult(x:Example):ScanResult {
 function StageIcon({n}:{n:number}){return [<Eye key="a"/>,<ScanLine key="b"/>,<WandSparkles key="c"/>,<ImageIcon key="d"/>][n];}
 const stages=[["Understand","Muse Spark vision"],["Locate","SAM 3.1"],["Guide","3 focused steps"],["Visualize","Muse Image"]];
 
+
+async function wavFromRecorded(blob:Blob):Promise<Blob>{
+  const context=new AudioContext();
+  let decoded:AudioBuffer;
+  try{decoded=await context.decodeAudioData(await blob.arrayBuffer());}finally{await context.close();}
+  const targetRate=24000;
+  const offline=new OfflineAudioContext(1,Math.max(1,Math.ceil(decoded.duration*targetRate)),targetRate);
+  const source=offline.createBufferSource();source.buffer=decoded;source.connect(offline.destination);source.start();
+  const rendered=await offline.startRendering();const samples=rendered.getChannelData(0);
+  const output=new ArrayBuffer(44+samples.length*2),view=new DataView(output);
+  function word(offset:number,value:string){for(let i=0;i<value.length;i++)view.setUint8(offset+i,value.charCodeAt(i));}
+  word(0,"RIFF");view.setUint32(4,36+samples.length*2,true);word(8,"WAVE");word(12,"fmt ");
+  view.setUint32(16,16,true);view.setUint16(20,1,true);view.setUint16(22,1,true);
+  view.setUint32(24,targetRate,true);view.setUint32(28,targetRate*2,true);
+  view.setUint16(32,2,true);view.setUint16(34,16,true);word(36,"data");view.setUint32(40,samples.length*2,true);
+  for(let i=0;i<samples.length;i++){const n=Math.max(-1,Math.min(1,samples[i]));view.setInt16(44+i*2,n<0?n*0x8000:n*0x7fff,true);}
+  return new Blob([output],{type:"audio/wav"});
+}
+
 export default function RealityLabFix(){
   const [photo,setPhoto]=useState<string|null>(null),[filename,setFilename]=useState(""),[note,setNote]=useState("");
   const [language,setLanguage]=useState("en"),[busy,setBusy]=useState(false),[stage,setStage]=useState(0);
