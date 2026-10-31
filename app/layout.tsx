@@ -14,9 +14,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "RealityLab",
-    title: "RealityLab — A closer look at the everyday",
+    title: "RealityLab — Fix Anything. See It Fixed.",
     description:
-      "Explore everyday objects through photo evidence, conceptual blueprints and construction studies.",
+      "Photo in, practical next steps out. Diagnose issues, find the object with SAM 3.1 and visualize a possible repair.",
     images: [
       {
         url: "/art/optical-exploration.webp",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   title: "RealityLab — A closer look at the everyday",
   icons: { icon: "/icon.svg" },
   description:
-    "Scan everyday objects, explore component evidence, create conceptual blueprints, and learn through paper models and circuit simulations.",
+    "RealityLab is a visual AI troubleshooter. Upload a photo, investigate the issue, get a careful three-step guide, and see a possible fixed version.",
 };
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
