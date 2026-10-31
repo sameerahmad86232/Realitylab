@@ -41,8 +41,8 @@ function Orb() {
     const group=new THREE.Group();scene.add(group);
     const material=new THREE.ShaderMaterial({
       uniforms:{uTime:{value:0},uTint:{value:new THREE.Color("#84f1cf")}},
-      vertexShader:String.raw'varying vec3 vNormal; varying vec3 vView; varying vec3 vPos; uniform float uTime; void main(){vec3 p=position; float wave=sin(p.y*7.5+uTime*1.25)*sin(p.x*5.5-uTime*.8)*.055; p+=normal*wave;vNormal=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(p,1.);vView=normalize(-mv.xyz);vPos=p;gl_Position=projectionMatrix*mv;}',
-      fragmentShader:String.raw'precision highp float; varying vec3 vNormal;varying vec3 vView;varying vec3 vPos;uniform float uTime;void main(){float f=pow(1.-abs(dot(normalize(vNormal),normalize(vView))),2.4);float latitude=abs(sin(vPos.y*33.+sin(vPos.x*5.+uTime)*.9));float longitude=abs(sin(atan(vPos.z,vPos.x)*29.));float grid=pow(max(latitude,longitude),19.);float pulse=.5+.5*sin(vPos.y*3.5+uTime*.7);vec3 core=mix(vec3(.018,.045,.072),vec3(.027,.31,.30),pulse*.55);vec3 teal=vec3(.45,1.,.81);vec3 lilac=vec3(.49,.42,1.);vec3 color=core+mix(teal,lilac,clamp(vPos.x*.25+.4,0.,1.))*f*1.3+teal*grid*(.17+f*.55);gl_FragColor=vec4(color,clamp(.92+f*.1,0.,1.));}'
+      vertexShader:String.raw`varying vec3 vNormal; varying vec3 vView; varying vec3 vPos; uniform float uTime; void main(){vec3 p=position; float wave=sin(p.y*7.5+uTime*1.25)*sin(p.x*5.5-uTime*.8)*.055; p+=normal*wave;vNormal=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(p,1.);vView=normalize(-mv.xyz);vPos=p;gl_Position=projectionMatrix*mv;}`,
+      fragmentShader:String.raw`precision highp float; varying vec3 vNormal;varying vec3 vView;varying vec3 vPos;uniform float uTime;void main(){float f=pow(1.-abs(dot(normalize(vNormal),normalize(vView))),2.4);float latitude=abs(sin(vPos.y*33.+sin(vPos.x*5.+uTime)*.9));float longitude=abs(sin(atan(vPos.z,vPos.x)*29.));float grid=pow(max(latitude,longitude),19.);float pulse=.5+.5*sin(vPos.y*3.5+uTime*.7);vec3 core=mix(vec3(.018,.045,.072),vec3(.027,.31,.30),pulse*.55);vec3 teal=vec3(.45,1.,.81);vec3 lilac=vec3(.49,.42,1.);vec3 color=core+mix(teal,lilac,clamp(vPos.x*.25+.4,0.,1.))*f*1.3+teal*grid*(.17+f*.55);gl_FragColor=vec4(color,clamp(.92+f*.1,0.,1.));}`
     });
     const shell=new THREE.Mesh(new THREE.IcosahedronGeometry(2,26),material);
     group.add(shell);
@@ -143,7 +143,6 @@ export default function RealityLabFix(){
     try{await navigator.clipboard.writeText(text);setCopied(true);setTimeout(()=>setCopied(false),1800);}catch{setError("Copy failed. Select the steps manually.");}
   };
   const imageArea=photo||null;
-  const sections=<></>;
   return <main className="rl-root">
     <div className="rl-ambient rl-ambient-one"/><div className="rl-ambient rl-ambient-two"/>
     <header className="rl-header">
