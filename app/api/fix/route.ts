@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import sharp from "sharp";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
@@ -91,7 +92,7 @@ async function createAfter(image: string, diagnosis: Diagnosis, key: string) {
     + diagnosis.issue + ". Possible cause: " + diagnosis.cause
     + ". Do not add labels, text, arrows, people or new objects. This is an illustrative visualization, not proof of a completed real-world repair.";
   const result = await postJson("/images/edits", key, {
-    model: "muse-image-1.0", prompt, images: [{image_url: image}], n: 1,
+    model: "muse-image-1.0", prompt, images: [{image_url: image}], n: 1, output_format: "png",
   }, 50000) as {data?: Array<{b64_json?: string; url?: string}>};
   const first = result.data?.[0];
   if (!first) throw new Error("Meta returned no after-image.");
@@ -113,9 +114,19 @@ export async function POST(req: NextRequest) {
   }
   let data: {image?: string; detail?: string; language?: string};
   try { data = await req.json(); } catch { return NextResponse.json({error:"Invalid JSON."},{status:400}); }
-  const image = data.image || "";
+  let image = data.image || "";
   if (!/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(image) || image.length > 7_500_000) {
     return NextResponse.json({error:"Provide one JPEG, PNG or WebP image under approximately 5MB."},{status:400});
+  }
+  try {
+    const binary = Buffer.from(image.slice(image.indexOf(",") + 1), "base64");
+    if (binary.byteLength > 5_000_000) throw new Error("Image exceeds 5 MB.");
+    const normalized = await sharp(binary,{limitInputPixels:20_000_000}).rotate()
+      .resize({width:1600,height:1600,fit:"inside",withoutEnlargement:true})
+      .flatten({background:"#ffffff"}).jpeg({quality:86,mozjpeg:true}).toBuffer();
+    image = "data:image/jpeg;base64," + normalized.toString("base64");
+  } catch {
+    return NextResponse.json({error:"The image is corrupted, too large, or unsupported."},{status:400});
   }
   const detail = String(data.detail || "").slice(0,350);
   const language = data.language === "hi" ? "Hindi" : data.language === "ur" ? "Urdu" : "English";
@@ -131,6 +142,19 @@ export async function POST(req: NextRequest) {
   try {
     const vision = await postJson("/responses", key, {model:"muse-spark-1.3",input:input(image,prompt)}, 38000);
     const diagnosis = clean(extractText(vision));
+    // Conservative override: do not trust a model-only safety classification for high-risk domains.
+    const hazard = /\b(gas leak|gas line|sparks?|fire|flames?|smoke|burning|shock|live wire|electrocution|mains voltage|power socket|outlet|lithium battery|swollen battery|chemical spill|pressurized tank|structural collapse|load bearing)\b/i;
+    if (hazard.test([diagnosis.issue,diagnosis.cause,detail].join(" "))) {
+      diagnosis.dangerous = true; diagnosis.urgency = "high";
+    }
+    if (diagnosis.dangerous) {
+      diagnosis.steps = [
+        {title:"Stop and keep a safe distance",detail:"Do not open, touch, or operate potentially dangerous equipment.",tools:[],minutes:1},
+        {title:"Prevent further exposure",detail:"Keep people away. Only isolate power or gas when it is safe to do so without approaching the hazard.",tools:[],minutes:2},
+        {title:"Get qualified assistance",detail:"Contact an appropriate technician, utility provider, or emergency service. Do not rely on photo-only diagnosis.",tools:[],minutes:5}
+      ];
+      diagnosis.safety = "Potential hazard detected. Do not attempt DIY repair from an AI-generated guide.";
+    }
     const grounding = await segment(image, diagnosis.target, key).catch(() => ({found:false,target:diagnosis.target,box:null}));
     let after: string | null = null;
     let afterError: string | null = null;
