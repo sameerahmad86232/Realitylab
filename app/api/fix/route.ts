@@ -158,7 +158,10 @@ export async function POST(req: NextRequest) {
     const grounding = await segment(image, diagnosis.target, key).catch(() => ({found:false,target:diagnosis.target,box:null}));
     let after: string | null = null;
     let afterError: string | null = null;
-    if (!diagnosis.dangerous) {
+    const isDocument = /\b(bill|invoice|receipt|statement|document|contract|letter)\b/i.test(diagnosis.object);
+    if (isDocument) {
+      afterError = "After-image disabled for documents to avoid generating altered or misleading records.";
+    } else if (!diagnosis.dangerous) {
       try { after = await createAfter(image, diagnosis, key); }
       catch { afterError = "After-image generation unavailable; diagnosis and guidance are still available."; }
     }
