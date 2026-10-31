@@ -118,7 +118,7 @@ export default function RealityLabFix(){
   const [demo,setDemo]=useState<Example|null>(null),[compare,setCompare]=useState(50),[mask,setMask]=useState(true);
   const [done,setDone]=useState<number[]>([]),[copied,setCopied]=useState(false),[navOpen,setNavOpen]=useState(false);
   const [recording,setRecording]=useState(false),[voiceError,setVoiceError]=useState("");
-  const inputRef=useRef<HTMLInputElement>(null),workRef=useRef<HTMLElement>(null),recRef=useRef<MediaRecorder|null>(null),piecesRef=useRef<Blob[]>([]);
+  const inputRef=useRef<HTMLInputElement>(null),cameraRef=useRef<HTMLInputElement>(null),workRef=useRef<HTMLElement>(null),recRef=useRef<MediaRecorder|null>(null),piecesRef=useRef<Blob[]>([]);
   useEffect(()=>{if(!busy)return;const i=window.setInterval(()=>setStage(s=>Math.min(3,s+1)),3100);return()=>clearInterval(i);},[busy]);
   const loadFile=(file?:File)=>{
     if(!file)return;
@@ -194,12 +194,13 @@ export default function RealityLabFix(){
             {photo?<div className="rl-photo-preview"><img src={photo} alt="Photo of object to analyze"/><button className="rl-remove-photo" onClick={()=>{setPhoto(null);setResult(null);setFilename("");}} aria-label="Remove photo"><X size={17}/></button><div className="rl-photo-filename"><CheckCircle2 size={15}/> {filename}</div></div>
             :<><div className="rl-drop-art"><span className="rl-drop-grid"/><div className="rl-upload-icon"><ScanLine size={34} strokeWidth={1.3}/><span>+</span></div><i className="rl-drop-sweep"/></div>
             <div className="rl-drop-title">Show us what&apos;s wrong.</div><p>Drop your photo here, paste an image, or use your camera.</p>
-            <button className="rl-select-photo" onClick={()=>inputRef.current?.click()}><UploadCloud size={17}/> Choose a photo <ArrowUpRight size={15}/></button><div className="rl-drop-hint">JPEG, PNG, WEBP <span>·</span> MAX 5MB</div></>}
-            <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" capture={undefined} className="rl-visually-hidden" aria-label="Choose image" onChange={e=>{loadFile(e.target.files?.[0]);e.currentTarget.value="";}}/>
+            <button className="rl-select-photo" onClick={()=>inputRef.current?.click()}><UploadCloud size={17}/> Choose a photo <ArrowUpRight size={15}/></button><button className="rl-camera-action" onClick={()=>cameraRef.current?.click()}><Camera size={15}/> Use camera</button><div className="rl-drop-hint">JPEG, PNG, WEBP <span>·</span> MAX 5MB</div></>}
+            <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" className="rl-visually-hidden" aria-label="Choose image" onChange={e=>{loadFile(e.target.files?.[0]);e.currentTarget.value="";}}/><input ref={cameraRef} type="file" accept="image/*" capture="environment" className="rl-visually-hidden" aria-label="Use device camera" onChange={e=>{loadFile(e.target.files?.[0]);e.currentTarget.value="";}}/>
           </div>
           <div className="rl-input-bottom"><div className="rl-note-row"><div className="rl-note-symbol"><Sparkles size={17}/></div><input value={note} onChange={e=>setNote(e.target.value)} placeholder="Optional: tell us what you noticed..." maxLength={350} aria-label="Description of problem"/><button className={recording?"rl-mic rl-mic-on":"rl-mic"} onClick={toggleMic} aria-label={recording?"Stop recording":"Record voice description"} title="Record voice note"><Mic size={19}/></button></div>
             <div className="rl-work-controls"><label className="rl-lang-select"><Globe2 size={15}/> <select value={language} onChange={e=>setLanguage(e.target.value)} aria-label="Response language"><option value="en">English</option><option value="hi">हिन्दी</option><option value="ur">اردو</option></select></label><span className="rl-privacy"><ShieldCheck size={15}/> Photos aren&apos;t stored by this app</span></div>
           </div>
+          <p className="rl-consent-note">Only analyze photos you have permission to share. Clicking Find my fix sends the image to Meta Model API for processing. Remove personal information first.</p>
           {voiceError&&<div className="rl-inline-error" role="alert">{voiceError}</div>}
           <button className="rl-analyze-btn" disabled={!photo||busy} onClick={run}>{busy?<><Loader2 className="rl-spin" size={19}/> Analyzing your photo...</>:<><span className="rl-btn-spark">✳</span> Find my fix <ArrowRight size={19}/></>}</button>
           {error&&<div className="rl-error" role="alert"><AlertTriangle size={17}/>{error}</div>}
