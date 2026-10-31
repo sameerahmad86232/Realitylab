@@ -6,6 +6,7 @@ const context = await browser.newContext({viewport:{width:1240,height:920}});
 const page = await context.newPage();
 const errors = [];
 let scans = 0, images = 0;
+let fixtureImage = Buffer.alloc(0);
 page.on("pageerror", error => errors.push(error.message));
 const plan = {
  object_name:"Desk fan",problem:"Fan does not start",overview:"Only safe external checks are possible.",
@@ -19,7 +20,7 @@ const plan = {
 };
 try {
  await context.route("**/api/repair", async route => {scans++; await route.fulfill({json:{plan}});});
- await context.route("**/api/component-image", async route => {images++; await route.fulfill({json:{image:"data:image/png;base64,"+Buffer.from(await page.screenshot()).toString("base64"),conceptual:true}});});
+ await context.route("**/api/component-image", async route => {images++; await route.fulfill({json:{image:"data:image/png;base64,"+fixtureImage.toString("base64"),conceptual:true}});});
  await page.goto(origin+"/fix");
  await page.getByRole("heading",{name:/From broken/}).waitFor();
  await page.getByRole("button",{name:/See a ready-made example/}).click();
@@ -30,6 +31,7 @@ try {
  await page.getByText("1 of 4 steps marked complete").waitFor();
  await page.getByRole("button",{name:/New diagnosis/}).first().click();
  const image = await page.screenshot();
+ fixtureImage = image;
  await page.locator("input[type=file]").setInputFiles({name:"sample.png",mimeType:"image/png",buffer:image});
  await page.getByRole("textbox",{name:"What is wrong with your object?"}).fill("My desk fan is humming but does not turn.");
  await page.getByRole("checkbox").check();
