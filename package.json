@@ -17,7 +17,7 @@
     "test:server-envelope": "node tests/server-envelope.mjs",
     "test:learning": "node --experimental-strip-types --test tests/learning.test.ts",
     "test:learn-ui": "node tests/learning.mjs",
-    "test": "npm run test:api && npm run test:unit && npm run test:learning && npm run test:security",
+    "test": "npm run test:api && npm run test:unit && npm run test:learning && npm run test:security && npm run test:repair",
     "test:demos": "node tests/demos.mjs",
     "test:audit": "node tests/audit.mjs",
     "test:resilience": "node tests/resilience.mjs",
@@ -31,7 +31,9 @@
     "test:recovery": "node tests/project-recovery.mjs",
     "test:security": "node --experimental-strip-types --test tests/access.test.ts",
     "test:prod-security": "node tests/production-security.mjs",
-    "test:devices": "node tests/device-accessibility.mjs"
+    "test:devices": "node tests/device-accessibility.mjs",
+    "test:repair": "node --experimental-strip-types --test tests/repair.test.ts",
+    "test:fix-ui": "node tests/fix-studio.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

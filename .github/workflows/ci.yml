@@ -21,6 +21,7 @@ jobs:
           npm start > /tmp/realitylab-server.log 2>&1 &
           for attempt in $(seq 1 30); do curl --fail --silent http://localhost:3000/api/health > /dev/null && break; sleep 1; done
           npm run test:browser
+          npm run test:fix-ui
           npm run test:capture
           npm run test:server-envelope
           npm run test:exploration

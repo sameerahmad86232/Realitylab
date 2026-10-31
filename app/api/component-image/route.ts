@@ -13,6 +13,7 @@ const requestSchema = z.object({
   component_function: z.string().trim().min(1).max(700),
   evidence_status: z.enum(["observed", "inferred"]),
   materials: z.array(z.string().trim().min(1).max(100)).max(3),
+  repair_step: z.string().trim().min(1).max(350).optional(),
 }).strict();
 
 function json(body: unknown, status = 200) {
@@ -31,12 +32,12 @@ export async function POST(request: Request) {
       throw new ScanError(415, "Send a JSON component request.");
     const input = requestSchema.parse(await request.json());
     const key = process.env.META_API_KEY;
-    const model = process.env.META_IMAGE_MODEL;
-    if (!key || !model)
+    const model = process.env.META_IMAGE_MODEL || "muse-image-1.0";
+    if (!key)
       throw new ScanError(503, "Meta component illustration is not configured yet.");
     reserveInferenceBudget(scanState);
     await reserveDurableInferenceBudget(request.signal);
-    const prompt = `Isolated engineering concept illustration of the ${input.component_name} from a ${input.object_name}. Functional role: ${input.component_function}. Possible materials: ${input.materials.join(", ") || "unknown"}. ${input.evidence_status === "observed" ? "Use the description as a photo-grounded interpretation, without inventing dimensions." : "This part is inferred and not visible; present it as a clearly conceptual possibility."} Single component only, three-quarter orthographic view, clean white background, precise dark graphite outlines, subtle cyan technical callouts, no text, no logo, no dimensions, no hands, no complete object, educational exploded-parts catalog style.`;
+    const prompt = `Isolated engineering concept illustration of the ${input.component_name} from a ${input.object_name}. Functional role: ${input.component_function}. Possible materials: ${input.materials.join(", ") || "unknown"}. ${input.evidence_status === "observed" ? "Use the description as a photo-grounded interpretation, without inventing dimensions." : "This part is inferred and not visible; present it as a clearly conceptual possibility."} ${input.repair_step ? `Show the component relevant to this safe inspection step: ${input.repair_step}. Illustrate the part and its exterior features only; no dangerous procedure, wiring or live equipment.` : ""} Single component only, three-quarter orthographic view, clean white background, precise dark graphite outlines, subtle cyan technical callouts, no text, no logo, no dimensions, no hands, no complete object, educational exploded-parts catalog style.`;
     if (scanState.active >= 2) throw new ScanError(429, "The live demo is busy. Try again shortly.");
     scanState.active++;
     let response: Response;

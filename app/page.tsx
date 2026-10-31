@@ -29,6 +29,7 @@ import {
   Info,
   Download,
   RotateCcw,
+  Wrench,
 } from "lucide-react";
 import Shader from "../components/Shader";
 import ProjectImportButton from "../components/ProjectImportButton";
@@ -312,6 +313,7 @@ export default function Home() {
           </span>
         </button>
         <nav aria-label="Main navigation">
+          <a href="/fix">Fix Studio <Wrench size={12} /></a>
           <button
             className={
               screen === "explore" || screen === "results" ? "active" : ""
@@ -382,6 +384,7 @@ export default function Home() {
                   study.
                 </p>
                 <div className="hero-actions">
+                  <a className="primary" href="/fix">Fix an object <Wrench size={17} /></a>
                   <button className="primary" onClick={() => go("capture")}>
                     Scan an object <ArrowUpRight size={18} />
                   </button>

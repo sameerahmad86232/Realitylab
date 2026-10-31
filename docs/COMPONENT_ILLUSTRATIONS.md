@@ -5,7 +5,7 @@ The reverse-engineering workbench can request one explanatory image for a select
 Configure these server-only environment values and restart the service:
 
 - `META_API_KEY`
-- `META_IMAGE_MODEL` using the current Muse Image identifier shown in the participant dashboard
+- optional `META_IMAGE_MODEL` override; defaults to the official `muse-image-1.0`
 - optionally `META_API_BASE_URL` (defaults to `https://api.meta.ai/v1`)
 
 The endpoint shares private access, same-origin checks, concurrency controls, and the durable hourly inference quota. If the shared quota is required but unavailable, it fails closed. Keys and provider error bodies never reach the browser.
