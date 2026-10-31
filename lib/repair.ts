@@ -53,3 +53,20 @@ export const sampleRepairPlan: RepairPlan = {
   stop_if: ["Burning smell, smoke, sparks or unusual heat", "Frayed wiring or a damaged plug", "Unstable or broken protective guard"],
   verify: ["Guard remains securely attached", "No abnormal sound, heat or vibration during normal use", "If unresolved, seek qualified service instead of forcing a repair"]
 };
+/** High-risk topics never receive procedural DIY instructions, even if the model proposes them. */
+export function enforceSafetyBoundary(plan: RepairPlan, userProblem: string): RepairPlan {
+  const highRisk = /(?:gas\s*(?:leak|smell)|carbon monoxide|smok(?:e|ing)|sparks?|sparking|burning smell|swollen\s*(?:battery|cell)|battery\s*(?:swollen|punctured|smoking)|lithium\s*(?:fire|leak)|electric shock|exposed\s*(?:wire|wiring|conductor)|high[ -]?voltage|live\s*(?:wire|wiring)|brakes?\s*(?:fail|broken|not working)|steering\s*(?:fail|broken)|load[ -]?bearing|firearm|ammunition|explosive|pacemaker)/i.test(userProblem);
+  if (!highRisk && plan.risk !== "professional") return plan;
+  return {
+    ...plan,
+    risk: "professional",
+    risk_reason: highRisk ? "The reported symptom may involve an immediate safety hazard. An image cannot establish safe repair conditions." : plan.risk_reason,
+    tools: [],
+    steps: [
+      {id:"step-1",title:"Stop using the object",instruction:"Do not operate, open, power, test, or handle the affected equipment if there may be immediate danger. Keep people away from the hazard.",why:"Avoid making a potentially hazardous failure worse.",component_name:"Affected object",expected_result:"The object is not being used or disturbed.",caution:"If there is smoke, fire or a suspected gas leak, move away and contact local emergency services."},
+      {id:"step-2",title:"Get qualified assistance",instruction:"Contact an appropriate qualified technician or emergency service. Describe the symptom and share photos only from a safe location.",why:"An on-site safety assessment is required before any repair instruction is appropriate.",component_name:"Object exterior",expected_result:"A qualified professional can assess the hazard and next safe action.",caution:"Do not attempt internal repairs based on this AI-generated guide."}
+    ],
+    stop_if: ["Any danger to people, smoke, sparks, heat or suspected leak", "A professional has not yet confirmed that the object is safe to approach"],
+    verify: ["Only a qualified professional should verify safe operation before reuse"]
+  };
+}
