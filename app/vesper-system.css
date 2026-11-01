@@ -544,3 +544,6 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .live-results .observation-prediction strong,.live-results .observation-journal label{color:#eee!important}
 .live-results .observation-prediction p{color:#bdbdbd!important}
 .live-results .observation-journal select,.live-results .observation-journal textarea{background:#080808!important;color:#eee!important;border-color:rgba(255,255,255,.2)!important}
+
+.live-results .observation-journal details>dl dt{color:#bdbdbd!important}
+.live-results .observation-journal details>dl dd{color:#e5e5e5!important}
