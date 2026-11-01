@@ -536,3 +536,11 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .live-results .lesson-steps details{background-color:#111!important;color:#eee!important}
 .live-results .lesson-steps details>dl dt{color:#bdbdbd!important}
 .live-results .lesson-steps details>dl dd{color:#e5e5e5!important}
+
+.live-results .observation-journal{background-color:#111!important;color:#eee!important;border-color:rgba(255,255,255,.14)!important}
+.live-results .observation-journal summary>span{color:#eee!important}
+.live-results .observation-journal summary>small,.live-results .observation-kicker,.live-results .observation-footnote,.live-results .observation-caveat{color:#bdbdbd!important}
+.live-results .observation-prediction{background-color:#080808!important;color:#eee!important}
+.live-results .observation-prediction strong,.live-results .observation-journal label{color:#eee!important}
+.live-results .observation-prediction p{color:#bdbdbd!important}
+.live-results .observation-journal select,.live-results .observation-journal textarea{background:#080808!important;color:#eee!important;border-color:rgba(255,255,255,.2)!important}
