@@ -66,13 +66,13 @@
 }
 .collection-track>.recorded-card:focus-visible{outline:3px solid #507761;outline-offset:4px}
 @supports (animation-timeline:view(inline)){
-  .collection-toolbar:before{animation:gallery-progress linear both;animation-timeline:--gallery-scroll}
+  .collection-toolbar:before{animation:gallery-progress auto linear both;animation-timeline:--gallery-scroll}
   @keyframes gallery-progress{to{transform:scaleX(1)}}
 }
 @supports (animation-timeline:view(inline)){
   @media(prefers-reduced-motion:no-preference){
     .collection-track>.recorded-card>img{
-      animation:gallery-reveal linear both;
+      animation:gallery-reveal auto linear both;
       animation-timeline:view(inline);animation-range:entry 0% entry 100%
     }
     @keyframes gallery-reveal{
