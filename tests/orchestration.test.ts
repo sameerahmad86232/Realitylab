@@ -56,7 +56,7 @@ test('real handler streams progress while inference is pending, then validates s
  assert.equal(body.analysis.repair_assessment?.status,'professional-help');
  assert.equal(body.meta.orchestration?.budget.callsUsed,1);
  assert.equal(body.meta.orchestration?.safety?.decision,'refer');
- assert.equal(body.meta.orchestration?.events.find(event=>event.stage==='research'&&event.status==='skipped')?.reason,'Manual retrieval is not connected');
+ assert.equal(body.meta.orchestration?.events.find(event=>event.stage==='research'&&event.status==='skipped')?.reason,'Run documentation lookup separately with an exact model and official URL');
  assert.deepEqual(body.meta.orchestration?.events,events);
  assert.equal(body.meta.orchestration?.caseId,body.meta.requestId);
  assert.equal(JSON.stringify(body).includes('data:image/'),false);assert.equal(scanState.active,0);

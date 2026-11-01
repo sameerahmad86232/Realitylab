@@ -246,7 +246,7 @@ async function runScan(request: Request, emit?: (event: StageEvent) => void) {
     const gated = applySafetyGate(result.analysis, context);
     flow.safety = gated.safety;
     flow.event("safety", "completed");
-    flow.event("research", "skipped", "Manual retrieval is not connected");
+    flow.event("research", "skipped", "Run documentation lookup separately with an exact model and official URL");
     flow.event("verification", "skipped", "Requires follow-up evidence after a user action");
     flow.event("complete", "running");
     signal.throwIfAborted();

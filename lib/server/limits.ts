@@ -153,7 +153,7 @@ export async function reserveDurableInferenceBudget(
 }
 
 export async function recordDurableUsage(
-  kind: "scan" | "lesson" | "question",
+  kind: "scan" | "lesson" | "question" | "verification",
   tokens: number | null,
   now = Date.now(),
 ) {

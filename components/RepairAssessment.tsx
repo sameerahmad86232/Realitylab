@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { AlertTriangle, ArrowUpRight, Camera, Check, CheckCircle2, ChevronLeft, ChevronRight, ImageIcon, Loader2, ShieldAlert, Users, Wrench } from "lucide-react";
+import {ManualResearch,RepairVerification} from "./RepairFollowup";
+import type {ScanView} from "../lib/analysis";
 import OrchestrationTrace from "./OrchestrationTrace";
 import type { Orchestration } from "../lib/orchestration";
 import type { Analysis } from "../lib/analysis";
 
-export default function RepairAssessment({analysis,orchestration,onSelect,onMoreEvidence}:{analysis:Analysis;orchestration?:Orchestration;onSelect:(id:string)=>void;onMoreEvidence:()=>void}) {
+export default function RepairAssessment({analysis,orchestration,sourceCaseId,photos,onSelect,onMoreEvidence}:{analysis:Analysis;orchestration?:Orchestration;sourceCaseId:string;photos:ScanView["photos"];onSelect:(id:string)=>void;onMoreEvidence:()=>void}) {
   const assessment=analysis.repair_assessment!;
   const blocked=assessment.status!=="guided-inspection";
   const [active,setActive]=useState(0);
@@ -29,7 +31,7 @@ export default function RepairAssessment({analysis,orchestration,onSelect,onMore
   }
 
   return <section className={`repair-assessment ${assessment.status}`} aria-labelledby="repair-answer-title">
-    <div className="orchestrator-summary"><div><span><Users size={15}/> FIXCORE ORCHESTRATION</span><strong>{orchestration ? "Evidence analysis and independent safety rules" : "Recorded analysis"}</strong><p>{orchestration ? `${orchestration.budget.callsUsed} of ${orchestration.budget.maxCalls} analysis calls used. Manual research and follow-up verification are shown separately below.` : "No execution trace was recorded for this result."}</p></div></div>
+    <div className="orchestrator-summary"><div><span><Users size={15}/> FIXCORE ORCHESTRATION</span><strong>{orchestration ? "Evidence analysis and independent safety rules" : "Recorded analysis"}</strong><p>{orchestration ? `${orchestration.budget.callsUsed} of ${orchestration.budget.maxCalls} analysis calls used. Manual lookup and follow-up review run separately when requested.` : "No execution trace was recorded for this result."}</p></div></div>
     {orchestration && <OrchestrationTrace events={orchestration.events} />}
     <div className="repair-answer-head"><div><p className="eyebrow">VISUAL REPAIR TRIAGE / NOT A CONFIRMED DIAGNOSIS</p><h2 id="repair-answer-title">{assessment.status==="professional-help"?"Stop here and get qualified help.":assessment.status==="needs-more-evidence"?"One more look before guidance.":"A cautious inspection path."}</h2></div><span className={`risk-badge ${assessment.risk}`}><ShieldAlert size={14}/>{assessment.risk} risk · model assessment</span></div>
     <div className="repair-answer-grid"><div className="repair-cause"><span>POSSIBLE CAUSE</span><h3>{assessment.possible_cause}</h3><p>{assessment.explanation}</p><div className="repair-components">{assessment.component_ids.map(id=><button key={id} onClick={()=>onSelect(id)}>{analysis.components.find(part=>part.id===id)?.name}<ArrowUpRight size={11}/></button>)}</div><aside><AlertTriangle size={16}/><p><strong>Check first:</strong> {assessment.check_first}</p></aside></div>
@@ -40,6 +42,8 @@ export default function RepairAssessment({analysis,orchestration,onSelect,onMore
       <div className="guided-step-copy"><span>{String(active+1).padStart(2,"0")}</span><h3>{step.title}</h3>{step.purpose&&<p className="step-purpose"><b>Why:</b> {step.purpose}</p>}<p>{step.instruction}</p><dl><div><dt>Tool</dt><dd>{step.tool||assessment.tools[0]?.name||"No special tool"}</dd></div><div><dt>What you should see</dt><dd>{step.checkpoint}</dd></div>{step.common_mistake&&<div><dt>Common mistake</dt><dd>{step.common_mistake}</dd></div>}<div><dt>Stop if</dt><dd>{step.stop_condition||assessment.stop_conditions[0]}</dd></div></dl></div></article>
       {error&&<p className="step-image-error" role="alert">{error}</p>}<div className="step-controls"><button className="secondary" disabled={active===0} onClick={()=>{setActive(value=>value-1);setError("")}}><ChevronLeft size={14}/>Previous</button><button className="primary" disabled={active===assessment.steps.length-1} onClick={()=>{setActive(value=>value+1);setError("")}}>Next step<ChevronRight size={14}/></button></div>
     </>}</div></div>
+    {!blocked&&step&&<RepairVerification key={`${sourceCaseId}-${active}`} analysis={analysis} sourceCaseId={sourceCaseId} stepIndex={active} photos={photos}/>}
+    <ManualResearch key={sourceCaseId} sourceCaseId={sourceCaseId}/>
     <div className="repair-stop"><strong>STOP CONDITIONS</strong><ul>{assessment.stop_conditions.map((item,i)=><li key={i}><CheckCircle2 size={12}/>{item}</li>)}</ul></div>
   </section>
 }
