@@ -1,0 +1,30 @@
+import {chromium} from 'playwright-core';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {handleScan,scanState} from '../lib/server/scan.ts';
+import {handleResearch} from '../lib/server/research.ts';
+import {handleVerify} from '../lib/server/verify.ts';
+const origin=process.env.TEST_ORIGIN||'http://localhost:3000';
+const fixture=JSON.parse(await readFile(new URL('./fixtures/analysis.json',import.meta.url),'utf8'));
+const source={...fixture.analysis,components:fixture.analysis.components.map(part=>({...part,...(part.observed?{image_index:0}:{})})),repair_assessment:{status:'guided-inspection',possible_cause:'A joint may have a gap.',explanation:'The visible region can be inspected passively.',risk:'low',component_ids:[],check_first:'Keep the object stationary.',tools:[],steps:[{title:'Observe the joint',instruction:'Look at the joint without operating or touching the object.',checkpoint:'A gap is visible at the joint.',component_ids:[]}],stop_conditions:['Stop if damage or stored energy is present.'],missing_evidence:[]}};
+const originalFetch=globalThis.fetch,savedKey=process.env.BASETEN_API_KEY,savedOrigin=process.env.APP_ORIGIN;
+process.env.BASETEN_API_KEY='test-only';process.env.APP_ORIGIN=origin;scanState.requests.clear();scanState.active=0;scanState.hour=Date.now();scanState.hourCount=0;
+let modelCalls=0,manualCalls=0;
+globalThis.fetch=async(url,options)=>{
+ if(String(url).includes('support.apple.com')){manualCalls++;return new Response('<title>Example Model 12 documentation</title><main>Example Model 12 source documentation for the visible enclosure.</main>',{headers:{'Content-Type':'text/html'}});}
+ modelCalls++;const payload=JSON.parse(options.body);const isReview=payload.max_tokens===1400;
+ return Response.json({choices:[{message:{content:JSON.stringify(isReview?{status:'inconclusive',summary:'This view cannot establish the checkpoint.',observations:[{source:'after',detail:'The joint is not clearly visible.'}],missingEvidence:['A closer view of the same joint.'],limitations:['A photo cannot establish repair success or safety.']}:source)}}],usage:{prompt_tokens:100,completion_tokens:50,total_tokens:150}});
+};
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox','--disable-dev-shm-usage']});
+try{
+ const context=await browser.newContext(),page=await context.newPage();const errors=[];page.on('pageerror',error=>errors.push(error.message));
+ await context.route('**/api/health',route=>route.fulfill({json:{analysis:{configured:true}}}));
+ for(const [path,handler]of [['scan',handleScan],['research',handleResearch],['verify',handleVerify]])await context.route(`**/api/${path}`,async route=>{const req=route.request();const response=await handler(new Request(req.url(),{method:'POST',headers:req.headers(),body:req.postDataBuffer()}));await route.fulfill({status:response.status,headers:Object.fromEntries(response.headers),body:await response.text()});});
+ await page.goto(origin);await page.getByRole('button',{name:'Start diagnosing',exact:true}).click();
+ await page.locator('input[type=file]').first().setInputFiles('public/demos/electronics.jpg');await page.locator('.previews img').waitFor();await page.getByRole('checkbox').check();await page.getByRole('button',{name:'Analyze object',exact:true}).click();await page.locator('.live-results').waitFor();
+ await page.getByRole('heading',{name:'Find the source documentation',exact:true}).waitFor();assert.equal(await page.getByText('Manual retrieval is not connected',{exact:true}).count(),0);
+ await page.getByLabel('Exact manufacturer and model',{exact:true}).fill('Example Model 12');await page.getByLabel('Official documentation URL',{exact:true}).fill('https://support.apple.com/example');await page.getByRole('button',{name:'Retrieve documentation',exact:true}).click();await page.getByRole('link',{name:'Example Model 12 documentation',exact:true}).waitFor();assert.equal(manualCalls,1);assert.equal(modelCalls,1,'Manual retrieval must not use model credits');
+ const review=page.getByRole('region',{name:'Follow-up checkpoint review'});await review.getByLabel('After photo',{exact:true}).setInputFiles('public/demos/electronics.jpg');await review.locator('.followup-photo').waitFor();await review.getByLabel('What did you observe?',{exact:true}).fill('The gap looks unchanged.');assert.equal(await review.getByRole('button',{name:'Review checkpoint',exact:true}).isDisabled(),true);await review.getByRole('checkbox').check();await review.getByRole('button',{name:'Review checkpoint',exact:true}).click();await review.getByRole('heading',{name:'More evidence is needed',exact:true}).waitFor();assert.equal(modelCalls,2);assert.equal(await review.getByText('The joint is not clearly visible.',{exact:false}).count(),1);
+ await page.setViewportSize({width:320,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);assert.deepEqual(errors,[]);
+ console.log('PASS: actual scan/research/verify handlers render through client forms, explicit follow-up consent, manual credit isolation, inconclusive comparison and 320px layout. Provider mocked.');
+}finally{await browser.close();globalThis.fetch=originalFetch;if(savedKey===undefined)delete process.env.BASETEN_API_KEY;else process.env.BASETEN_API_KEY=savedKey;if(savedOrigin===undefined)delete process.env.APP_ORIGIN;else process.env.APP_ORIGIN=savedOrigin;}

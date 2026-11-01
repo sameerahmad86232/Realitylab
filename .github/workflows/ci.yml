@@ -23,6 +23,7 @@ jobs:
           npm run test:browser
           npm run test:capture
           npm run test:server-envelope
+          npm run test:followup-ui
           npm run test:exploration
           npm run test:blueprint
           npm run test:learn-ui

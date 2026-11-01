@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit",
     "test:browser": "node tests/design.mjs",
     "test:capture": "node tests/capture.mjs",
+    "test:followup-ui": "node tests/followup-browser.mjs",
     "test:followup": "node --experimental-strip-types --test tests/followup.test.ts",
     "test:orchestration": "node --experimental-strip-types --test tests/orchestration.test.ts",
     "test:api": "node --experimental-strip-types --test tests/scan-api.test.ts",
