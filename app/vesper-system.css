@@ -484,3 +484,18 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .consent{background:#080808!important;padding:12px;border:1px solid rgba(255,255,255,.14);border-radius:7px}
 
 .consent>span{color:#eeeeee!important}
+
+/* Keep nested results workspaces opaque for reliable contrast across browsers. */
+.live-results .analysis-summary{background-color:#080808!important;color:#e0e0e0!important;padding:12px 14px;border-radius:6px}
+.live-results .evidence-dashboard{background-color:#080808!important}
+.live-results .component-map,.live-results .source-panel,.live-results .inspector{background-color:#0b0b0b!important;color:#eee!important}
+.live-results .map-node.is-inferred{background:#171717!important;color:#eee!important}
+.live-results .map-instructions,.live-results .map-disclaimer,.live-results .map-number{color:#bdbdbd!important}
+.live-results .inspector-top,.live-results .inspector-foot{color:#bdbdbd!important}
+.live-results .parts-list button{background:#111!important;color:#fff!important}
+.live-results .parts-list .part-number{color:#c4c4c4!important}
+.live-results .part-detail,.live-results .uncertainty-panel,.live-results .principle-list,.live-results .next-observations,.live-results .project-save,.live-results .project-save-status,.live-results .result-provenance,.live-results .reverse-workbench,.live-results .component-workbench-grid,.live-results .build-learn,.live-results .lesson-card,.live-results .lesson-materials,.live-results .lesson-steps,.live-results .learning-panel,.live-results .learning-stage,.live-results .followup{background-color:#080808!important;color:#eee!important}
+.live-results .part-detail p,.live-results .component-workbench-copy p,.live-results .reverse-boundary p,.live-results .learning-description,.live-results .learning-consent,.live-results .learning-consent small,.live-results .followup>label,.live-results .uncertainty-panel p{color:#bdbdbd!important}
+.live-results .evidence-tag{background:#171717!important;color:#eee!important}
+.live-results .project-save-actions,.live-results .result-jumps,.live-results .exploration-toolbar,.live-results .evidence-filters,.live-results .explorer-view-switch{color:#bdbdbd!important}
+.live-results .followup textarea,.live-results .component-search input{background:#111!important;color:#fff!important;border-color:rgba(255,255,255,.2)!important}
