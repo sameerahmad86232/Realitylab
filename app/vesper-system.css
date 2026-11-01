@@ -504,3 +504,8 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .live-results .reverse-boundary,.live-results .component-workbench-grid article,.live-results .principle-list>article,.live-results .followup>div,.live-results .project-save-actions>label{background-color:#111!important;color:#eee!important}
 .live-results .reverse-boundary p,.live-results .component-workbench-copy p,.live-results .principle-list>article p,.live-results .followup>div small,.live-results .project-save-actions>label>span small{color:#bdbdbd!important}
 .live-results .evidence-dashboard dl{background-color:#080808!important;color:#eee!important}
+
+.live-results .reverse-workbench header p,.live-results .component-card-heading>span,.live-results .component-workbench-copy dt{color:#c4c4c4!important}
+.live-results .component-workbench-copy dd{color:#e5e5e5!important}
+.live-results .component-research-links a{color:#c4c4c4!important}
+@media(max-width:900px){.live-results .evidence-dashboard dl{overflow:visible;flex-wrap:wrap}}
