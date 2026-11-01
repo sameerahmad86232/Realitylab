@@ -523,3 +523,5 @@ header.header button.brand,header.header button.brand>span,header.header button.
 
 .repair-assessment .orchestrator-summary>div>span,.repair-assessment .orchestrator-teams b{color:#eee!important}
 .repair-assessment .repair-answer-head .eyebrow,.repair-assessment .step-progress>span{color:#bdbdbd!important}
+
+.repair-assessment .repair-answer-head>div>p.eyebrow{color:#fff!important;background-color:#080808!important}
