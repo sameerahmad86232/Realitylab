@@ -41,3 +41,6 @@ footer{margin:0;padding:32px clamp(24px,6vw,95px);border-top:1px solid #deded9;b
 .evidence-dashboard>div>span,.evidence-dashboard p,.evidence-dashboard dt{color:#526174}
 .project-meta .eyebrow{color:#b3d2e7!important}
 @media(forced-colors:active){.matrix-cta button{border:1px solid ButtonText}}
+
+.guided-step-copy>span,.guided-step-copy dt{color:#526174}
+.matrix-resume{display:block;margin:12px auto 0;color:#444;font-size:12px;text-decoration:underline;text-underline-offset:4px}
