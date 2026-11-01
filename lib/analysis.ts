@@ -97,6 +97,8 @@ export const analysisSchema = z
         ctx.addIssue({ code: "custom", message: "Blocked repair paths cannot provide tools or procedural steps." });
       if (repair.risk === "high" && repair.status !== "professional-help")
         ctx.addIssue({ code: "custom", message: "High-risk results must stop the DIY path." });
+      if (repair.status === "guided-inspection" && (repair.risk !== "low" || data.recognition !== "identified"))
+        ctx.addIssue({ code: "custom", message: "Guided inspection requires low risk and an identified object." });
       if (repair.status === "guided-inspection" && (!repair.steps.length || repair.steps.length > 3))
         ctx.addIssue({ code: "custom", message: "Guided inspection requires one to three bounded steps." });
     }

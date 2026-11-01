@@ -22,6 +22,8 @@ test('repair triage fails closed for risk, evidence, and component-reference err
  const base={status:'guided-inspection' as const,possible_cause:'A possible loose visible connection',explanation:'The photo suggests movement at the visible joint, but it does not confirm the cause.',risk:'low' as const,component_ids:[analysis.components[0].id],check_first:'Keep the object unpowered and stationary.',tools:[],steps:[{title:'Look without disassembly',instruction:'Inspect the visible joint without operating the object.',checkpoint:'Stop if damage, heat, odor, sharp edges, or stored energy are present.',component_ids:[analysis.components[0].id]}],stop_conditions:['Stop if any hazard is visible.'],missing_evidence:[]};
  assert.equal(analysisSchema.safeParse({...analysis,repair_assessment:base}).success,true);
  assert.equal(analysisSchema.safeParse({...analysis,repair_assessment:{...base,risk:'high'}}).success,false,'high risk cannot provide DIY guidance');
+ assert.equal(analysisSchema.safeParse({...analysis,repair_assessment:{...base,risk:'medium'}}).success,false,'medium risk cannot provide DIY guidance');
+ assert.equal(analysisSchema.safeParse({...analysis,recognition:'uncertain',repair_assessment:base}).success,false,'uncertain identity cannot provide DIY guidance');
  assert.equal(analysisSchema.safeParse({...analysis,repair_assessment:{...base,status:'needs-more-evidence',steps:base.steps}}).success,false,'uncertain paths cannot leak instructions');
  assert.equal(analysisSchema.safeParse({...analysis,repair_assessment:{...base,component_ids:['invented']}}).success,false,'repair references must remain source-grounded');
 });
