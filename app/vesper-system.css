@@ -566,3 +566,5 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .matrix-resume{display:inline-flex;align-items:center;gap:9px;margin-top:13px;padding:0;border:0;background:transparent;color:#bdbdbd;font-size:12px;transition:color .2s,transform .2s}
 .matrix-resume svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.4}
 .matrix-resume:hover{color:#fff;transform:translateX(2px)}
+
+.live-results .demo-notice>a{color:#fff!important;text-decoration:underline;text-underline-offset:3px}
