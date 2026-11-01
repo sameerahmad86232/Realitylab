@@ -50,6 +50,21 @@ export const analysisSchema = z
     uncertainty: z.array(text(700)).min(1).max(8),
     next_steps: z.array(text(700)).max(4),
     safety_notes: z.array(text(700)).min(1).max(5),
+    repair_assessment: z
+      .object({
+        status: z.enum(["guided-inspection", "needs-more-evidence", "professional-help"]),
+        possible_cause: text(500),
+        explanation: text(1200),
+        risk: z.enum(["low", "medium", "high"]),
+        component_ids: z.array(text(40)).max(4),
+        check_first: text(500),
+        tools: z.array(z.object({ name: text(100), purpose: text(300) }).strict()).max(6),
+        steps: z.array(z.object({ title: text(120), instruction: text(700), checkpoint: text(500), component_ids: z.array(text(40)).max(4) }).strict()).max(3),
+        stop_conditions: z.array(text(500)).min(1).max(6),
+        missing_evidence: z.array(text(500)).max(5),
+      })
+      .strict()
+      .optional(),
   })
   .strict()
   .superRefine((data, ctx) => {
@@ -74,6 +89,17 @@ export const analysisSchema = z
           code: "custom",
           message: "Principles must reference supplied components.",
         });
+    if (data.repair_assessment) {
+      const repair = data.repair_assessment;
+      if (repair.component_ids.some((id) => !ids.has(id)) || repair.steps.some((step) => step.component_ids.some((id) => !ids.has(id))))
+        ctx.addIssue({ code: "custom", message: "Repair guidance must reference supplied components." });
+      if (repair.status !== "guided-inspection" && (repair.steps.length || repair.tools.length))
+        ctx.addIssue({ code: "custom", message: "Blocked repair paths cannot provide tools or procedural steps." });
+      if (repair.risk === "high" && repair.status !== "professional-help")
+        ctx.addIssue({ code: "custom", message: "High-risk results must stop the DIY path." });
+      if (repair.status === "guided-inspection" && (!repair.steps.length || repair.steps.length > 3))
+        ctx.addIssue({ code: "custom", message: "Guided inspection requires one to three bounded steps." });
+    }
     if (
       data.recognition === "no-object" &&
       (data.components.length || data.principles.length)

@@ -27,6 +27,7 @@ import DiagramLab from "./DiagramLab";
 import ConceptBlueprint from "./ConceptBlueprint";
 import ComponentMap from "./ComponentMap";
 import ReverseEngineeringWorkbench from "./ReverseEngineeringWorkbench";
+import RepairAssessment from "./RepairAssessment";
 import { getLearningDraft } from "../lib/learning-cache";
 import { makeProjectFile } from "../lib/project-file";
 export default function LiveResults({
@@ -319,6 +320,13 @@ export default function LiveResults({
             <strong>Project restored.</strong> {projectMessage}
           </span>
         </p>
+      )}
+      {analysis.repair_assessment && (
+        <RepairAssessment
+          analysis={analysis}
+          onSelect={(id) => select(id, true)}
+          onMoreEvidence={onEdit}
+        />
       )}
       <div className="project-path" aria-label="Primary investigation path">
         <span>
