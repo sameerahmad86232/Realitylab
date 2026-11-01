@@ -520,3 +520,6 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .repair-assessment .orchestrator-summary p,.repair-assessment .orchestrator-teams span,.repair-assessment .repair-stop li,.repair-assessment .guided-step-copy p,.repair-assessment .guided-step-copy dt,.repair-assessment .guided-step-copy dd{color:#bdbdbd!important}
 .live-results .blueprint-rendering,.live-results .blueprint-guide-option,.live-results .blueprint-photo-option{background-color:#111!important;color:#eee!important}
 .live-results .blueprint-rendering>span,.live-results .blueprint-guide-option,.live-results .blueprint-photo-option>span{color:#ddd!important}
+
+.repair-assessment .orchestrator-summary>div>span,.repair-assessment .orchestrator-teams b{color:#eee!important}
+.repair-assessment .repair-answer-head .eyebrow,.repair-assessment .step-progress>span{color:#bdbdbd!important}
