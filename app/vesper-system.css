@@ -417,3 +417,10 @@ button{font-family:inherit}
 .header,footer{background:#000;color:#fff}
 .header .brand-light,footer .brand-light,footer>span{color:#fff}
 .investigation-goals button>span,.photo-tips .privacy-note p{color:#fff}
+
+#main .header{background:#000!important}
+#main .header .brand,#main .header .brand>span,#main .header .brand-light,
+footer .brand,footer .brand>span,footer .brand-light,footer .project-brief-link{color:#fff!important}
+#main .privacy-note{background:#080808!important}
+#main .privacy-note p{color:#fff!important}
+footer{background:#000!important}
