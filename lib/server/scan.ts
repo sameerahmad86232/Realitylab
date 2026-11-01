@@ -1,3 +1,5 @@
+import { FixCoreCase, applySafetyGate, SCAN_BUDGET } from "./orchestrator.ts";
+import type { StageEvent } from "../orchestration.ts";
 import sharp from "sharp";
 import {
   recordDurableUsage,
@@ -117,9 +119,12 @@ export async function normalize(file: File) {
     );
   }
 }
-export async function handleScan(request: Request) {
+async function runScan(request: Request, emit?: (event: StageEvent) => void) {
   const requestId = randomUUID(),
     start = Date.now();
+  const flow = new FixCoreCase(requestId, emit);
+  flow.queue();
+  flow.event("validation", "running");
   let stage = "validation",
     acquired = false,
     timer: ReturnType<typeof setTimeout> | undefined,
@@ -209,6 +214,8 @@ export async function handleScan(request: Request) {
     )
       throw new ScanError(400, "Upload one to three photos.");
     requestReadMs = Date.now() - start;
+    flow.event("validation", "completed");
+    flow.event("normalization", "running");
     stage = "normalization";
     const normalizationStart = Date.now(),
       images: string[] = [];
@@ -218,21 +225,40 @@ export async function handleScan(request: Request) {
     }
     normalizationMs = Date.now() - normalizationStart;
     signal.throwIfAborted();
+    flow.event("normalization", "completed");
+    stage = "quota";
+    flow.event("quota", "running");
     reserveInferenceBudget(scanState);
     const quotaStart = Date.now();
     await reserveDurableInferenceBudget(signal);
     quotaMs = Date.now() - quotaStart;
+    flow.event("quota", "completed");
+    flow.event("analysis", "running");
+    flow.reserveCall(signal);
     stage = "inference";
     const inferenceStart = Date.now(),
-      result = await analyzePhotos(images, context, signal);
+      result = await analyzePhotos(images, context, signal, SCAN_BUDGET.maxOutputTokens);
     inferenceMs = Date.now() - inferenceStart;
     signal.throwIfAborted();
+    flow.event("analysis", "completed");
+    stage = "safety";
+    flow.event("safety", "running");
+    const gated = applySafetyGate(result.analysis, context);
+    flow.safety = gated.safety;
+    flow.event("safety", "completed");
+    flow.event("research", "skipped", "Run documentation lookup separately with an exact model and official URL");
+    flow.event("verification", "skipped", "Requires follow-up evidence after a user action");
+    flow.event("complete", "running");
+    signal.throwIfAborted();
+    flow.event("complete", "completed");
+    const orchestration = flow.finish("completed");
     const analyzedAt = new Date().toISOString(),
       durationMs = Date.now() - start;
     const payload = scanResultSchema.parse({
-      analysis: result.analysis,
+      analysis: gated.analysis,
       meta: {
         requestId,
+        orchestration,
         provider: configuration().provider,
         model: configuration().model,
         durationMs,
@@ -252,6 +278,7 @@ export async function handleScan(request: Request) {
         photoCount: images.length,
         model: configuration().model,
         tokens: result.usage.totalTokens,
+        orchestration,
       }),
     );
     return json(payload);
@@ -276,9 +303,11 @@ export async function handleScan(request: Request) {
           : timeout
             ? "Analysis timed out. Your photos are preserved; try again with fewer photos."
             : "The scan could not be completed. Your photos are preserved. Please retry.";
+    const orchestration = flow.finish(aborted ? "cancelled" : "failed");
     console.info(
       JSON.stringify({
         event: "scan_error",
+        orchestration,
         requestId,
         status,
         stage,
@@ -290,9 +319,42 @@ export async function handleScan(request: Request) {
         durationMs: Date.now() - start,
       }),
     );
-    return json({ error: { message, requestId } }, status);
+    return json({ error: { message, requestId }, orchestration }, status);
   } finally {
     if (timer) clearTimeout(timer);
     if (acquired) scanState.active--;
   }
+}
+
+
+/** Opt-in NDJSON transport; existing JSON callers retain their response/status contract. */
+export function handleScan(request: Request): Promise<Response> | Response {
+  if (!request.headers.get("accept")?.includes("application/x-ndjson")) return runScan(request);
+  const disconnect = new AbortController();
+  const signal = AbortSignal.any([request.signal, disconnect.signal]);
+  const scanRequest = new Request(request, {signal});
+  const encoder = new TextEncoder();
+  let closed = false;
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      const send = (value: unknown) => {
+        if (closed || signal.aborted) return;
+        try {controller.enqueue(encoder.encode(JSON.stringify(value) + "\n"));}
+        catch {closed = true; disconnect.abort();}
+      };
+      void (async () => {
+        try {
+          const response = await runScan(scanRequest, event => send({type: "stage", event}));
+          const body = await response.json();
+          send(response.ok ? {type: "result", result: body} : {type: "error", status: response.status, ...body});
+        } catch {
+          send({type: "error", status: 502, error: {message: "The scan could not be completed. Your photos are preserved."}});
+        } finally {
+          if (!closed) {closed = true; controller.close();}
+        }
+      })();
+    },
+    cancel() {closed = true; disconnect.abort();},
+  });
+  return new Response(stream, {headers: {"Content-Type": "application/x-ndjson", "Cache-Control": "no-store, no-transform", "X-Content-Type-Options": "nosniff", "X-Accel-Buffering": "no"}});
 }

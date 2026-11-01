@@ -2,6 +2,7 @@
 import { chromium } from "playwright-core";
 import { readFile } from "node:fs/promises";
 import assert from "node:assert/strict";
+import { readScanResponse } from "../lib/scan-stream.ts";
 import { handleScan, scanState } from "../lib/server/scan.ts";
 const fixture = JSON.parse(
   await readFile(new URL("./fixtures/analysis.json", import.meta.url), "utf8"),
@@ -44,16 +45,18 @@ await context.route("**/api/scan", async (route) => {
       body: req.postDataBuffer(),
     }),
   );
-  payload = await response.text();
+  const type=response.headers.get("content-type");
+  const wire=await response.text();
+  payload=JSON.stringify(await readScanResponse(new Response(wire,{status:response.status,headers:{"Content-Type":type}}),()=>{}));
   await route.fulfill({
     status: response.status,
-    contentType: "application/json",
-    body: payload,
+    contentType: type,
+    body: wire,
   });
 });
 try {
   await page.goto(origin);
-  await page.getByRole("button", { name: "Scan object", exact: true }).click();
+  await page.getByRole("button", { name: /^(Start diagnosing|Scan object)$/, exact: true }).click();
   const image = await page.screenshot();
   await page
     .locator("input[type=file]")

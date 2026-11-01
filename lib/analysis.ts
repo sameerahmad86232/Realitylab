@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { orchestrationSchema } from "./orchestration.ts";
 const text = (max = 1000) => z.string().trim().min(1).max(max);
 export const componentSchema = z
   .object({
@@ -126,6 +127,7 @@ export const scanResultSchema = z
     analysis: analysisSchema,
     meta: z
       .object({
+        orchestration: orchestrationSchema.optional(),
         requestId: z.string().uuid(),
         provider: text(80),
         model: text(200),

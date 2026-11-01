@@ -72,9 +72,9 @@ async function run() {
   assert.equal(health.capacity.durableQuota.configured, false, "No durable test store");
   assert.equal((await request("/access")).status, 200, "Private access screen must render");
 
-  assert.equal((await scan()).status, 401, "Untrusted scans must be denied");
+  assert.equal((await scan()).status, 503, "Public scans must fail closed without the durable paid quota");
   const learning = { method: "POST", headers: { Origin: base, "Content-Type": "application/json" }, body: "{}" };
-  assert.equal((await request("/api/learn", learning)).status, 401, "Untrusted learning requests must be denied");
+  assert.equal((await request("/api/learn", learning)).status, 400, "Public learning still validates its request contract");
   assert.equal((await form("wrong-password", "https://attacker.invalid")).status, 403, "Cross-origin login must fail");
 
   const bad = await form("wrong-password");
@@ -91,12 +91,12 @@ async function run() {
   assert.match(setCookie, /Secure/i);
   const cookie = setCookie.split(";")[0];
   assert.equal((await scan(cookie)).status, 503, "Authenticated scan must fail closed without Redis");
-  assert.equal((await scan("realitylab_session=forged")).status, 401, "Forged session must fail");
+  assert.equal((await scan("realitylab_session=forged")).status, 503, "Forged optional cookies cannot bypass the durable quota");
 
   for (let i = 0; i < 5; i++)
     assert.equal((await form("invalid-code-" + i)).status, 303);
   assert.equal((await form(accessCode)).status, 429, "Login throttle must block attempts even with the correct code");
-  console.log("PASS: production HTTP login, session cookie security, invalid/foreign origins, paid endpoint auth, durable quota fail-closed, login throttling; no provider calls.");
+  console.log("PASS: production HTTP login, session cookie security, invalid/foreign origins, public paid endpoint validation, durable quota fail-closed, login throttling; no provider calls.");
 }
 try {
   await run();

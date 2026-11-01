@@ -16,6 +16,9 @@ import {
   X,
 } from "lucide-react";
 import { useOnline } from "../lib/use-online";
+import OrchestrationTrace from "./OrchestrationTrace";
+import { readScanResponse } from "../lib/scan-stream";
+import { stageLabels, type StageEvent } from "../lib/orchestration";
 import CameraCapture from "./CameraCapture";
 import { investigationGoals } from "../lib/product-scope";
 import { scanResultSchema } from "../lib/analysis";
@@ -35,6 +38,7 @@ export default function CapturePanel({
   onChange: () => void;
 }) {
   const online = useOnline();
+  const [stageEvents, setStageEvents] = useState<StageEvent[]>([]);
   const [photos, setPhotos] = useState<Photo[]>([]),
     [busy, setBusy] = useState(false),
     [camera, setCamera] = useState(false),
@@ -219,6 +223,7 @@ export default function CapturePanel({
       id = ++attempt.current;
     const controller = new AbortController();
     abort.current = controller;
+    setStageEvents([]);
     setAnalyzing(true);
     setElapsed(0);
     setErrors([]);
@@ -241,22 +246,15 @@ export default function CapturePanel({
       form.append("context", context);
       const response = await fetch("/api/scan", {
         method: "POST",
+        headers: {Accept: "application/x-ndjson"},
         body: form,
         signal: controller.signal,
       });
-      let body;
-      try {
-        body = await response.json();
-      } catch {
-        throw Error(
-          "The service returned an unreadable response. Your photos are preserved. Please retry.",
-        );
-      }
-      if (!response.ok)
-        throw Error(
-          body.error?.message ||
-            "The scan could not be completed. Your photos are preserved.",
-        );
+      const body = await readScanResponse(response, event => {
+        if (id === attempt.current && mounted.current && !controller.signal.aborted) {
+          setStageEvents(events => [...events, event]);
+        }
+      });
       const validated = scanResultSchema.safeParse(body);
       if (
         !validated.success ||
@@ -505,11 +503,12 @@ export default function CapturePanel({
           )}
           <p className="capture-status" role="status" aria-live="polite">
             {analyzing
-              ? `Analyzing your object… ${elapsed}s. Stay on this screen or cancel below.`
+              ? `${stageEvents.findLast(event => event.status === "running") ? stageLabels[stageEvents.findLast(event => event.status === "running")!.stage] : "Connecting to analysis service"}… ${elapsed}s. Stay on this screen or cancel below.`
               : busy
                 ? "Preparing photos on your device…"
                 : message}
           </p>
+          {analyzing && stageEvents.length > 0 && <OrchestrationTrace events={stageEvents} />}
           <section
             className="investigation-goals"
             aria-labelledby="investigation-goals-title"

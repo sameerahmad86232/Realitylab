@@ -30,9 +30,9 @@ try {
     const errors = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await page.goto(origin);
-    await page.getByRole("heading", { name: "See beyond the surface." }).waitFor();
+    await page.getByRole("heading", { name: /See the problem/ }).waitFor();
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
-    await page.getByRole("button", { name: "Scan object", exact: true }).click();
+    await page.getByRole("button", { name: /^(Start diagnosing|Scan object)$/, exact: true }).click();
     await page.getByRole("heading", { name: "Start with a closer look." }).waitFor();
     const targets = page.locator(
       ".upload-actions button, .capture-summary button, .breadcrumb button, .icon-button",
@@ -61,7 +61,7 @@ try {
   await page.keyboard.press("Tab");
   assert.equal(await page.getByRole("link", { name: "Skip to content" }).evaluate((node) => node === document.activeElement), true);
   assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior), "auto");
-  const primary = page.getByRole("button", { name: "Scan object", exact: true }).first();
+  const primary = page.getByRole("button", { name: /^(Start diagnosing|Scan object)$/, exact: true }).first();
   assert.notEqual(await primary.evaluate((node) => getComputedStyle(node).borderTopStyle), "none");
   await primary.click();
   const mobileAxe = await new AxeBuilder({ page })
@@ -78,7 +78,7 @@ try {
   });
   const cameraPage = await noCamera.newPage();
   await cameraPage.goto(origin);
-  await cameraPage.getByRole("button", { name: "Scan object", exact: true }).click();
+  await cameraPage.getByRole("button", { name: /^(Start diagnosing|Scan object)$/, exact: true }).click();
   await cameraPage.getByRole("button", { name: "Use camera", exact: true }).click();
   await cameraPage.getByRole("status").filter({ hasText: "Camera access is unavailable" }).waitFor();
   await cameraPage.getByRole("button", { name: "Choose photos instead", exact: true }).waitFor();

@@ -28,24 +28,25 @@ test("private session uses constant-time passcode matching and expires", () => {
   assert.equal(validSession(session.value,t+8*3600*1000+1000),false);
   assert.equal(validSession(session.value.slice(0,-1)+"0",t),false);
   const req = new Request("http://localhost/api/scan",{headers:{cookie:ACCESS_COOKIE+"="+session.value}});
-  assert.throws(()=>assertPaidAccess(req),(e)=>e instanceof ScanError&&e.status===401);
+  assert.doesNotThrow(()=>assertPaidAccess(req));
 });
-test("production denies paid inference without private session and shared store",async()=>{
+test("public production still requires a durable paid-inference quota",async()=>{
   Object.assign(process.env, { NODE_ENV: "production" });
   delete process.env.REALITYLAB_ACCESS_CODE;
   delete process.env.REALITYLAB_SESSION_SECRET;
   delete process.env.DURABLE_QUOTA_REQUIRED;
-  assert.deepEqual(accessStatus(),{configured:false,restricted:true});
-  assert.throws(()=>assertPaidAccess(new Request("http://localhost/api/scan")),(e)=>e instanceof ScanError&&e.status===503);
+  assert.deepEqual(accessStatus(),{configured:false,restricted:false});
+  assert.doesNotThrow(()=>assertPaidAccess(new Request("http://localhost/api/scan")));
   assert.equal(durableQuotaConfiguration().required,true);
   await assert.rejects(reserveDurableInferenceBudget(),(e)=>e instanceof ScanError&&e.status===503);
 });
-test("authenticated paid requests require a valid signed HTTP-only session",()=>{
+test("public scans do not depend on optional legacy session cookies",()=>{
   process.env.REALITYLAB_ACCESS_CODE="demo-code-is-long-enough-123";
   process.env.REALITYLAB_SESSION_SECRET="separate-demo-signing-key-long-enough-123";
   const req=new Request("http://localhost/api/scan",{headers:{cookie:ACCESS_COOKIE+"="+newSession().value}});
   assert.doesNotThrow(()=>assertPaidAccess(req));
-  assert.throws(()=>assertPaidAccess(new Request("http://localhost/api/scan")),(e)=>e instanceof ScanError&&e.status===401);
+  assert.doesNotThrow(()=>assertPaidAccess(new Request("http://localhost/api/scan")));
   process.env.REALITYLAB_SESSION_SECRET="rotated-different-key-long-enough-1234567";
-  assert.throws(()=>assertPaidAccess(req),(e)=>e instanceof ScanError&&e.status===401);
+  assert.equal(validSession(req.headers.get("cookie")!.split("=")[1]),false);
+  assert.doesNotThrow(()=>assertPaidAccess(req));
 });

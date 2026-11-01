@@ -324,6 +324,9 @@ export default function LiveResults({
       {analysis.repair_assessment && (
         <RepairAssessment
           analysis={analysis}
+          orchestration={meta.orchestration}
+          sourceCaseId={meta.requestId}
+          photos={scan.photos}
           onSelect={(id) => select(id, true)}
           onMoreEvidence={onEdit}
         />

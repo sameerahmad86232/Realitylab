@@ -6,7 +6,7 @@ const SOURCE="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd
 const crops=[[0,.06,.47,.40],[.53,.06,.47,.40],[0,.55,.47,.40],[.53,.55,.47,.40]] as const;
 const partners=[["FixCore","M10 1l8 4.5v9L10 19l-8-4.5v-9zM10 6l-4 2.3v4.4L10 15l4-2.3V8.3z"],["FixVision","M3 15c0-7 5-12 14-12-1 9-6 14-13 13l-1 2-2-1z"],["FixSafety","M10 1a9 9 0 110 18 9 9 0 010-18zm0 3a6 6 0 100 12 6 6 0 000-12zm0 3a3 3 0 110 6 3 3 0 010-6z"],["FixRepair","M1 17L7 6l3 5 3-7 6 13z"],["FixVisual","M10 1l9 4-9 4-9-4zm-9 8l9 4 9-4v3l-9 4-9-4zm0 5l9 4 9-4v2l-9 4-9-4z"]] as const;
 
-export default function DotMatrixHero({onStart,onDemo}:{onStart:()=>void;onDemo:()=>void}){
+export default function DotMatrixHero({onStart,onDemo,onResume}:{onStart:()=>void;onDemo:()=>void;onResume?:()=>void}){
  const canvas=useRef<HTMLCanvasElement>(null);
  useEffect(()=>{
   const el=canvas.current!;
@@ -57,7 +57,7 @@ export default function DotMatrixHero({onStart,onDemo}:{onStart:()=>void;onDemo:
  return <section className="matrix-hero" aria-labelledby="matrix-title">
   <canvas ref={canvas} className="matrix-canvas" aria-hidden="true"/>
   <nav className="matrix-nav" aria-label="Landing navigation"><button className="matrix-brand" onClick={()=>scrollTo({top:0,behavior:"smooth"})} aria-label="RealityLab home"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4.2a4.8 4.8 0 1 1 0 9.6 4.8 4.8 0 0 1 0-9.6Zm0 2.4a2.4 2.4 0 1 0 0 4.8 2.4 2.4 0 0 0 0-4.8Z"/></svg>RealityLab</button><div className="matrix-links"><a href="#how-it-works">How it works</a><a href="#collection">Examples</a><button onClick={onDemo}>Interactive demo</button></div><button className="matrix-signin" onClick={onStart}>Start diagnosis</button></nav>
-  <div className="matrix-copy"><p>AI FOR THE PHYSICAL WORLD</p><h1 id="matrix-title"><span>See the problem.</span>Understand the fault.<br/><em>Fix it.</em></h1><div className="matrix-sub">Upload a photo, explore the components, and follow a safer path toward repair.</div><div className="matrix-cta"><button onClick={onStart}>Start diagnosing</button></div><button className="matrix-demo" onClick={onDemo}>Explore interactive demo →</button></div>
+  <div className="matrix-copy"><p>AI FOR THE PHYSICAL WORLD</p><h1 id="matrix-title"><span>See the problem.</span>Understand the fault.<br/><em>Fix it.</em></h1><div className="matrix-sub">Upload a photo, explore the components, and follow a safer path toward repair.</div><div className="matrix-cta"><button onClick={onStart}>Start diagnosing</button></div><button className="matrix-demo" onClick={onDemo}>Explore interactive demo →</button>{onResume&&<button className="matrix-resume" onClick={onResume}>Resume your exploration</button>}</div>
   <div className="matrix-partners" aria-label="RealityLab orchestration teams">{partners.map(([name,path])=><span key={name}><svg viewBox="0 0 20 20" aria-hidden="true"><path d={path}/></svg>{name}</span>)}</div>
  </section>
 }
