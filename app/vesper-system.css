@@ -412,3 +412,8 @@ button{font-family:inherit}
 
 .matrix-signin:after,.matrix-cta:after{z-index:1;pointer-events:none}
 .matrix-signin>span,.matrix-signin>svg,.matrix-cta>span,.matrix-cta>svg{position:relative;z-index:2}
+
+/* Keep every shared surface legible after the dark theme override. */
+.header,footer{background:#000;color:#fff}
+.header .brand-light,footer .brand-light,footer>span{color:#fff}
+.investigation-goals button>span,.photo-tips .privacy-note p{color:#fff}
