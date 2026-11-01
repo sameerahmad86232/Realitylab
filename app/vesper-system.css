@@ -561,3 +561,8 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .live-results .followup article{background-color:#080808!important;color:#eee!important}
 .live-results .followup article>strong{color:#fff!important}
 .live-results .followup article>p{color:#bdbdbd!important}
+
+
+.matrix-resume{display:inline-flex;align-items:center;gap:9px;margin-top:13px;padding:0;border:0;background:transparent;color:#bdbdbd;font-size:12px;transition:color .2s,transform .2s}
+.matrix-resume svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.4}
+.matrix-resume:hover{color:#fff;transform:translateX(2px)}
