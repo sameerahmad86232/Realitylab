@@ -499,3 +499,8 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .live-results .evidence-tag{background:#171717!important;color:#eee!important}
 .live-results .project-save-actions,.live-results .result-jumps,.live-results .exploration-toolbar,.live-results .evidence-filters,.live-results .explorer-view-switch{color:#bdbdbd!important}
 .live-results .followup textarea,.live-results .component-search input{background:#111!important;color:#fff!important;border-color:rgba(255,255,255,.2)!important}
+
+.live-results .map-heading>span,.live-results .connection-links button{color:#c4c4c4!important}
+.live-results .reverse-boundary,.live-results .component-workbench-grid article,.live-results .principle-list>article,.live-results .followup>div,.live-results .project-save-actions>label{background-color:#111!important;color:#eee!important}
+.live-results .reverse-boundary p,.live-results .component-workbench-copy p,.live-results .principle-list>article p,.live-results .followup>div small,.live-results .project-save-actions>label>span small{color:#bdbdbd!important}
+.live-results .evidence-dashboard dl{background-color:#080808!important;color:#eee!important}
