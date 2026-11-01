@@ -14,10 +14,12 @@ export default function DotMatrixHero({
   onStart,
   onDemo,
   onSample,
+  onResume,
 }: {
   onStart: () => void;
   onDemo: () => void;
   onSample: () => void;
+  onResume?: () => void;
 }) {
   return (
     <section className="matrix-hero" aria-labelledby="matrix-title">
@@ -54,6 +56,11 @@ export default function DotMatrixHero({
               Explore a real example <Arrow />
             </button>
           </div>
+          {onResume && (
+            <button className="matrix-resume" onClick={onResume}>
+              Resume your exploration <Arrow />
+            </button>
+          )}
           <button className="matrix-demo" onClick={onDemo}>
             <span className="matrix-play" aria-hidden="true">▶</span>
             See the guided walkthrough
