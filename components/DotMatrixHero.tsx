@@ -34,7 +34,7 @@ export default function DotMatrixHero({
           <button onClick={onDemo}>Guided demo</button>
         </div>
         <button className="matrix-signin" onClick={onStart}>
-          Scan an object <Arrow diagonal />
+          <span>Scan an object</span> <Arrow diagonal />
         </button>
       </nav>
 
@@ -48,7 +48,7 @@ export default function DotMatrixHero({
           </p>
           <div className="matrix-actions">
             <button className="matrix-cta" onClick={onStart}>
-              Scan an object <Arrow diagonal />
+              <span>Scan an object</span> <Arrow diagonal />
             </button>
             <button className="matrix-sample" onClick={onSample}>
               Explore a real example <Arrow />
