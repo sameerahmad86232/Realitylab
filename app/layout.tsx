@@ -9,6 +9,7 @@ import "./component-images.css";
 import "./orchestrator.css";
 import "./repair.css";
 import "./matrix-hero.css";
+import "./kindred-system.css";
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.RENDER_EXTERNAL_URL || "https://realitylab.onrender.com",
