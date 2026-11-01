@@ -514,3 +514,9 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .live-results .source-thumbnails button>span{color:#eee!important}
 .live-results .marker-help{background:#111!important;color:#eee!important;border-color:rgba(255,255,255,.16)!important}
 .live-results .marker-coordinate{color:#bdbdbd!important}
+
+.repair-assessment .orchestrator-summary,.repair-assessment .orchestrator-teams>div,.repair-assessment .repair-cause,.repair-assessment .repair-action,.repair-assessment .guided-step,.repair-assessment .step-visual-empty,.repair-assessment .repair-stop{background-color:#080808!important;color:#eee!important}
+.repair-assessment .orchestrator-summary strong,.repair-assessment .repair-stop strong{color:#fff!important}
+.repair-assessment .orchestrator-summary p,.repair-assessment .orchestrator-teams span,.repair-assessment .repair-stop li,.repair-assessment .guided-step-copy p,.repair-assessment .guided-step-copy dt,.repair-assessment .guided-step-copy dd{color:#bdbdbd!important}
+.live-results .blueprint-rendering,.live-results .blueprint-guide-option,.live-results .blueprint-photo-option{background-color:#111!important;color:#eee!important}
+.live-results .blueprint-rendering>span,.live-results .blueprint-guide-option,.live-results .blueprint-photo-option>span{color:#ddd!important}
