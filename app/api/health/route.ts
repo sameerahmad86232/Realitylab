@@ -9,6 +9,14 @@ import {
 export const runtime = "nodejs";
 export async function GET() {
   const { configured, provider, model } = configuration();
+  const componentImageProvider = process.env.COMPONENT_IMAGE_PROVIDER || "meta";
+  const componentImageModel = process.env.META_IMAGE_MODEL || null;
+  const componentImageConfigured =
+    componentImageProvider === "meta"
+      ? Boolean(process.env.META_API_KEY && componentImageModel)
+      : Boolean(
+          process.env.MODAL_IMAGE_ENDPOINT && process.env.MODAL_IMAGE_SECRET,
+        );
   const durable = durableQuotaConfiguration(),
     quota = await durableQuotaSnapshot(),
     processHourlyUsed=Date.now()-scanState.hour>=3_600_000?0:scanState.hourCount;
@@ -16,7 +24,7 @@ export async function GET() {
     {
       status: "ok",
       app: "RealityLab",
-      release: "measured-usage-controls-v22",
+      release: "safe-image-readiness-v23",
       sourceRevision: process.env.RENDER_GIT_COMMIT || null,
       analysis: {
         configured,
@@ -24,6 +32,11 @@ export async function GET() {
         model,
         liveVerified: scanState.lastSuccess !== null,
         lastSuccess: scanState.lastSuccess,
+      },
+      componentImages: {
+        configured: componentImageConfigured,
+        provider: componentImageProvider,
+        model: componentImageProvider === "meta" ? componentImageModel : null,
       },
       security: {
         ...accessStatus(),
