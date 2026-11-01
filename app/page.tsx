@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import Shader from "../components/Shader";
 import ProjectImportButton from "../components/ProjectImportButton";
+import DotMatrixHero from "../components/DotMatrixHero";
 const DemoTheater = dynamic(() => import("../components/DemoTheater"), {
   ssr: false,
   loading: () => (
@@ -300,7 +301,7 @@ export default function Home() {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <header className="header">
+      <header className={screen === "home" ? "header home-header" : "header"}>
         <button
           className="brand"
           onClick={() => go("home")}
@@ -363,7 +364,8 @@ export default function Home() {
         <ConnectionNotice />
         {screen === "home" && (
           <>
-            <section className="hero">
+            <DotMatrixHero onStart={() => go("capture")} onDemo={() => setDemo(true)} />
+            {false && <section className="hero">
               <Shader paused={paused} active={!demo} />
               <div className="hero-copy">
                 <p className="eyebrow">
@@ -445,7 +447,7 @@ export default function Home() {
                   {paused ? "paused" : "on"}
                 </button>
               </div>
-            </section>
+            </section>}
             <section className="intro-strip">
               <p>
                 Less guessing.
