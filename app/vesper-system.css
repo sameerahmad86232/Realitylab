@@ -525,3 +525,9 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .repair-assessment .repair-answer-head .eyebrow,.repair-assessment .step-progress>span{color:#bdbdbd!important}
 
 .repair-assessment .repair-answer-head>div>p.eyebrow{color:#fff!important;background-color:#080808!important}
+
+.live-results .recognition-recovery,.live-results .construction-dossier,.live-results .lesson-materials>div,.live-results .observation-summary,.live-results .lesson-steps li,.live-results .lesson-boundaries>div,.live-results .observation-attachment{background-color:#080808!important;color:#eee!important}
+.live-results .recognition-recovery .eyebrow,.live-results .recognition-recovery>div>small,.live-results .recognition-recovery>div>p,.live-results .construction-dossier p,.live-results .construction-dossier small,.live-results .construction-dossier .stage-kicker,.live-results .lesson-materials p,.live-results .lesson-materials small,.live-results .observation-summary,.live-results .lesson-boundaries li,.live-results .learning-provenance,.live-results .observation-attachment p,.live-results .observation-attachment small,.live-results .observation-attachment details{color:#bdbdbd!important}
+.live-results .recognition-recovery h2,.live-results .construction-dossier h3,.live-results .construction-dossier h4,.live-results .lesson-materials strong,.live-results .lesson-steps h3,.live-results .lesson-boundaries h4{color:#fff!important}
+.live-results .construction-title .secondary,.live-results .recognition-recovery .secondary{background:linear-gradient(135deg,#191919,#080808)!important;color:#eee!important;border-color:rgba(255,255,255,.2)!important}
+.live-results .construction-sequence>li,.live-results .construction-review>div{background-color:#111!important;color:#eee!important}
