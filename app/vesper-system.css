@@ -551,3 +551,8 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .live-results .observation-journal details,.live-results .observation-journal details>dl,.live-results .observation-journal details>dl>div{background-color:#080808!important;color:#eee!important}
 .live-results .observation-journal details>dl dt{color:#bdbdbd!important}
 .live-results .observation-journal details>dl dd{color:#e5e5e5!important}
+
+
+.observation-attachment details,.observation-attachment details>dl,.observation-attachment details>dl>div{background-color:#080808!important;color:#eee!important}
+.observation-attachment details>dl dt{color:#bdbdbd!important}
+.observation-attachment details>dl dd{color:#e5e5e5!important}
