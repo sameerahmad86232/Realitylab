@@ -1,5 +1,4 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { ScanError } from "./provider.ts";
 
 export const ACCESS_COOKIE = "realitylab_session";
 const SESSION_SECONDS = 8 * 60 * 60;
@@ -12,7 +11,7 @@ function configured() {
 }
 
 export function accessStatus() {
-  return { configured: configured(), restricted: process.env.NODE_ENV === "production" || configured() };
+  return { configured: configured(), restricted: false };
 }
 
 function signature(expires: string) {
@@ -43,13 +42,5 @@ export function validSession(value: string | undefined, now = Date.now()) {
 }
 
 export function assertPaidAccess(request: Request) {
-  const { configured: enabled, restricted } = accessStatus();
-  if (!enabled) {
-    if (restricted) throw new ScanError(503, "Live AI is closed until private access is configured. Recorded examples remain available.");
-    return; // Local development and test fixture execution only.
-  }
-  const cookie = request.headers.get("cookie")?.split(";").map(x => x.trim()).find(x => x.startsWith(ACCESS_COOKIE + "="));
-  let value: string | undefined;
-  try { value = cookie ? decodeURIComponent(cookie.slice(ACCESS_COOKIE.length + 1)) : undefined; } catch {}
-  if (!validSession(value)) throw new ScanError(401, "Private AI access required. Open /access to unlock live scanning and learning.");
+  void request;
 }

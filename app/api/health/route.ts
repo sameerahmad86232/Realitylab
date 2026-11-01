@@ -42,7 +42,7 @@ export async function GET() {
         ...accessStatus(),
         sharedQuotaRequired: durable.required,
         billingCapConfirmed: process.env.PROVIDER_SPEND_CAP_VERIFIED === "true",
-        livePaidRequestsReady: accessStatus().configured && quota.state === "enforced" && process.env.PROVIDER_SPEND_CAP_VERIFIED === "true",
+        livePaidRequestsReady: quota.state === "enforced" && process.env.PROVIDER_SPEND_CAP_VERIFIED === "true",
       },
       capacity: {
         activeRequests: scanState.active,
