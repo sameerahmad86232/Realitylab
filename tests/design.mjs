@@ -11,13 +11,13 @@ await context.route('**/api/health',r=>r.fulfill({json:{analysis:{configured:tru
 await context.route('**/api/scan',route=>route.fulfill({status:503,json:{error:{message:'Test-only backend unavailable. Your photos are preserved.'}}}));
 await page.goto(process.env.TEST_ORIGIN||'http://localhost:3000');
 await page.getByRole('heading',{name:'A photo can reveal how things work.',exact:true}).waitFor();await page.getByRole('heading',{name:'One object. One principle. Something you can put to the test.',exact:true}).waitFor();await page.locator('.matrix-cta').click();await page.getByRole('heading',{name:'Choose what to investigate.',exact:true}).waitFor();await page.getByRole('button',{name:'RealityLab home',exact:true}).click();
-await page.locator('.stage-canvas canvas').waitFor();
+await page.locator('.visual-atlas').waitFor();
 const workflow=page.getByRole('group',{name:'Explore the product workflow'});await workflow.getByRole('button',{name:/Make/}).click();await page.getByText('Turn understanding into a project.',{exact:true}).waitFor();assert.equal(await workflow.getByRole('button',{name:/Make/}).getAttribute('aria-pressed'),'true');await workflow.getByRole('button',{name:/Observe/}).click();await page.locator('.atlas-art img').scrollIntoViewIfNeeded();await page.waitForFunction(()=>document.querySelector('.atlas-art img')?.naturalWidth>0);
 await page.waitForTimeout(1200);
 await page.screenshot({path:`${out}/landing-desktop.png`,fullPage:true});
+await page.locator('.matrix-study-card').click();await page.locator('.stage-canvas canvas').waitFor();
 await page.getByRole('button',{name:'Explode',exact:true}).click();
 assert.equal(await page.getByRole('button',{name:'Explode',exact:true}).getAttribute('aria-pressed'),'true');
-await page.getByRole('button',{name:'Explore sample',exact:true}).click();
 await page.getByRole('button',{name:'03 Motor housing'}).click();
 await page.getByRole('heading',{name:'Motor housing',exact:true}).waitFor();
 await page.getByRole('button',{name:'Blueprint',exact:true}).click();
@@ -33,11 +33,11 @@ await page.screenshot({path:`${out}/capture-desktop.png`,fullPage:true});
 await page.getByRole('button',{name:'Remove photo 1'}).click();assert.equal(await page.locator('.previews img').count(),0);
 for(const screen of ['capture','home','explore']){
  if(screen==='home')await page.getByRole('button',{name:'RealityLab home'}).click();
- if(screen==='explore')await page.getByRole('button',{name:'Explore sample',exact:true}).click();
+ if(screen==='explore')await page.locator('.matrix-study-card').click();
  for(const width of [1440,390,320]){await page.setViewportSize({width,height:900});await page.waitForTimeout(150);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`${screen} overflow at ${width}`);if(width===390)await page.screenshot({path:`${out}/${screen}-mobile.png`,fullPage:true});}
  const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(axe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[],`${screen} accessibility`);
 }
-await page.emulateMedia({reducedMotion:'reduce'});await page.goto(process.env.TEST_ORIGIN||'http://localhost:3000');await page.locator('.stage-canvas canvas').waitFor();await page.getByRole('button',{name:'Play model animation'}).waitFor();assert.equal(await page.locator('.atlas-art img').evaluate(e=>getComputedStyle(e).animationName),'none','Generated artwork respects reduced motion');
+await page.emulateMedia({reducedMotion:'reduce'});await page.goto(process.env.TEST_ORIGIN||'http://localhost:3000');await page.locator('.matrix-study-card').click();await page.locator('.stage-canvas canvas').waitFor();await page.getByRole('button',{name:'Play model animation'}).waitFor();assert.equal(await page.locator('.atlas-art img').evaluate(e=>getComputedStyle(e).animationName),'none','Generated artwork respects reduced motion');
 await context.grantPermissions(['camera'],{origin:process.env.TEST_ORIGIN||'http://localhost:3000'});
 await page.getByRole('button',{name:'Scan object',exact:true}).click();await page.getByRole('button',{name:'Use camera',exact:true}).click();await page.getByRole('dialog').waitFor();await page.waitForFunction(()=>{const v=document.querySelector('video');return v&&v.videoWidth>0});await page.getByRole('button',{name:'Take photo',exact:true}).click();await page.getByRole('button',{name:'Use photo',exact:true}).click();await page.locator('.previews img').waitFor();assert.equal(await page.getByRole('dialog').count(),0);
 await context.clearPermissions();await context.grantPermissions([],{origin:process.env.TEST_ORIGIN||'http://localhost:3000'});
