@@ -476,3 +476,5 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .explore-page .parts-list button[aria-pressed=true]{background:linear-gradient(135deg,#292929,#101010)!important;color:#fff!important}
 
 .explore-page .parts-list .part-number{color:#c4c4c4!important}
+
+.previews small{color:#bdbdbd!important}
