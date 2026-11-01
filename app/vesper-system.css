@@ -424,3 +424,6 @@ footer .brand,footer .brand>span,footer .brand-light,footer .project-brief-link{
 #main .privacy-note{background:#080808!important}
 #main .privacy-note p{color:#fff!important}
 footer{background:#000!important}
+
+header.header{background:#000!important}
+header.header button.brand,header.header button.brand>span,header.header button.brand .brand-light{color:#fff!important}
