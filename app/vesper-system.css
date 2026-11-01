@@ -454,3 +454,16 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .closing{border-color:var(--border-soft)}
 .closing .eyebrow{color:#aaa}
 .closing h2{color:#fff}
+
+.explore-page .diagram-wrap>p{color:#b5b5b5}
+.explore-page .inspector-top,.explore-page .inspector-foot{color:#bbb}
+.explore-page .parts-list button{color:#eee}
+.explore-page .parts-list button[aria-pressed=true]{color:#fff;background:linear-gradient(135deg,#292929,#101010);border-color:rgba(255,255,255,.55)}
+.explore-page .part-detail{background:linear-gradient(145deg,#111,#080808);color:#fff}
+.explore-page .part-detail h2,.explore-page .part-detail h3,.explore-page .part-detail h4{color:#fff}
+.explore-page .part-detail p{color:#bbb}
+.explore-page .evidence-tag,.explore-page .evidence-tag.inferred{border:1px solid rgba(255,255,255,.18);background:#171717;color:#eee}
+.explore-page .learn-preview{border-color:rgba(255,255,255,.14);background:linear-gradient(145deg,#111,#080808);color:#eee}
+.explore-page .learn-preview>svg{color:#ddd}
+.explore-page .learn-preview .eyebrow,.explore-page .learn-preview div>p:last-child{color:#aaa}
+.explore-page .learn-preview h3{color:#fff}
