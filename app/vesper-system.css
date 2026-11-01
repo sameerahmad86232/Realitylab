@@ -509,3 +509,8 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .live-results .component-workbench-copy dd{color:#e5e5e5!important}
 .live-results .component-research-links a{color:#c4c4c4!important}
 @media(max-width:900px){.live-results .evidence-dashboard dl{overflow:visible;flex-wrap:wrap}}
+
+.live-results .source-thumbnails button{background:#111!important;border-color:rgba(255,255,255,.18)!important}
+.live-results .source-thumbnails button>span{color:#eee!important}
+.live-results .marker-help{background:#111!important;color:#eee!important;border-color:rgba(255,255,255,.16)!important}
+.live-results .marker-coordinate{color:#bdbdbd!important}
