@@ -143,3 +143,57 @@
 @media(prefers-reduced-motion:reduce){
  .matrix-signin,.matrix-cta,.matrix-study-title svg,.matrix-sample,.matrix-demo{transition:none}
 }
+
+
+/* Motion layer: quiet, staggered entrances and a slow photo scan. */
+@keyframes mh-rise-in{
+  from{opacity:0;transform:translate3d(0,18px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes mh-stage-in{
+  from{opacity:0;transform:translate3d(0,22px,0) scale(.975)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+@keyframes mh-photo-in{
+  from{transform:scale(1.07);filter:saturate(.7) contrast(.96)}
+  to{transform:scale(1);filter:saturate(.84) contrast(1.03)}
+}
+@keyframes mh-scan{
+  0%,15%{top:7%;opacity:0}
+  22%{opacity:.8}
+  75%{opacity:.55}
+  88%,100%{top:91%;opacity:0}
+}
+@keyframes mh-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(225,242,226,0)}
+  50%{box-shadow:0 0 0 5px rgba(225,242,226,.12)}
+}
+.matrix-nav{animation:mh-rise-in .65s cubic-bezier(.2,.7,.2,1) both}
+.matrix-copy>*{animation:mh-rise-in .72s cubic-bezier(.2,.7,.2,1) both}
+.matrix-copy>.matrix-kicker{animation-delay:.06s}
+.matrix-copy>h1{animation-delay:.14s}
+.matrix-copy>.matrix-sub{animation-delay:.22s}
+.matrix-copy>.matrix-actions{animation-delay:.3s}
+.matrix-copy>.matrix-demo{animation-delay:.37s}
+.matrix-copy>.matrix-proof{animation-delay:.44s}
+.matrix-visual{animation:mh-stage-in .95s cubic-bezier(.2,.75,.2,1) .12s both}
+.matrix-photo>img{animation:mh-photo-in 1.5s cubic-bezier(.2,.7,.2,1) .25s both;transition:transform 1s cubic-bezier(.2,.7,.2,1),filter 1s}
+.matrix-visual:hover .matrix-photo>img{transform:scale(1.035);filter:saturate(.95) contrast(1.04)}
+.matrix-photo:before{
+  content:"";position:absolute;z-index:3;top:8%;left:7%;width:86%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(205,236,211,.8),transparent);
+  box-shadow:0 0 14px rgba(193,226,200,.5);pointer-events:none;
+  animation:mh-scan 6.5s ease-in-out 1.2s infinite;
+}
+.matrix-callout span{animation:mh-pulse 3.4s ease-in-out 1.2s infinite}
+.matrix-callout-two span{animation-delay:2s}
+.matrix-cta,.matrix-sample,.matrix-demo,.matrix-study-card{transition:transform .28s cubic-bezier(.2,.8,.2,1),color .2s,background .2s}
+.matrix-cta:hover{transform:translateY(-2px) scale(1.015)}
+.matrix-sample:hover{transform:translateX(3px)}
+.matrix-study-card:hover{transform:translateY(-1px)}
+@media(prefers-reduced-motion:reduce){
+  .matrix-nav,.matrix-copy>*,.matrix-visual,.matrix-photo>img,.matrix-photo:before,.matrix-callout span{
+    animation:none!important;transition:none!important
+  }
+  .matrix-photo>img{transform:none}
+}
