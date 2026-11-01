@@ -556,3 +556,8 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .observation-attachment details,.observation-attachment details>dl,.observation-attachment details>dl>div{background-color:#080808!important;color:#eee!important}
 .observation-attachment details>dl dt{color:#bdbdbd!important}
 .observation-attachment details>dl dd{color:#e5e5e5!important}
+
+
+.live-results .followup article{background-color:#080808!important;color:#eee!important}
+.live-results .followup article>strong{color:#fff!important}
+.live-results .followup article>p{color:#bdbdbd!important}
