@@ -531,3 +531,8 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .live-results .recognition-recovery h2,.live-results .construction-dossier h3,.live-results .construction-dossier h4,.live-results .lesson-materials strong,.live-results .lesson-steps h3,.live-results .lesson-boundaries h4{color:#fff!important}
 .live-results .construction-title .secondary,.live-results .recognition-recovery .secondary{background:linear-gradient(135deg,#191919,#080808)!important;color:#eee!important;border-color:rgba(255,255,255,.2)!important}
 .live-results .construction-sequence>li,.live-results .construction-review>div{background-color:#111!important;color:#eee!important}
+
+.live-results .construction-review>div>ul>li,.live-results .lesson-steps>li>div>p{color:#bdbdbd!important}
+.live-results .lesson-steps details{background-color:#111!important;color:#eee!important}
+.live-results .lesson-steps details>dl dt{color:#bdbdbd!important}
+.live-results .lesson-steps details>dl dd{color:#e5e5e5!important}
