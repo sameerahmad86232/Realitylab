@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { ScanError } from "./provider.ts";
 
 export const ACCESS_COOKIE = "realitylab_session";
 const SESSION_SECONDS = 8 * 60 * 60;
@@ -11,7 +12,10 @@ function configured() {
 }
 
 export function accessStatus() {
-  return { configured: configured(), restricted: false };
+  return {
+    configured: configured(),
+    restricted: process.env.NODE_ENV === "production" && !configured(),
+  };
 }
 
 function signature(expires: string) {
@@ -42,5 +46,19 @@ export function validSession(value: string | undefined, now = Date.now()) {
 }
 
 export function assertPaidAccess(request: Request) {
-  void request;
+  if (!configured()) {
+    if (process.env.NODE_ENV === "production")
+      throw new ScanError(503, "Private access is not configured.");
+    return;
+  }
+
+  const cookie = request.headers
+    .get("cookie")
+    ?.split(";")
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(ACCESS_COOKIE + "="));
+  const session = cookie?.slice(ACCESS_COOKIE.length + 1);
+
+  if (!validSession(session))
+    throw new ScanError(401, "A valid private access session is required.");
 }

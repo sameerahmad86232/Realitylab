@@ -32,7 +32,7 @@ try {
     await page.goto(origin);
     await page.getByRole("heading", { name: "See beyond the surface." }).waitFor();
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
-    await page.getByRole("button", { name: "Scan object", exact: true }).click();
+    await page.locator(".matrix-cta").click();
     await page.getByRole("heading", { name: "Start with a closer look." }).waitFor();
     const targets = page.locator(
       ".upload-actions button, .capture-summary button, .breadcrumb button, .icon-button",
@@ -61,7 +61,7 @@ try {
   await page.keyboard.press("Tab");
   assert.equal(await page.getByRole("link", { name: "Skip to content" }).evaluate((node) => node === document.activeElement), true);
   assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior), "auto");
-  const primary = page.getByRole("button", { name: "Scan object", exact: true }).first();
+  const primary = page.locator(".matrix-cta").first();
   assert.notEqual(await primary.evaluate((node) => getComputedStyle(node).borderTopStyle), "none");
   await primary.click();
   const mobileAxe = await new AxeBuilder({ page })
