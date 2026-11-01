@@ -41,17 +41,27 @@ export async function POST(request: Request) {
     scanState.active++;
     let response: Response;
     try {
-      response = await fetch(`${(process.env.META_API_BASE_URL || "https://api.meta.ai/v1").replace(/\/$/, "")}/images/generations`, {
+      response = await fetch(`${(process.env.META_API_BASE_URL || "https://api.meta.ai/v1").replace(/\/$/, "")}/responses`, {
         method: "POST",
         headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ model, prompt, n: 1, size: "1024x1024", response_format: "b64_json" }),
+        body: JSON.stringify({
+          model,
+          input: [{
+            role: "user",
+            type: "message",
+            content: [{ type: "input_text", text: prompt }],
+          }],
+          store: false,
+          stream: false,
+          tools: [{ type: "image_generation", output_format: "png" }],
+        }),
         signal: AbortSignal.any([request.signal, AbortSignal.timeout(80000)]),
       });
     } finally { scanState.active--; }
-    const body = await response.json().catch(() => null) as { data?: { b64_json?: string; url?: string }[]; error?: unknown } | null;
+    const body = await response.json().catch(() => null) as { output?: { type?: string; result?: string }[]; error?: unknown } | null;
     if (!response.ok) throw new ScanError(response.status === 429 ? 429 : 502, response.status === 429 ? "The image provider limit was reached. Try later." : "Meta could not create this component illustration.");
-    const item = body?.data?.[0];
-    const image = item?.b64_json ? `data:image/png;base64,${item.b64_json}` : item?.url;
+    const generated = body?.output?.find((item) => item.type === "image_generation_call" && item.result)?.result;
+    const image = generated ? `data:image/png;base64,${generated}` : undefined;
     if (!image || (!image.startsWith("data:image/png;base64,") && !image.startsWith("https://")))
       throw new ScanError(502, "Meta returned an invalid component illustration.");
     return json({ image, model, conceptual: true });
