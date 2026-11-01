@@ -364,7 +364,7 @@ export default function Home() {
         <ConnectionNotice />
         {screen === "home" && (
           <>
-            <DotMatrixHero onStart={() => go("capture")} onDemo={() => setDemo(true)} />
+            <DotMatrixHero onStart={() => go("capture")} onDemo={() => setDemo(true)} onSample={() => go("explore")} />
             {false && <section className="hero">
               <Shader paused={paused} active={!demo} />
               <div className="hero-copy">
