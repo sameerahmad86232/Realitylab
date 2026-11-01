@@ -53,7 +53,7 @@ await context.route("**/api/scan", async (route) => {
 });
 try {
   await page.goto(origin);
-  await page.getByRole("button", { name: "Scan object", exact: true }).click();
+  await page.locator(".matrix-cta").click();
   const image = await page.screenshot();
   await page
     .locator("input[type=file]")
