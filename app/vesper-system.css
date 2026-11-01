@@ -482,3 +482,5 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .consent small{color:#bdbdbd!important}
 
 .consent{background:#080808!important;padding:12px;border:1px solid rgba(255,255,255,.14);border-radius:7px}
+
+.consent>span{color:#eeeeee!important}
