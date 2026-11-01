@@ -44,3 +44,5 @@ footer{margin:0;padding:32px clamp(24px,6vw,95px);border-top:1px solid #deded9;b
 
 .guided-step-copy>span,.guided-step-copy dt{color:#526174}
 .matrix-resume{display:block;margin:12px auto 0;color:#444;font-size:12px;text-decoration:underline;text-underline-offset:4px}
+/* Entrance motion must preserve text contrast throughout restored lessons. */
+@keyframes dossier-entrance{from{opacity:1;transform:translateY(10px)}to{opacity:1;transform:none}}
