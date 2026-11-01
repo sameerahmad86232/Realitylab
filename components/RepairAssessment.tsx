@@ -2,16 +2,11 @@
 
 import { useState } from "react";
 import { AlertTriangle, ArrowUpRight, Camera, Check, CheckCircle2, ChevronLeft, ChevronRight, ImageIcon, Loader2, ShieldAlert, Users, Wrench } from "lucide-react";
+import OrchestrationTrace from "./OrchestrationTrace";
+import type { Orchestration } from "../lib/orchestration";
 import type { Analysis } from "../lib/analysis";
 
-const teams = [
-  ["FixCore", "Orchestrator"], ["FixVision", "Visible evidence"],
-  ["FixDiagnosis", "Possible causes"], ["FixSafety", "Risk gate"],
-  ["FixResearch", "Evidence gaps"], ["FixRepair", "Guided steps"],
-  ["FixVisual", "Optional visuals"], ["FixVerify", "Checkpoints"],
-] as const;
-
-export default function RepairAssessment({analysis,onSelect,onMoreEvidence}:{analysis:Analysis;onSelect:(id:string)=>void;onMoreEvidence:()=>void}) {
+export default function RepairAssessment({analysis,orchestration,onSelect,onMoreEvidence}:{analysis:Analysis;orchestration?:Orchestration;onSelect:(id:string)=>void;onMoreEvidence:()=>void}) {
   const assessment=analysis.repair_assessment!;
   const blocked=assessment.status!=="guided-inspection";
   const [active,setActive]=useState(0);
@@ -34,7 +29,8 @@ export default function RepairAssessment({analysis,onSelect,onMoreEvidence}:{ana
   }
 
   return <section className={`repair-assessment ${assessment.status}`} aria-labelledby="repair-answer-title">
-    <div className="orchestrator-summary"><div><span><Users size={15}/> FIXCORE ORCHESTRATION</span><strong>One coordinated model call · eight focused roles</strong><p>These teams are structured responsibilities inside one response, avoiding repeated reasoning charges.</p></div><div className="orchestrator-teams" aria-label="Completed orchestration roles">{teams.map(([name,role])=><div key={name}><Check size={12}/><span><b>{name}</b>{role}</span></div>)}</div></div>
+    <div className="orchestrator-summary"><div><span><Users size={15}/> FIXCORE ORCHESTRATION</span><strong>{orchestration ? "Evidence analysis and independent safety rules" : "Recorded analysis"}</strong><p>{orchestration ? `${orchestration.budget.callsUsed} of ${orchestration.budget.maxCalls} analysis calls used. Manual research and follow-up verification are shown separately below.` : "No execution trace was recorded for this result."}</p></div></div>
+    {orchestration && <OrchestrationTrace events={orchestration.events} />}
     <div className="repair-answer-head"><div><p className="eyebrow">VISUAL REPAIR TRIAGE / NOT A CONFIRMED DIAGNOSIS</p><h2 id="repair-answer-title">{assessment.status==="professional-help"?"Stop here and get qualified help.":assessment.status==="needs-more-evidence"?"One more look before guidance.":"A cautious inspection path."}</h2></div><span className={`risk-badge ${assessment.risk}`}><ShieldAlert size={14}/>{assessment.risk} risk · model assessment</span></div>
     <div className="repair-answer-grid"><div className="repair-cause"><span>POSSIBLE CAUSE</span><h3>{assessment.possible_cause}</h3><p>{assessment.explanation}</p><div className="repair-components">{assessment.component_ids.map(id=><button key={id} onClick={()=>onSelect(id)}>{analysis.components.find(part=>part.id===id)?.name}<ArrowUpRight size={11}/></button>)}</div><aside><AlertTriangle size={16}/><p><strong>Check first:</strong> {assessment.check_first}</p></aside></div>
     <div className="repair-action">{blocked?<><Camera size={23}/><h3>{assessment.status==="professional-help"?"DIY steps are intentionally withheld":"The evidence is not sufficient yet"}</h3><ul>{assessment.missing_evidence.map((item,i)=><li key={i}>{item}</li>)}</ul>{assessment.status==="needs-more-evidence"&&<button className="primary" onClick={onMoreEvidence}>Add another photo <Camera size={14}/></button>}</>:step&&<>

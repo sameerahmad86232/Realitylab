@@ -324,6 +324,7 @@ export default function LiveResults({
       {analysis.repair_assessment && (
         <RepairAssessment
           analysis={analysis}
+          orchestration={meta.orchestration}
           onSelect={(id) => select(id, true)}
           onMoreEvidence={onEdit}
         />
