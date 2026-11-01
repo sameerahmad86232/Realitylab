@@ -36,3 +36,8 @@ footer{margin:0;padding:32px clamp(24px,6vw,95px);border-top:1px solid #deded9;b
 
 @media(max-width:760px){.header:not(.home-header){height:68px;padding:0 18px}.capture-page.section,.live-results.section{padding-right:18px;padding-left:18px}.capture-heading h1{font-size:51px}.capture-grid{grid-template-columns:1fr;gap:20px}.dropzone{padding:40px 14px}.photo-tips{padding:22px 17px}.section{padding-right:20px;padding-left:20px}.section-top h2{font-size:41px}.intro-strip{padding:30px 20px}.how{padding-right:20px;padding-left:20px}.analysis-summary,.evidence-dashboard,.source-panel,.uncertainty-panel,.reverse-workbench,.build-learn,.repair-assessment{border-radius:18px!important}.orchestrator-teams{grid-template-columns:1fr 1fr}.exploration-toolbar,.result-actions,.result-jumps{border-radius:18px!important}.guided-step-copy{padding:17px}.guided-step-copy h3{font-size:22px}}
 @media(prefers-reduced-motion:reduce){.primary,.secondary,.sample-card{transition:none!important}}
+/* Keep evidence readable after the editorial surfaces replace the dark panels. */
+.evidence-dashboard,.evidence-dashboard strong,.evidence-dashboard dd{color:#111}
+.evidence-dashboard>div>span,.evidence-dashboard p,.evidence-dashboard dt{color:#526174}
+.project-meta .eyebrow{color:#b3d2e7!important}
+@media(forced-colors:active){.matrix-cta button{border:1px solid ButtonText}}
