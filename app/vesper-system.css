@@ -409,3 +409,6 @@ button{font-family:inherit}
  .matrix-callout span{animation:none!important}
  .matrix-signin:after,.matrix-cta:after{display:none}
 }
+
+.matrix-signin:after,.matrix-cta:after{z-index:1;pointer-events:none}
+.matrix-signin>span,.matrix-signin>svg,.matrix-cta>span,.matrix-cta>svg{position:relative;z-index:2}
