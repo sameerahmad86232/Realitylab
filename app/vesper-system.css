@@ -429,3 +429,28 @@ header.header{background:#000!important}
 header.header button.brand,header.header button.brand>span,header.header button.brand .brand-light{color:#fff!important}
 
 @media(max-width:760px){.collection-track{margin-right:-4vw;padding-right:4vw}}
+
+.intro-strip,.maker-mission,.sample-section,.how,.closing{background:#000;color:#fff}
+.intro-strip{border-color:var(--border-soft)}
+.intro-strip>p,.intro-strip>div>span,.intro-strip strong{color:#f2f2f2}
+.intro-strip small{color:#aaa}
+.intro-strip svg{color:#ddd}
+.maker-mission{border-color:var(--border);background:radial-gradient(ellipse at 88% 0,rgba(255,255,255,.08),transparent 42%),linear-gradient(145deg,#121212,#060606)}
+.maker-mission .eyebrow,.maker-mission li>span{color:#bbb}
+.maker-mission h2,.maker-mission strong{color:#fff}
+.maker-mission>div>p:not(.eyebrow),.maker-mission li p,.maker-mission .mission-boundary{color:#aaa}
+.maker-mission li,.maker-mission .mission-boundary{border-color:var(--border-soft)}
+.maker-mission .mission-trial-link{color:#ddd}
+.sample-section{color:#fff}
+.section-top .eyebrow,.section-top>p{color:#aaa}
+.section-top h2,.section-top h2 span{color:#fff}
+.demo-notice{color:#aaa}
+.how{border-color:var(--border-soft)}
+.how .eyebrow,.how>div>p:last-child{color:#aaa}
+.how h2,.how h2 span,.how-steps h3{color:#fff}
+.how-steps>div{border-color:var(--border-soft)}
+.how-steps>div>span{color:#ccc}
+.how-steps p{color:#aaa}
+.closing{border-color:var(--border-soft)}
+.closing .eyebrow{color:#aaa}
+.closing h2{color:#fff}
