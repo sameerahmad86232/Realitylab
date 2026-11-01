@@ -8,12 +8,22 @@ export const runtime = "nodejs";
 export const maxDuration = 90;
 
 const requestSchema = z.object({
+  kind: z.enum(["component", "repair-step"]).default("component"),
   object_name: z.string().trim().min(1).max(180),
-  component_name: z.string().trim().min(1).max(120),
-  component_function: z.string().trim().min(1).max(700),
-  evidence_status: z.enum(["observed", "inferred"]),
-  materials: z.array(z.string().trim().min(1).max(100)).max(3),
-}).strict();
+  component_name: z.string().trim().min(1).max(120).optional(),
+  component_function: z.string().trim().min(1).max(700).optional(),
+  evidence_status: z.enum(["observed", "inferred"]).optional(),
+  materials: z.array(z.string().trim().min(1).max(100)).max(3).optional(),
+  step_title: z.string().trim().min(1).max(120).optional(),
+  instruction: z.string().trim().min(1).max(700).optional(),
+  checkpoint: z.string().trim().min(1).max(500).optional(),
+  tool: z.string().trim().min(1).max(120).optional(),
+}).strict().superRefine((input, ctx) => {
+  if (input.kind === "component" && (!input.component_name || !input.component_function || !input.evidence_status))
+    ctx.addIssue({ code: "custom", message: "Component details are required." });
+  if (input.kind === "repair-step" && (!input.step_title || !input.instruction || !input.checkpoint))
+    ctx.addIssue({ code: "custom", message: "Repair step details are required." });
+});
 
 function json(body: unknown, status = 200) {
   return Response.json(body, { status, headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" } });
@@ -36,7 +46,9 @@ export async function POST(request: Request) {
       throw new ScanError(503, "Meta component illustration is not configured yet.");
     reserveInferenceBudget(scanState);
     await reserveDurableInferenceBudget(request.signal);
-    const prompt = `Isolated engineering concept illustration of the ${input.component_name} from a ${input.object_name}. Functional role: ${input.component_function}. Possible materials: ${input.materials.join(", ") || "unknown"}. ${input.evidence_status === "observed" ? "Use the description as a photo-grounded interpretation, without inventing dimensions." : "This part is inferred and not visible; present it as a clearly conceptual possibility."} Single component only, three-quarter orthographic view, clean white background, precise dark graphite outlines, subtle cyan technical callouts, no text, no logo, no dimensions, no hands, no complete object, educational exploded-parts catalog style.`;
+    const prompt = input.kind === "repair-step"
+      ? `Beginner repair instruction illustration for a ${input.object_name}. Step: ${input.step_title}. Action: ${input.instruction}. Tool: ${input.tool || "No special tool"}. Expected visible result: ${input.checkpoint}. Show only this safe step with the relevant object area and hand/tool placement when helpful. Clean white studio background, precise graphite and cyan technical illustration, one orange action arrow, no text, no logo, no dimensions, no sparks, no exposed electricity, no extra repair steps. Educational conceptual guide; do not imply the pictured model exactly matches the user's object.`
+      : `Isolated engineering concept illustration of the ${input.component_name} from a ${input.object_name}. Functional role: ${input.component_function}. Possible materials: ${(input.materials || []).join(", ") || "unknown"}. ${input.evidence_status === "observed" ? "Use the description as a photo-grounded interpretation, without inventing dimensions." : "This part is inferred and not visible; present it as a clearly conceptual possibility."} Single component only, three-quarter orthographic view, clean white background, precise dark graphite outlines, subtle cyan technical callouts, no text, no logo, no dimensions, no hands, no complete object, educational exploded-parts catalog style.`;
     if (scanState.active >= 2) throw new ScanError(429, "The live demo is busy. Try again shortly.");
     scanState.active++;
     let response: Response;

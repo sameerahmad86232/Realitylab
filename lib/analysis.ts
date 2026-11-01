@@ -59,7 +59,16 @@ export const analysisSchema = z
         component_ids: z.array(text(40)).max(4),
         check_first: text(500),
         tools: z.array(z.object({ name: text(100), purpose: text(300) }).strict()).max(6),
-        steps: z.array(z.object({ title: text(120), instruction: text(700), checkpoint: text(500), component_ids: z.array(text(40)).max(4) }).strict()).max(3),
+        steps: z.array(z.object({
+          title: text(120),
+          purpose: text(400).optional(),
+          instruction: text(700),
+          tool: text(120).optional(),
+          checkpoint: text(500),
+          common_mistake: text(400).optional(),
+          stop_condition: text(400).optional(),
+          component_ids: z.array(text(40)).max(4),
+        }).strict()).max(3),
         stop_conditions: z.array(text(500)).min(1).max(6),
         missing_evidence: z.array(text(500)).max(5),
       })
