@@ -467,3 +467,10 @@ header.header button.brand,header.header button.brand>span,header.header button.
 .explore-page .learn-preview>svg{color:#ddd}
 .explore-page .learn-preview .eyebrow,.explore-page .learn-preview div>p:last-child{color:#aaa}
 .explore-page .learn-preview h3{color:#fff}
+
+.explore-page .diagram-wrap{background:#080808!important;color:#eee}
+.explore-page .diagram-wrap>p{color:#eee!important}
+.explore-page .inspector,.explore-page .source-panel,.explore-page .part-detail{background:#0b0b0b!important;color:#fff!important}
+.explore-page .inspector-foot{background:transparent!important;color:#fff!important}
+.explore-page .parts-list button{background:#111!important;color:#fff!important}
+.explore-page .parts-list button[aria-pressed=true]{background:linear-gradient(135deg,#292929,#101010)!important;color:#fff!important}
