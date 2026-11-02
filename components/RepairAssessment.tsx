@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AlertTriangle, ArrowUpRight, Camera, Check, CheckCircle2, ChevronLeft, ChevronRight, ImageIcon, Loader2, ShieldAlert, Users, Wrench } from "lucide-react";
-import {ManualResearch,RepairVerification} from "./RepairFollowup";
+import {ManualResearch,RepairVerification,type StepFeedback} from "./RepairFollowup";
 import type {ScanView} from "../lib/analysis";
 import OrchestrationTrace from "./OrchestrationTrace";
 import type { Orchestration } from "../lib/orchestration";
@@ -12,6 +12,7 @@ export default function RepairAssessment({analysis,orchestration,sourceCaseId,ph
   const assessment=analysis.repair_assessment!;
   const blocked=assessment.status!=="guided-inspection";
   const [active,setActive]=useState(0);
+  const [feedback,setFeedback]=useState<Record<number,StepFeedback>>({});
   const [images,setImages]=useState<Record<number,string>>({});
   const [busy,setBusy]=useState<number|null>(null);
   const [error,setError]=useState("");
@@ -40,9 +41,11 @@ export default function RepairAssessment({analysis,orchestration,sourceCaseId,ph
       <div className="step-progress"><span>STEP {active+1} OF {assessment.steps.length}</span><progress value={active+1} max={assessment.steps.length}/></div>
       <article className="guided-step">{images[active]?<img src={images[active]} alt={`AI-generated conceptual guide for step ${active+1}: ${step.title}`}/>:<div className="step-visual-empty"><ImageIcon size={27}/><strong>Optional step illustration</strong><p>Generate only when useful. The result is conceptual and may not match your exact model.</p><button className="secondary" disabled={busy!==null} onClick={()=>createStepVisual(active)}>{busy===active?<><Loader2 className="spin" size={14}/>Creating…</>:<><ImageIcon size={14}/>Generate this visual</>}</button></div>}
       <div className="guided-step-copy"><span>{String(active+1).padStart(2,"0")}</span><h3>{step.title}</h3>{step.purpose&&<p className="step-purpose"><b>Why:</b> {step.purpose}</p>}<p>{step.instruction}</p><dl><div><dt>Tool</dt><dd>{step.tool||assessment.tools[0]?.name||"No special tool"}</dd></div><div><dt>What you should see</dt><dd>{step.checkpoint}</dd></div>{step.common_mistake&&<div><dt>Common mistake</dt><dd>{step.common_mistake}</dd></div>}<div><dt>Stop if</dt><dd>{step.stop_condition||assessment.stop_conditions[0]}</dd></div></dl></div></article>
-      {error&&<p className="step-image-error" role="alert">{error}</p>}<div className="step-controls"><button className="secondary" disabled={active===0} onClick={()=>{setActive(value=>value-1);setError("")}}><ChevronLeft size={14}/>Previous</button><button className="primary" disabled={active===assessment.steps.length-1} onClick={()=>{setActive(value=>value+1);setError("")}}>Next step<ChevronRight size={14}/></button></div>
+      {error&&<p className="step-image-error" role="alert">{error}</p>}<div className="step-controls"><button className="secondary" disabled={active===0} onClick={()=>{setActive(value=>value-1);setError("")}}><ChevronLeft size={14}/>Previous</button><button className="primary" disabled={active===assessment.steps.length-1 || Object.values(feedback).some(item=>["problem-remains","different","stopped"].includes(item.outcome))} onClick={()=>{setActive(value=>value+1);setError("")}}>Next step<ChevronRight size={14}/></button></div>
     </>}</div></div>
-    {!blocked&&step&&<RepairVerification key={`${sourceCaseId}-${active}`} analysis={analysis} sourceCaseId={sourceCaseId} stepIndex={active} photos={photos}/>}
+    {!blocked&&step&&<RepairVerification key={`${sourceCaseId}-${active}`} analysis={analysis} sourceCaseId={sourceCaseId} stepIndex={active} photos={photos} feedback={feedback[active]} onFeedbackChange={value=>setFeedback(previous=>({...previous,[active]:value}))}/>}
+    {!blocked && <p className="repair-feedback-note">Step reports stay in this investigation while you move between steps. Refreshing clears them. They are your observations, not independently verified repair results.</p>}
+    {!blocked && feedback[active] && ["problem-remains","different","stopped"].includes(feedback[active].outcome) && <button className="secondary" onClick={onMoreEvidence}>Reassess with another photo <Camera size={14}/></button>}
     <ManualResearch key={sourceCaseId} sourceCaseId={sourceCaseId}/>
     <div className="repair-stop"><strong>STOP CONDITIONS</strong><ul>{assessment.stop_conditions.map((item,i)=><li key={i}><CheckCircle2 size={12}/>{item}</li>)}</ul></div>
   </section>

@@ -162,3 +162,9 @@ See [engineering dossier behavior and validation](docs/ENGINEERING_DOSSIER.md). 
 ### Phase 4 observation reasoning
 
 [Workflow and evidence limits](docs/OBSERVATION_REASONING.md). A practical-step journal can draft a question with its full report attached; inspect/update it, consent and explicitly ask Meta for possible explanations and distinguishing observations. Drafting makes no request. Replies and exports preserve the report snapshot and never mark it independently verified.
+
+### Repair journey
+
+Capture now accepts the reported problem, manufacturer/model and when it occurs. These details and the optional exploration focus share the existing 500-character context budget; changing repair details invalidates previous-result reuse and resets consent. Low-risk guidance retains the original safety gate and at most three steps. A supported reversible external correction can be suggested; missing evidence or hazardous conditions still withhold procedural guidance.
+
+Each guided step accepts a user-reported outcome and notes. Reports survive moving between steps in the same mounted investigation, are separated by source case, and clear on refresh or leaving the investigation. A problem-remains, different or stopped report pauses forward navigation and exposes photo reassessment. Follow-up review sends the selected outcome and notes only with explicit consent and before/after photos. It does not automatically rewrite instructions or certify a repair. Physical correctness and broad repair coverage remain unvalidated.

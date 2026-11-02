@@ -58,8 +58,10 @@ export default function CapturePanel({
       limit: number;
       providerCap: boolean;
     } | null>(null);
+  const [symptom, setSymptom] = useState(""), [objectModel, setObjectModel] = useState(""), [onset, setOnset] = useState("");
+  const repairContext = [symptom.trim() && `Reported problem: ${symptom.trim()}`, objectModel.trim() && `Manufacturer/model: ${objectModel.trim()}`, onset.trim() && `When it happens: ${onset.trim()}`, context].filter(Boolean).join("\n");
   const [successful, setSuccessful] = useState<{photoIds: string[]; context: string; scan: ScanView} | null>(null);
-  const reusable = successful !== null && successful.context === context &&
+  const reusable = successful !== null && successful.context === repairContext &&
     successful.photoIds.length === photos.length && successful.photoIds.every((id, index) => id === photos[index].id);
   const abort = useRef<AbortController | null>(null),
     running = useRef(false),
@@ -223,6 +225,7 @@ export default function CapturePanel({
       running.current ||
       processing.current ||
       !consent ||
+      repairContext.length > 500 ||
       !current.current.length
     )
       return;
@@ -251,7 +254,7 @@ export default function CapturePanel({
         form.append("images", p.file, `view-${i + 1}.jpg`),
       );
       form.append("consent", "true");
-      form.append("context", context);
+      form.append("context", repairContext);
       const response = await fetch("/api/scan", {
         method: "POST",
         headers: {Accept: "application/x-ndjson"},
@@ -280,7 +283,7 @@ export default function CapturePanel({
         photos: snapshot,
         clientTiming: { totalMs: Math.round(performance.now() - clientStart) },
       };
-      setSuccessful({photoIds: snapshot.map(photo => photo.id), context, scan});
+      setSuccessful({photoIds: snapshot.map(photo => photo.id), context: repairContext, scan});
       onResult(scan);
     } catch (e) {
       if (id !== attempt.current || !mounted.current) return;
@@ -519,6 +522,14 @@ export default function CapturePanel({
                 : message}
           </p>
           {analyzing && stageEvents.length > 0 && <OrchestrationTrace events={stageEvents} expanded />}
+          <fieldset className="repair-intake" disabled={busy || analyzing}>
+            <legend>What needs fixing?</legend>
+            <p>Describe the problem first. Clear symptoms help the AI decide whether to offer a suitable step or ask for more evidence.</p>
+            <label>What is wrong?<textarea maxLength={160} rows={2} value={symptom} placeholder="For example: the storage-box lid will not close; the rim looks bent." onChange={e=>{setSymptom(e.target.value);setConsent(false);onChange();}}/></label>
+            <div><label>Manufacturer / model, if known<input maxLength={80} value={objectModel} placeholder="Brand and model, or unknown" onChange={e=>{setObjectModel(e.target.value);setConsent(false);onChange();}}/></label>
+            <label>When does it happen?<input maxLength={80} value={onset} placeholder="Since a fall, every time, intermittently…" onChange={e=>{setOnset(e.target.value);setConsent(false);onChange();}}/></label></div>
+            <small>Optional for object exploration. Do not operate or open an object just to reproduce a fault.</small>
+          </fieldset>
           <section
             className="investigation-goals"
             aria-labelledby="investigation-goals-title"
@@ -613,7 +624,8 @@ export default function CapturePanel({
               }}
               placeholder="For example: the connections on this bicycle, or the object in the foreground."
             />
-            <small>{context.length} / 500 characters</small>
+            <small>{repairContext.length} / 500 characters across problem details and focus</small>
+            {repairContext.length > 500 && <span role="alert">Shorten the problem details or focus to 500 characters before analyzing.</span>}
           </label>
           <p className="capacity-note"><Info size={13} /><span>Live AI usage is protected by a shared hourly request limit.</span></p>
           {configured === false && (
@@ -657,6 +669,7 @@ export default function CapturePanel({
               busy ||
               analyzing ||
               !photos.length ||
+              repairContext.length > 500 ||
               (!reusable && (!online || !consent || configured === false))
             }
             onClick={analyze}
