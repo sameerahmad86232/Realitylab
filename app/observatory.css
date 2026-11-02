@@ -96,3 +96,4 @@ footer{padding:29px 5%;margin:0;background:#090d10;border-color:#303b43;gap:30px
 .explore-page .fan-callout,.explore-page .stage-controls,.explore-page .object-note{color:#233c4b}
 .explore-page .stage-controls button[aria-pressed=true]{background:#e4e8df;color:#294739}
 .explore-page .stage-fallback{color:#233c4b}.explore-page .stage-fallback p{color:#40596a!important}
+.live-results .component-card-heading>span{color:#bacfdd}.live-results .component-workbench-copy dd{color:#d0e1ea}
