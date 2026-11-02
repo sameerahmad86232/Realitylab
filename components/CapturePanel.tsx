@@ -58,6 +58,9 @@ export default function CapturePanel({
       limit: number;
       providerCap: boolean;
     } | null>(null);
+  const [successful, setSuccessful] = useState<{photoIds: string[]; context: string; scan: ScanView} | null>(null);
+  const reusable = successful !== null && successful.context === context &&
+    successful.photoIds.length === photos.length && successful.photoIds.every((id, index) => id === photos[index].id);
   const abort = useRef<AbortController | null>(null),
     running = useRef(false),
     attempt = useRef(0);
@@ -133,6 +136,7 @@ export default function CapturePanel({
     return () => prior?.focus();
   }, [review]);
   function update(next: Photo[]) {
+    setSuccessful(null);
     onChange();
     current.current = next;
     setPhotos(next);
@@ -205,6 +209,10 @@ export default function CapturePanel({
     input.current?.click();
   }
   async function analyze() {
+    if (reusable && successful && !running.current && !processing.current) {
+      onResult(successful.scan);
+      return;
+    }
     if (!online) {
       setErrors([
         "Reconnect before analyzing. Your prepared photos are still available in this tab.",
@@ -267,11 +275,13 @@ export default function CapturePanel({
         );
       if (id !== attempt.current || !mounted.current) return;
       setMessage("Analysis complete. Your results are ready.");
-      onResult({
+      const scan = {
         result: validated.data,
         photos: snapshot,
         clientTiming: { totalMs: Math.round(performance.now() - clientStart) },
-      });
+      };
+      setSuccessful({photoIds: snapshot.map(photo => photo.id), context, scan});
+      onResult(scan);
     } catch (e) {
       if (id !== attempt.current || !mounted.current) return;
       setMessage("Analysis did not complete. Your photos are preserved.");
@@ -645,18 +655,17 @@ export default function CapturePanel({
           <button
             className="primary analyze"
             disabled={
-              !online ||
               busy ||
               analyzing ||
               !photos.length ||
-              !consent ||
-              configured === false
+              (!reusable && (!online || !consent || configured === false))
             }
             onClick={analyze}
           >
-            {analyzing ? "Analyzing…" : "Analyze object"}{" "}
+            {analyzing ? "Analyzing…" : reusable ? "View existing analysis" : "Analyze object"}{" "}
             <ArrowRight size={16} />
           </button>
+          {reusable && <p className="capture-status">These photos and this question already have an analysis. Reopening it uses no AI request.</p>}
           {analyzing && (
             <button className="secondary cancel-scan" onClick={cancel}>
               Cancel analysis
