@@ -92,3 +92,8 @@ test('empty and non-JSON gateway responses produce a recoverable message',async(
   await assert.rejects(readScanResponse(response,()=>{}),/empty or unreadable response.*photos are preserved/);
  }
 });
+
+test('malformed response envelopes are safely rejected without unchecked property access',async()=>{
+ for(const value of [null,[],42]) await assert.rejects(readScanResponse(new Response(JSON.stringify(value)+'\n',{headers:{'Content-Type':'application/x-ndjson'}}),()=>{}),/invalid scan stream/);
+ await assert.rejects(readScanResponse(Response.json({error:{message:{unsafe:'object'}}},{status:502}),()=>{}),/scan could not be completed/);
+});
