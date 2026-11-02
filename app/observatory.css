@@ -80,3 +80,4 @@ footer{padding:29px 5%;margin:0;background:#090d10;border-color:#303b43;gap:30px
 .mechanism-point:before{content:"";position:absolute;inset:-9px;border-radius:50%}
 .premium-description br:after{content:" "}
 @media(max-width:640px){.premium-description{font-size:14px}.premium-hero .premium-demo{font-size:11px;min-height:44px}.premium-actions{gap:10px 16px}.premium-hero .premium-privacy{font-size:10px}.mechanism-stage{height:420px}.mechanism-caption>p{font-size:11px;min-height:51px}.mechanism-caption>small{font-size:9px}.mechanism-caption-head{font-size:9px}.mechanism-caption-head button{width:30px;height:30px}.mechanism-caption-head button:before{content:"";position:absolute;width:44px;height:44px}.premium-nav-cta{min-height:44px}.premium-hero .premium-kicker{font-size:9px}.premium-resume{min-height:44px}.premium-hero-footer>a{min-height:44px}}
+.sample-section.section,.how.section{background:#090b0d}
