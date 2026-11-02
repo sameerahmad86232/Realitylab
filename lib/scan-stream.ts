@@ -4,7 +4,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 function errorMessage(value: unknown, fallback: string): string {
-  return isRecord(value) && isRecord(value.error) && typeof value.error.message === "string"
+  return isRecord(value) && isRecord(value.error) && typeof value.error.message === "string" && value.error.message.trim().length > 0
     ? value.error.message : fallback;
 }
 
