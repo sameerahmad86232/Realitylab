@@ -32,8 +32,16 @@ try {
     await page.goto(origin);
     await page.getByRole("heading", { name: /See the problem/ }).waitFor();
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    for (const selector of ['.premium-kicker','.premium-description','.premium-privacy','.mechanism-caption p','.mechanism-caption small']) {
+      assert.ok(await page.locator(selector).evaluate(node=>parseFloat(getComputedStyle(node).fontSize))>=12, `${name}: readable landing text ${selector}`);
+    }
     await page.getByRole("button", { name: /^(Start diagnosing|Scan object)$/, exact: true }).click();
     await page.getByRole("heading", { name: "Start with a closer look." }).waitFor();
+    for (const selector of ['.dropzone p','.photo-tips p','.consent']) {
+      const sizes=await page.locator(selector).evaluateAll(nodes=>nodes.map(node=>parseFloat(getComputedStyle(node).fontSize)));
+      assert.ok(sizes.every(size=>size>=12), `${name}: readable capture text ${selector}`);
+    }
+    assert.ok(await page.locator('.object-context textarea').evaluate(node=>parseFloat(getComputedStyle(node).fontSize))>=16, `${name}: usable input size`);
     const targets = page.locator(
       ".upload-actions button, .capture-summary button, .breadcrumb button, .icon-button",
     );
