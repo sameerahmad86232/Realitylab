@@ -30,10 +30,15 @@ export default function DotMatrixHero({ onStart, onDemo, onResume }: { onStart: 
       <div className="premium-copy">
         <p className="premium-kicker"><span/> A CLOSER LOOK AT YOUR WORLD</p>
         <h1 id="matrix-title"><span>See the problem.</span>Find your<br/><em>next move.</em></h1>
-        <p className="premium-description">A photo. A different perspective. <br/>Explore visible evidence, understand possible causes, and find a more informed next step.</p>
+        <p className="premium-description">Turn a photo into a clearer understanding of your object. Explore its visible parts, see the evidence, and decide what to investigate next.</p>
+        <ol className="premium-path" aria-label="Your exploration in three steps">
+          <li><span>01</span> Add a photo</li>
+          <li><span>02</span> Explore the evidence</li>
+          <li><span>03</span> Choose your next step</li>
+        </ol>
         <div className="premium-actions"><button className="primary" onClick={onStart}><Camera size={17}/>Start diagnosing<ArrowUpRight size={17}/></button><button className="premium-demo" onClick={onDemo}><span><Play size={13} fill="currentColor"/></span>Explore interactive demo →</button></div>
         {onResume && <button className="premium-resume" onClick={onResume}>Resume your exploration <ArrowUpRight size={14}/></button>}
-        <p className="premium-privacy"><ShieldCheck size={14}/>Your photo. Your consent. Your next step.</p>
+        <p className="premium-privacy"><ShieldCheck size={16}/>Review your photos before you choose to share them.</p>
       </div>
       <figure className="mechanism-stage" ref={stage} onPointerMove={move} onPointerLeave={reset} aria-label="Illustrative mechanism concept">
         <div className="mechanism-ruler"><span><Focus size={13}/> EXPLORATION NO. 001</span><span>FORM / FUNCTION</span></div>
