@@ -107,3 +107,7 @@ footer{padding:29px 5%;margin:0;background:#090d10;border-color:#303b43;gap:30px
 .live-results .marker-help{background:#182d3b;border-color:#68879c;color:#d0e2ed!important}.live-results .marker-coordinate{color:#d0e2ed}
 .live-results .followup>article{background:#13242e;border-color:#4e697b;color:#e7efe8}
 .live-results .observation-review .observation-review-kicker{color:#365e52!important}
+@media(forced-colors:active){
+ .header:not(.home-header),footer{background:Canvas!important;color:CanvasText!important}
+ .header:not(.home-header) :is(span,button,a,nav),footer :is(span,button,a,p),.capture-page.section .breadcrumb{color:CanvasText!important}
+}
