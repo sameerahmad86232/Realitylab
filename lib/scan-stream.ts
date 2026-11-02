@@ -3,8 +3,10 @@ import { stageEventSchema, type StageEvent } from "./orchestration.ts";
 /** Reads split UTF-8/NDJSON frames; a lost stream can never become a successful result. */
 export async function readScanResponse(response: Response, onStage: (event: StageEvent) => void): Promise<unknown> {
   if (!response.headers.get("content-type")?.includes("application/x-ndjson")) {
-    const body = await response.json();
-    if (!response.ok) throw Error(body.error?.message || "The scan could not be completed. Your photos are preserved.");
+    let body;
+    try { body = await response.json(); }
+    catch { throw Error("The scan service returned an empty or unreadable response. Your photos are preserved. Please retry."); }
+    if (!response.ok) throw Error(body?.error?.message || "The scan could not be completed. Your photos are preserved.");
     return body;
   }
   if (!response.ok || !response.body) throw Error("The scan service is unavailable. Your photos are preserved.");
@@ -20,7 +22,7 @@ export async function readScanResponse(response: Response, onStage: (event: Stag
       if (event.sequence !== sequence + 1 || (caseId && caseId !== event.caseId)) throw Error("The service returned an inconsistent stage trace.");
       sequence = event.sequence; caseId = event.caseId; onStage(event);
     } else if (body.type === "error") {
-      throw Error(typeof body.error?.message === "string" ? body.error.message : "The scan could not be completed. Your photos are preserved.");
+      throw Error(typeof body?.error?.message === "string" ? body.error.message : "The scan could not be completed. Your photos are preserved.");
     } else if (body.type === "result") {
       if (caseId && body.result?.meta?.requestId !== caseId) throw Error("The scan result did not match this case.");
       result = body.result; terminal = true;

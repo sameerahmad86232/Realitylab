@@ -119,7 +119,7 @@ export async function normalize(file: File) {
     );
   }
 }
-async function runScan(request: Request, emit?: (event: StageEvent) => void) {
+async function runScan(request: Request, emit?: (event: StageEvent) => void, requestSignal = request.signal) {
   const requestId = randomUUID(),
     start = Date.now();
   const flow = new FixCoreCase(requestId, emit);
@@ -185,7 +185,7 @@ async function runScan(request: Request, emit?: (event: StageEvent) => void) {
       () => abort.abort(new DOMException("Scan timed out", "TimeoutError")),
       80_000,
     );
-    const signal = AbortSignal.any([request.signal, abort.signal]);
+    const signal = AbortSignal.any([requestSignal, abort.signal]);
     stage = "upload";
     const form = await readForm(request, signal);
     signal.throwIfAborted();
@@ -283,7 +283,7 @@ async function runScan(request: Request, emit?: (event: StageEvent) => void) {
     );
     return json(payload);
   } catch (error) {
-    const aborted = request.signal.aborted;
+    const aborted = requestSignal.aborted;
     const timeout =
       error instanceof Error &&
       ["TimeoutError", "AbortError"].includes(error.name);
@@ -332,7 +332,8 @@ export function handleScan(request: Request): Promise<Response> | Response {
   if (!request.headers.get("accept")?.includes("application/x-ndjson")) return runScan(request);
   const disconnect = new AbortController();
   const signal = AbortSignal.any([request.signal, disconnect.signal]);
-  const scanRequest = new Request(request, {signal});
+  // Next.js can wrap its Request in a proxy: native cloning fails private-field checks.
+  // Keep the original body and pass cancellation separately instead.
   const encoder = new TextEncoder();
   let closed = false;
   const stream = new ReadableStream<Uint8Array>({
@@ -344,7 +345,7 @@ export function handleScan(request: Request): Promise<Response> | Response {
       };
       void (async () => {
         try {
-          const response = await runScan(scanRequest, event => send({type: "stage", event}));
+          const response = await runScan(request, event => send({type: "stage", event}), signal);
           const body = await response.json();
           send(response.ok ? {type: "result", result: body} : {type: "error", status: response.status, ...body});
         } catch {
