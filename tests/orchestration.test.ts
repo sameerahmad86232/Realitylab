@@ -86,3 +86,9 @@ test('client handles fragmented UTF-8 and refuses truncated or mismatched stream
  await assert.rejects(readScanResponse(stream(JSON.stringify({type:'stage',event})+'\n'),()=>{}),/ended before/);
  await assert.rejects(readScanResponse(stream(JSON.stringify({type:'stage',event})+'\n'+JSON.stringify({type:'result',result:{meta:{requestId:randomUUID()}}})+'\n'),()=>{}),/match/);
 });
+
+test('empty and non-JSON gateway responses produce a recoverable message',async()=>{
+ for(const response of [new Response(null,{status:500}),new Response('<html>Unavailable</html>',{status:502})]) {
+  await assert.rejects(readScanResponse(response,()=>{}),/empty or unreadable response.*photos are preserved/);
+ }
+});

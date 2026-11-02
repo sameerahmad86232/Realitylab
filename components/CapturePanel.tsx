@@ -274,6 +274,7 @@ export default function CapturePanel({
       });
     } catch (e) {
       if (id !== attempt.current || !mounted.current) return;
+      setMessage("Analysis did not complete. Your photos are preserved.");
       setErrors([
         controller.signal.aborted
           ? "Scan cancelled or timed out. Your photos are preserved. Cancelling may not reverse provider usage already incurred."
