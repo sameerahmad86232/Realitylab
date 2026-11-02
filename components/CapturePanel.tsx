@@ -334,7 +334,7 @@ export default function CapturePanel({
           <span>a closer look.</span>
         </h1>
         <p>
-          Prepare one hands-on demonstration.
+          Start with what you can see.
           <br />
           Start with a clear view and a question about your object.
         </p>
@@ -508,7 +508,7 @@ export default function CapturePanel({
                 ? "Preparing photos on your device…"
                 : message}
           </p>
-          {analyzing && stageEvents.length > 0 && <OrchestrationTrace events={stageEvents} />}
+          {analyzing && stageEvents.length > 0 && <OrchestrationTrace events={stageEvents} expanded />}
           <section
             className="investigation-goals"
             aria-labelledby="investigation-goals-title"

@@ -67,7 +67,7 @@ try {
   const mobileAxe = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
     .analyze();
-  assert.deepEqual(mobileAxe.violations.map((item) => item.id), []);
+  assert.deepEqual(mobileAxe.violations.map((item) => ({id:item.id,nodes:item.nodes.map(node=>({target:node.target,reason:node.failureSummary}))})), []);
   results.emulation.push({ name: "Chromium forced colors + reduced motion", keyboard: true, axe: true });
   await context.close();
 

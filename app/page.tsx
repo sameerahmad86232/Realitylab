@@ -30,7 +30,7 @@ import {
   Download,
   RotateCcw,
 } from "lucide-react";
-import Shader from "../components/Shader";
+
 import ProjectImportButton from "../components/ProjectImportButton";
 import DotMatrixHero from "../components/DotMatrixHero";
 const DemoTheater = dynamic(() => import("../components/DemoTheater"), {
@@ -196,7 +196,6 @@ export default function Home() {
     >("home"),
     [selected, setSelected] = useState("guard"),
     [tab, setTab] = useState<"model" | "blueprint">("model"),
-    [paused, setPaused] = useState(false),
     [demo, setDemo] = useState(false);
   const [scan, setScan] = useState<ScanView | null>(null),
     [draft, setDraft] = useState(0),
@@ -365,89 +364,6 @@ export default function Home() {
         {screen === "home" && (
           <>
             <DotMatrixHero onStart={() => go("capture")} onDemo={() => setDemo(true)} onResume={scan ? () => go("results") : undefined} />
-            {false && <section className="hero">
-              <Shader paused={paused} active={!demo} />
-              <div className="hero-copy">
-                <p className="eyebrow">
-                  <span className="short-line" /> A CLOSER LOOK AT THE EVERYDAY
-                </p>
-                <h1>
-                  See beyond
-                  <br />
-                  the <span>surface.</span>
-                </h1>
-                <p className="hero-description">
-                  For makers preparing hands-on demonstrations.
-                  <br />
-                  Photograph an object, explain one principle,
-                  <br className="desktop-break" /> then test a separate craft
-                  study.
-                </p>
-                <div className="hero-actions">
-                  <button className="primary" onClick={() => go("capture")}>
-                    Scan an object <ArrowUpRight size={18} />
-                  </button>
-                  <button
-                    className="secondary hero-demo-button"
-                    aria-haspopup="dialog"
-                    onClick={() => setDemo(true)}
-                  >
-                    <PlayCircle size={17} />
-                    See it in action
-                  </button>
-                </div>
-                <div className="hero-sample-row">
-                  <button onClick={() => go("explore")}>
-                    Explore sample <ArrowRight size={13} />
-                  </button>
-                  <span>Prepared 3D concept</span>
-                </div>
-                {scan && (
-                  <button
-                    className="resume-exploration secondary"
-                    onClick={() => go("results")}
-                  >
-                    Resume your exploration <ArrowRight size={15} />
-                  </button>
-                )}
-                <p className="hero-meta">
-                  <ShieldCheck size={14} /> Real photo evidence. Explicit
-                  hypotheses.
-                </p>
-              </div>
-              <div className="hero-stage">
-                <FanStage active={!demo} />
-                <button className="sample-tag" onClick={() => go("explore")}>
-                  <span className="sample-icon">
-                    <Layers3 size={18} />
-                  </span>
-                  <span>
-                    <strong>
-                      A familiar object.
-                      <br />
-                      An unfamiliar perspective.
-                    </strong>
-                    <small>Explore the prepared fan sample</small>
-                  </span>
-                  <ArrowUpRight size={15} />
-                </button>
-              </div>
-              <div className="hero-bottom">
-                <span>01 — THE DESK FAN</span>
-                <span>Concept model · Not reconstructed</span>
-                <button
-                  onClick={() => setPaused((p) => !p)}
-                  aria-label={
-                    paused
-                      ? "Play background effects"
-                      : "Pause background effects"
-                  }
-                >
-                  {paused ? <Play size={13} /> : <Pause size={13} />} Effects{" "}
-                  {paused ? "paused" : "on"}
-                </button>
-              </div>
-            </section>}
             <section className="intro-strip">
               <p>
                 Less guessing.
