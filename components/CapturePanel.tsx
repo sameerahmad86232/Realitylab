@@ -345,9 +345,8 @@ export default function CapturePanel({
           <span>a closer look.</span>
         </h1>
         <p>
-          Start with what you can see.
-          <br />
-          Start with a clear view and a question about your object.
+          Add one clear photo to begin. You can review it, add another angle,
+          and choose what to investigate before sending anything to AI.
         </p>
       </div>
       <div className="capture-grid">
