@@ -61,3 +61,22 @@ footer{padding:29px 5%;margin:0;background:#090d10;border-color:#303b43;gap:30px
 @media(prefers-reduced-motion:reduce){.mechanism-image-wrap{transform:none!important;transition:none!important}.premium-hero *,.recorded-card,.recorded-card>img{animation:none!important;transition:none!important}html{scroll-behavior:auto!important}}
 @media(forced-colors:active){.premium-hero .primary,.premium-nav-cta,.mechanism-point{border:1px solid ButtonText!important}.premium-hero h1,.premium-hero h1>span,.premium-hero h1 em{color:CanvasText}.premium-hero,.mechanism-stage{background:Canvas;color:CanvasText}.premium-kicker,.premium-description,.premium-privacy,.mechanism-caption p,.mechanism-caption small{color:CanvasText}}
 @media print{html,body,main,.live-results,.repair-assessment,.repair-followup,.source-panel,.build-learn,.lesson-card{background:#fff!important;color:#111!important}.premium-hero,.header,footer,.premium-actions,.workflow-details{display:none!important}.live-results :is(p,small,dt,dd,label,h1,h2,h3,h4){color:#111!important}}
+/* Surface contracts: dark inspection chrome; light drawings and reading sheets. */
+.live-results.section{background:#090e12;color:#ecf1ea}
+.exploratory-focuses{color:#b7cad7}.exploratory-focuses summary{color:#b7cad7}
+.live-results :is(.result-jumps button,.evidence-filters,.evidence-filters button,.blueprint-tools,.blueprint-tools>div,.blueprint-tools button,.connection-links button,.project-save,.project-save-actions label,.diagram-lab,.photo-omitted-notice){background:#13242e;color:#d3e3eb;border-color:#4e697b}
+.live-results :is(.result-jumps button:hover,.evidence-filters button[aria-pressed=true],.blueprint-tools button[aria-pressed=true]){background:#354438;color:#f3efd9}
+.live-results .evidence-filters button>span{background:#304450;color:#dfebed}
+.live-results :is(.map-heading,.blueprint-rendering>span,.exploration-status,.result-provenance strong,.recorded-dossier-entry strong){color:#bdd1df}
+.live-results .map-node{background:#f2f5ef;color:#213949}.live-results .map-node :is(strong,small,span){color:#294654!important}
+.live-results .map-node[aria-pressed=true]{background:#dbe8ee;border-color:#406c85}.live-results .map-node.is-inferred{background:#f3ecdc}
+.live-results .parts-list button{opacity:1}.live-results .parts-list button .part-number{color:#bed1db}
+.live-results .reverse-boundary{background:#26302d;color:#e7d7b9;border-color:#78735c}
+.live-results .principle-list .principle-selected{background:#13242e}
+.live-results .principle-list article{padding:20px 14px;border-radius:9px}
+.live-results .project-save-actions label{color:#d3e3eb}.live-results .project-save-actions small{color:#b1c1cd!important}
+.live-results .lesson-heading>span:last-child{color:#395365}.live-results .lesson-card dd{color:#294654}
+.project-page footer a{color:#c6d5dd}
+.mechanism-point:before{content:"";position:absolute;inset:-9px;border-radius:50%}
+.premium-description br:after{content:" "}
+@media(max-width:640px){.premium-description{font-size:14px}.premium-hero .premium-demo{font-size:11px;min-height:44px}.premium-actions{gap:10px 16px}.premium-hero .premium-privacy{font-size:10px}.mechanism-stage{height:420px}.mechanism-caption>p{font-size:11px;min-height:51px}.mechanism-caption>small{font-size:9px}.mechanism-caption-head{font-size:9px}.mechanism-caption-head button{width:30px;height:30px}.mechanism-caption-head button:before{content:"";position:absolute;width:44px;height:44px}.premium-nav-cta{min-height:44px}.premium-hero .premium-kicker{font-size:9px}.premium-resume{min-height:44px}.premium-hero-footer>a{min-height:44px}}

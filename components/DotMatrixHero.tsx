@@ -30,7 +30,7 @@ export default function DotMatrixHero({ onStart, onDemo, onResume }: { onStart: 
       <div className="premium-copy">
         <p className="premium-kicker"><span/> A CLOSER LOOK AT YOUR WORLD</p>
         <h1 id="matrix-title"><span>See the problem.</span>Find your<br/><em>next move.</em></h1>
-        <p className="premium-description">A photo. A different perspective.<br/>Explore visible evidence, understand possible causes, and find a more informed next step.</p>
+        <p className="premium-description">A photo. A different perspective. <br/>Explore visible evidence, understand possible causes, and find a more informed next step.</p>
         <div className="premium-actions"><button className="primary" onClick={onStart}><Camera size={17}/>Start diagnosing<ArrowUpRight size={17}/></button><button className="premium-demo" onClick={onDemo}><span><Play size={13} fill="currentColor"/></span>Explore interactive demo →</button></div>
         {onResume && <button className="premium-resume" onClick={onResume}>Resume your exploration <ArrowUpRight size={14}/></button>}
         <p className="premium-privacy"><ShieldCheck size={14}/>Your photo. Your consent. Your next step.</p>
