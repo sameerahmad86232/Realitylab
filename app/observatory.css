@@ -97,3 +97,9 @@ footer{padding:29px 5%;margin:0;background:#090d10;border-color:#303b43;gap:30px
 .explore-page .stage-controls button[aria-pressed=true]{background:#e4e8df;color:#294739}
 .explore-page .stage-fallback{color:#233c4b}.explore-page .stage-fallback p{color:#40596a!important}
 .live-results .component-card-heading>span{color:#bacfdd}.live-results .component-workbench-copy dd{color:#d0e1ea}
+@media(forced-colors:active){
+ html,body,.capture-page.section,.live-results.section,.explore-page.section,.camera-dialog.camera-modal{background:Canvas!important;color:CanvasText!important}
+ .capture-page.section :is(p,small,span,strong,summary,label,h1,h2,h3,h4),.camera-dialog.camera-modal :is(p,small,span,summary,label,h2){color:CanvasText!important}
+ .capture-page.section :is(.dropzone,.photo-tips,.investigation-goals,.capacity-note,.consent,.message,.capture-errors){background:Canvas!important;border-color:CanvasText!important}
+ .capture-page.section :is(button,input,select,textarea),.camera-dialog.camera-modal button{background:ButtonFace!important;color:ButtonText!important;border-color:ButtonText!important}
+}
