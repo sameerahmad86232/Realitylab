@@ -10,6 +10,7 @@ import "./orchestrator.css";
 import "./repair.css";
 import "./matrix-hero.css";
 import "./kindred-system.css";
+import "./observatory.css";
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.RENDER_EXTERNAL_URL || "https://realitylab.onrender.com",
@@ -23,10 +24,10 @@ export const metadata: Metadata = {
       "Explore everyday objects through photo evidence, conceptual blueprints and construction studies.",
     images: [
       {
-        url: "/art/optical-exploration.webp",
-        width: 1440,
-        height: 720,
-        alt: "RealityLab editorial optical concept illustration",
+        url: "/art/mechanism-study-v2.webp",
+        width: 1600,
+        height: 900,
+        alt: "RealityLab AI-generated mechanism concept illustration",
       },
     ],
   },
@@ -38,12 +39,7 @@ export const metadata: Metadata = {
 };
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-      </head>
+    <html lang="en" style={{background:"#090b0d"}}>
       <body>{children}</body>
     </html>
   );
