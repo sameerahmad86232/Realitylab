@@ -103,3 +103,7 @@ footer{padding:29px 5%;margin:0;background:#090d10;border-color:#303b43;gap:30px
  .capture-page.section :is(.dropzone,.photo-tips,.investigation-goals,.capacity-note,.consent,.message,.capture-errors){background:Canvas!important;border-color:CanvasText!important}
  .capture-page.section :is(button,input,select,textarea),.camera-dialog.camera-modal button{background:ButtonFace!important;color:ButtonText!important;border-color:ButtonText!important}
 }
+.live-results .marker-tools .text-link[aria-pressed=true]{color:#f1c4a3}
+.live-results .marker-help{background:#182d3b;border-color:#68879c;color:#d0e2ed!important}.live-results .marker-coordinate{color:#d0e2ed}
+.live-results .followup>article{background:#13242e;border-color:#4e697b;color:#e7efe8}
+.live-results .observation-review .observation-review-kicker{color:#365e52!important}
