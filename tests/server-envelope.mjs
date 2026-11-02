@@ -33,10 +33,12 @@ const browser = await chromium.launch({
 const context = await browser.newContext(),
   page = await context.newPage();
 let payload;
+let scanCalls=0;
 await context.route("**/api/health", (r) =>
   r.fulfill({ json: { analysis: { configured: true } } }),
 );
 await context.route("**/api/scan", async (route) => {
+  scanCalls++;
   const req = route.request();
   const response = await handleScan(
     new Request(req.url(), {
@@ -87,9 +89,28 @@ try {
   await page
     .getByRole("heading", { name: "Conceptual blueprint", exact: true })
     .waitFor();
-  console.log(
-    "PASS: Actual unmodified server response renders results and blueprint in the frontend. Provider mocked; no paid call.",
-  );
+  const firstRequest=JSON.parse(payload).meta.requestId;
+  await page.getByRole('button',{name:'Edit photos',exact:true}).click();
+  await page.getByRole('button',{name:'View existing analysis',exact:true}).waitFor();
+  await context.setOffline(true);
+  await page.getByRole('button',{name:'View existing analysis',exact:true}).click();
+  await page.getByRole('heading',{name:fixture.analysis.object_name,exact:true}).waitFor();
+  assert.equal(scanCalls,1,'Reopening identical photos/context must not POST or consume another call, even offline');
+  assert.equal(JSON.parse(payload).meta.requestId,firstRequest);
+  await page.getByRole('button',{name:'Edit photos',exact:true}).click();
+  await page.getByRole('textbox').fill('Inspect a different region');
+  assert.equal(await page.getByRole('button',{name:'View existing analysis',exact:true}).count(),0);
+  assert.equal(await page.getByRole('button',{name:'Analyze object',exact:true}).isDisabled(),true,'Changed context requires a fresh online request');
+  await context.setOffline(false);
+  await page.getByRole('button',{name:'Analyze object',exact:true}).click();
+  await page.getByRole('heading',{name:fixture.analysis.object_name,exact:true}).waitFor();
+  assert.equal(scanCalls,2);
+  assert.notEqual(JSON.parse(payload).meta.requestId,firstRequest);
+  await page.getByRole('button',{name:'Edit photos',exact:true}).click();
+  await page.getByRole('button',{name:'Remove photo 1',exact:true}).click();
+  assert.equal(await page.getByRole('button',{name:'View existing analysis',exact:true}).count(),0,'Changing photos invalidates the saved analysis');
+  assert.equal(await page.getByRole('button',{name:'Analyze object',exact:true}).isDisabled(),true,'New photos require renewed consent');
+  console.log('PASS: actual handler response renders results/blueprint; unchanged scans reopen offline without a request; context/photo changes invalidate reuse and preserve consent. Provider mocked.');
 } finally {
   await browser.close();
   globalThis.fetch = originalFetch;
