@@ -18,8 +18,8 @@ The differentiating interaction is the linked investigation, not the mere existe
 | Criterion | What to show | Remaining proof |
 | --- | --- | --- |
 | Impact, 30% | One concrete maker/workshop preparation task and the source-to-study flow | Actual user feedback, demand and measured learning benefit |
-| Meta tooling, 25% | Exact open-weight model and provider; vision scan followed by grounded construction/question request | No runtime Muse Image or GPU reconstruction has been implemented |
-| Execution, 20% | Evidence labels, source references, controlled diagrams, exports, validation, cancellation and recovery | Physical device checks and production-grade durable abuse limits |
+| Meta tooling, 25% | Exact open-weight model and provider; vision scan followed by grounded construction/question request | Optional Meta component/step illustrations are implemented when configured; GPU reconstruction is not implemented |
+| Execution, 20% | Evidence labels, source references, controlled diagrams, exports, validation, cancellation and recovery | Physical device checks and operational verification of shared quotas/provider billing controls |
 | Demo, 25% | Labeled guided recording, one genuinely new scan, one new dossier, useful output | Actual narrated three-minute public video and a physical build demonstration |
 
 ## Ready in the software

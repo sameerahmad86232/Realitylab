@@ -15,7 +15,7 @@ The biggest obstacle is proof of usefulness and correctness, not typography. Thi
 | Illustrative graphics can overpromise | Prepared 3D geometry and 2D edge studies can be mistaken for recovered 3D/CAD. | Existing prepared/recorded/conceptual labels remain. No dimensions, hidden wiring or physical-performance claims. Real reconstruction has not been implemented. |
 | Presentation has substantial depth but a long path | Many panels and optional examples can distract from the central benefit. | Four-chapter tour and direct links; practical observation editors are collapsed per step. Demonstrate one object in the three-minute video, not every panel. |
 | Latency and service availability affect live demos | Saved scans took 13–21 seconds server-side; a second dossier adds another call. Cold starts and provider errors remain possible. | Keep recorded tour explicit, errors honest, cancel/retry and drafts intact. Local journals/graphics require no model calls. No latency reduction or guaranteed availability is claimed. |
-| Abuse controls are process-local | Rate/concurrency gates reset on restarts and do not provide a durable billing cap. | Do not claim production readiness. Durable shared quotas/auth and provider billing controls remain necessary before a large public launch. |
+| Usage controls need operational monitoring | Shared quotas are now required for public production inference and fail closed when unavailable; local counters still reset on restart. | Check live quota enforcement and provider billing controls before a large launch. Request limits and an operator-set billing flag do not independently establish a dollar cap. |
 
 ## Implemented enhancement: observation journal
 
@@ -35,6 +35,6 @@ Meta usage is real but still consists primarily of a vision request and grounded
 
 Visual review caught nested cards squeezing the observation editor on small phones despite passing page-overflow checks. Mobile step cards now stack the progress control above the full-width content; the browser test additionally requires at least 180px of journal width at the tested screen sizes.
 
-## Repository review mismatch
+## Repository review alignment
 
-The GitHub default branch `main` points to an older Vite frontend (`39141b3`), while Render deploys `codex/realitylab-live-explorer`. Project-header/footer code links and the submission draft now target the actual implementation branch, and the public project brief identifies the mismatch. PR #1 remains the review entry point. No default-branch setting or merge was changed. This is a material submission issue: confirm the submitted source link reaches the deployed code rather than relying on the root repository URL alone.
+The current Next.js implementation is merged into the default `main` branch. Render deploys `main` after CI checks pass. The project brief, submission draft and repository links point to this implementation. The earlier Vite/default-branch mismatch is resolved; earlier audit statements describe historical findings rather than the current deployment.

@@ -38,7 +38,7 @@ The [guided product showcase](docs/GUIDED_DEMO.md) provides a four-chapter recor
 - Recorded real fan, bicycle, compass, furniture and mouse analyses: opening uses no new inference credits.
 - Prepared procedural 3D fan, shaders, reduced-motion handling and static WebGL fallback.
 
-This is an explanation and learning prototype. It does not recover hidden wiring, reconstruct arbitrary objects into CAD, measure dimensions, verify materials or diagnose faults. The 3D fan is handcrafted. Blueprints are conceptual and not to scale. Errors never substitute a recorded result.
+This is an explanation, learning and cautious visual repair-triage prototype. It can suggest possible causes and bounded inspection steps, request more evidence, or direct users to qualified help. It does not confirm diagnoses, recover hidden wiring, reconstruct arbitrary objects into CAD, measure dimensions or verify materials. The 3D fan is handcrafted. Blueprints are conceptual and not to scale. Errors never substitute a recorded result.
 
 ## Data flow
 
@@ -137,7 +137,7 @@ See [engineering dossier behavior and validation](docs/ENGINEERING_DOSSIER.md). 
 
 ### Phase 6 measured usage controls
 
-[Timing and shared-quota design](docs/PHASE6.md). New responses separate request-read, normalization, quota and provider time while the browser records its complete wait. Optional Upstash enforcement is implemented but is not active until the shared store is configured and tested; the current public service must not be described as having a durable or dollar cap.
+[Timing and shared-quota design](docs/PHASE6.md). New responses separate request-read, normalization, quota and provider time while the browser records its complete wait. Shared Upstash quotas are implemented and required for public production inference. Check `/api/health` for the current `capacity.durableQuota.state`; paid requests fail closed when enforcement is unavailable. Process counters still reset on restart. Request limits are not a dollar cap, and `providerSpendCapVerified` reports an operator-set configuration flag rather than independently auditing provider billing.
 
 ### Project brief and review
 
