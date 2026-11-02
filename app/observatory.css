@@ -89,3 +89,10 @@ footer{padding:29px 5%;margin:0;background:#090d10;border-color:#303b43;gap:30px
 .project-page .project-footer>a:nth-child(2){color:#c6d5dd}
 .recovery-page .eyebrow{color:#3c5d72!important}
 .camera-dialog.camera-modal{background:#101c24;color:#eef3ec}.camera-dialog :is(h2,p,.text-link){color:#c2d3df}.camera-dialog .eyebrow{color:#c2d3df!important}
+.explore-page .parts-list button[aria-pressed=true]{color:#f1e4ce}
+.explore-page .tabs{background:#13242e;border-color:#526e80;color:#c8dbe6}.explore-page .tabs button[aria-pressed=true]{background:#354438;color:#f3efd9}
+.explore-page .diagram-wrap>p{color:#40596a!important}
+.explore-page .learn-preview{background:#13242e;border-color:#526e80}
+.explore-page .fan-callout,.explore-page .stage-controls,.explore-page .object-note{color:#233c4b}
+.explore-page .stage-controls button[aria-pressed=true]{background:#e4e8df;color:#294739}
+.explore-page .stage-fallback{color:#233c4b}.explore-page .stage-fallback p{color:#40596a!important}
