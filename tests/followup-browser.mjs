@@ -1,6 +1,6 @@
 import {chromium} from 'playwright-core';
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
+import {readFile,mkdir} from 'node:fs/promises';
 import {handleScan,scanState} from '../lib/server/scan.ts';
 import {handleResearch} from '../lib/server/research.ts';
 import {handleVerify} from '../lib/server/verify.ts';
@@ -29,6 +29,7 @@ try{
  await page.getByRole('button',{name:'Next step',exact:true}).click();assert.equal(await review.getByLabel('What did you observe?',{exact:true}).inputValue(),'');await page.getByRole('button',{name:'Previous',exact:true}).click();assert.equal(await review.getByLabel('What did you observe?',{exact:true}).inputValue(),'The gap looks unchanged.');assert.equal(await review.getByLabel('How did this step go?',{exact:true}).inputValue(),'matched');
  await review.getByLabel('How did this step go?',{exact:true}).selectOption('different');assert.equal(await page.getByRole('button',{name:'Next step',exact:true}).isDisabled(),true);assert.equal(modelCalls,1,'Local step feedback must not call AI');await page.getByRole('button',{name:'Reassess with another photo',exact:true}).waitFor();
  await review.getByLabel('After photo',{exact:true}).setInputFiles('public/demos/electronics.jpg');await review.locator('.followup-photo').waitFor();await review.getByLabel('What did you observe?',{exact:true}).fill('The gap looks unchanged.');assert.equal(await review.getByRole('button',{name:'Review checkpoint',exact:true}).isDisabled(),true);await review.getByRole('checkbox').check();await review.getByRole('button',{name:'Review checkpoint',exact:true}).click();await review.getByRole('heading',{name:'More evidence is needed',exact:true}).waitFor();assert.equal(modelCalls,2);assert.equal(await review.getByText('The joint is not clearly visible.',{exact:false}).count(),1);
+ await mkdir('/tmp/artifacts/repair-journey',{recursive:true});await review.screenshot({path:'/tmp/artifacts/repair-journey/checkpoint-review.png'});
  await page.setViewportSize({width:320,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);assert.deepEqual(errors,[]);
  console.log('PASS: actual scan/research/verify handlers render through client forms, explicit follow-up consent, manual credit isolation, inconclusive comparison and 320px layout. Provider mocked.');
 }finally{await browser.close();globalThis.fetch=originalFetch;if(savedKey===undefined)delete process.env.BASETEN_API_KEY;else process.env.BASETEN_API_KEY=savedKey;if(savedOrigin===undefined)delete process.env.APP_ORIGIN;else process.env.APP_ORIGIN=savedOrigin;}

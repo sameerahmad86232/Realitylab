@@ -59,9 +59,9 @@ export function RepairVerification({analysis,sourceCaseId,stepIndex,photos,feedb
  return <section className="repair-followup" aria-label="Follow-up checkpoint review">
   <h3>Review this checkpoint</h3><p>Add a photo of the same object and region after your inspection. A comparison can describe visible changes; it cannot establish that a repair succeeded or that the object is safe.</p>
   <form onSubmit={review}>
-   <label>How did this step go?<select value={outcome} disabled={busy} onChange={event=>{const value=event.target.value;setOutcome(value);setConsent(false);setResult(null);onFeedbackChange?.({outcome:value,report});}}>
+   <label htmlFor={`step-outcome-${sourceCaseId}-${stepIndex}`}>How did this step go?</label><select id={`step-outcome-${sourceCaseId}-${stepIndex}`} value={outcome} disabled={busy} onChange={event=>{const value=event.target.value;setOutcome(value);setConsent(false);setResult(null);onFeedbackChange?.({outcome:value,report});}}>
     <option value="not-tested">Not tried yet</option><option value="matched">The step worked as expected</option><option value="problem-remains">The problem is still there</option><option value="different">Something looks different</option><option value="stopped">I stopped because of a concern</option>
-   </select></label>
+   </select>
    {outcome !== "not-tested" && <p role="status">{outcome === "matched" ? "Your report is saved for this step. Check the next instruction before continuing; this does not confirm the overall repair." : outcome === "problem-remains" ? "Do not repeat the action or use more force. Describe what remains and request a review, or add evidence for a new analysis." : "Pause this path. Do not improvise another action. Add evidence for reassessment; seek qualified help if you notice a hazard."}</p>}
    <label>Original photo<select value={beforeIndex} disabled={busy} onChange={event=>{setBeforeIndex(Number(event.target.value));setConsent(false);setResult(null);}}>{photos.map((source,index)=><option key={source.id} value={index} disabled={source.omitted}>View {index+1}{source.omitted?" — photo unavailable":""}</option>)}</select></label>
    <label>After photo<input type="file" accept="image/jpeg,image/png" disabled={busy||preparing} onChange={event=>void choose(event.target.files?.[0])}/></label>
