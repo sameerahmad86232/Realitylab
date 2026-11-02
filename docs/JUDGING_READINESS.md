@@ -5,7 +5,7 @@
 - Product and capture: https://realitylab.onrender.com
 - Shareable recorded tour: https://realitylab.onrender.com/?demo=1
 - Project brief and inspectable evidence: https://realitylab.onrender.com/project
-- Public code: https://github.com/sameerahmad86232/Realitylab (implementation currently on `codex/realitylab-live-explorer`, linked by draft PR #1).
+- Public code: https://github.com/sameerahmad86232/Realitylab (current Next.js implementation on `main`; Render deploys after CI checks pass).
 
 ## The story
 

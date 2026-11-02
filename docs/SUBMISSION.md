@@ -18,9 +18,9 @@
 
 **Recorded tour:** https://realitylab.onrender.com/?demo=1 (explicitly recorded; no new inference on opening)
 
-**Code for the deployed implementation:** https://github.com/sameerahmad86232/Realitylab/tree/codex/realitylab-live-explorer
+**Code for the deployed implementation:** https://github.com/sameerahmad86232/Realitylab/tree/main
 
-**Review:** https://github.com/sameerahmad86232/Realitylab/pull/1. The repository default `main` currently contains the older Vite implementation; do not submit the root URL alone as the location of the current code.
+**Release:** The current Next.js implementation is merged into `main`, which Render deploys after CI checks pass. The repository root is the current source entry point. Merged readability and TypeScript hardening: https://github.com/sameerahmad86232/Realitylab/pull/16.
 
 **Video and contributors:** Add the actual three-minute public video URL, contributor names and representative before submission. See DEMO_SCRIPT.md. Nothing has been submitted automatically.
 

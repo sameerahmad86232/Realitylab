@@ -85,7 +85,7 @@ Browser suites use fixtures and make no paid calls. GitHub Actions checks withou
 
 ## Deploy and present
 
-`render.yaml` builds and deploys branch `codex/realitylab-live-explorer` with `npm ci --include=dev && npm run build`, `npm start`, and `/api/health`. The minimal `frontend/package.json` supports the previous Render build command; there is no separate frontend app. Health `liveVerified` tracks a successful scan in the current process only.
+`render.yaml` builds and deploys branch `main` with `npm ci --include=dev && npm run build`, `npm start`, and `/api/health`. The minimal `frontend/package.json` supports the previous Render build command; there is no separate frontend app. Health `liveVerified` tracks a successful scan in the current process only.
 
 See [release audit](docs/RELEASE_AUDIT.md), [evaluation](docs/EVALUATION.md), [three-minute demo plan](docs/DEMO_SCRIPT.md) and [submission draft](docs/SUBMISSION.md). Physical mobile tests and the narrated final video remain human tasks.
 
