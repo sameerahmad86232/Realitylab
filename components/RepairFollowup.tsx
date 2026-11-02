@@ -35,8 +35,10 @@ export function ManualResearch({sourceCaseId}:{sourceCaseId:string}){
   {result&&<div className="followup-result"><h4><a href={result.url} target="_blank" rel="noreferrer">{result.title}</a></h4><p>{result.modelMentioned?"The supplied model text appears on the page; applicability still needs checking.":"The supplied model text was not found. Treat this source as unmatched."}</p><blockquote>{result.excerpt}</blockquote><p>Source: {new URL(result.url).hostname} · Retrieved {new Date(result.retrievedAt).toLocaleString()} · Excerpt only</p><OrchestrationTrace events={result.orchestration.events}/></div>}
  </section>;
 }
-export function RepairVerification({analysis,sourceCaseId,stepIndex,photos}:{analysis:Analysis;sourceCaseId:string;stepIndex:number;photos:ScanView["photos"]}){
- const [after,setAfter]=useState<Photo|null>(null),[beforeIndex,setBeforeIndex]=useState(0),[report,setReport]=useState(""),[consent,setConsent]=useState(false),[busy,setBusy]=useState(false),[preparing,setPreparing]=useState(false),[error,setError]=useState(""),[result,setResult]=useState<VerificationResult|null>(null);
+export type StepFeedback = {outcome: string; report: string};
+export function RepairVerification({analysis,sourceCaseId,stepIndex,photos,feedback,onFeedbackChange}:{analysis:Analysis;sourceCaseId:string;stepIndex:number;photos:ScanView["photos"];feedback?:StepFeedback;onFeedbackChange?:(feedback:StepFeedback)=>void}){
+ const [after,setAfter]=useState<Photo|null>(null),[beforeIndex,setBeforeIndex]=useState(0),[report,setReport]=useState(feedback?.report || ""),[consent,setConsent]=useState(false),[busy,setBusy]=useState(false),[preparing,setPreparing]=useState(false),[error,setError]=useState(""),[result,setResult]=useState<VerificationResult|null>(null);
+ const [outcome,setOutcome]=useState(feedback?.outcome || "not-tested");
  const request=useRequest(),generation=useRef(0),photo=useRef<Photo|null>(null);
  useEffect(()=>()=>{generation.current++;if(photo.current)URL.revokeObjectURL(photo.current.url);},[]);
  async function choose(file?:File){
@@ -49,7 +51,7 @@ export function RepairVerification({analysis,sourceCaseId,stepIndex,photos}:{ana
   try{
    const original=await fetch(photos[beforeIndex].url,{signal:controller.signal});if(!original.ok)throw Error("The original photo is no longer available. Start a new scan.");
    const form=new FormData();form.set("consent","true");form.set("before",new File([await original.blob()],"before.jpg",{type:"image/jpeg"}));form.set("after",after.file);
-   form.set("input",JSON.stringify({analysis,sourceCaseId,stepIndex,report}));
+   form.set("input",JSON.stringify({analysis,sourceCaseId,stepIndex,report: outcome === "not-tested" ? report : `User-reported outcome: ${outcome}. ${report}`}));
    const response=await fetch("/api/verify",{method:"POST",body:form,signal:controller.signal});const body=await response.json();if(!response.ok)throw Error(body.error?.message||"Follow-up review failed.");
    const parsed=verificationResponseSchema.parse(body);if(parsed.sourceCaseId!==sourceCaseId||parsed.stepIndex!==stepIndex)throw Error("The comparison did not match this checkpoint.");if(!controller.signal.aborted)setResult(parsed);
   }catch(cause){if(!controller.signal.aborted)setError(cause instanceof Error?cause.message:"Follow-up review failed.");}finally{if(request.current===controller)setBusy(false);}
@@ -57,10 +59,14 @@ export function RepairVerification({analysis,sourceCaseId,stepIndex,photos}:{ana
  return <section className="repair-followup" aria-label="Follow-up checkpoint review">
   <h3>Review this checkpoint</h3><p>Add a photo of the same object and region after your inspection. A comparison can describe visible changes; it cannot establish that a repair succeeded or that the object is safe.</p>
   <form onSubmit={review}>
+   <label htmlFor={`step-outcome-${sourceCaseId}-${stepIndex}`}>How did this step go?</label><select id={`step-outcome-${sourceCaseId}-${stepIndex}`} value={outcome} disabled={busy} onChange={event=>{const value=event.target.value;setOutcome(value);setConsent(false);setResult(null);onFeedbackChange?.({outcome:value,report});}}>
+    <option value="not-tested">Not tried yet</option><option value="matched">The step worked as expected</option><option value="problem-remains">The problem is still there</option><option value="different">Something looks different</option><option value="stopped">I stopped because of a concern</option>
+   </select>
+   {outcome !== "not-tested" && <p role="status">{outcome === "matched" ? "Your report is saved for this step. Check the next instruction before continuing; this does not confirm the overall repair." : outcome === "problem-remains" ? "Do not repeat the action or use more force. Describe what remains and request a review, or add evidence for a new analysis." : "Pause this path. Do not improvise another action. Add evidence for reassessment; seek qualified help if you notice a hazard."}</p>}
    <label>Original photo<select value={beforeIndex} disabled={busy} onChange={event=>{setBeforeIndex(Number(event.target.value));setConsent(false);setResult(null);}}>{photos.map((source,index)=><option key={source.id} value={index} disabled={source.omitted}>View {index+1}{source.omitted?" — photo unavailable":""}</option>)}</select></label>
    <label>After photo<input type="file" accept="image/jpeg,image/png" disabled={busy||preparing} onChange={event=>void choose(event.target.files?.[0])}/></label>
    {preparing&&<p role="status">Preparing photo…</p>}{after&&<img className="followup-photo" src={after.url} alt="Prepared follow-up evidence"/>}
-   <label>What did you observe?<textarea required maxLength={500} value={report} disabled={busy} onChange={event=>{setReport(event.target.value);setConsent(false);setResult(null);}}/></label>
+   <label htmlFor={`step-report-${sourceCaseId}-${stepIndex}`}>What did you observe?</label><textarea id={`step-report-${sourceCaseId}-${stepIndex}`} required maxLength={440} value={report} disabled={busy} onChange={event=>{setReport(event.target.value);setConsent(false);setResult(null);onFeedbackChange?.({outcome,report:event.target.value});}}/>
    <label className="consent"><input type="checkbox" checked={consent} disabled={busy||!after||preparing} onChange={event=>setConsent(event.target.checked)}/>I agree to send both photos, the source analysis, checkpoint and my observation to Baseten for one additional AI review.</label>
    <button className="secondary" disabled={busy||preparing||!after||!consent||!report.trim()||photos[beforeIndex]?.omitted}>{busy?"Reviewing checkpoint…":"Review checkpoint"}</button>
    {busy&&<button type="button" className="secondary" onClick={()=>{request.current?.abort();setBusy(false);setError("Review cancelled. Provider usage already incurred may still be charged.");}}>Cancel review</button>}

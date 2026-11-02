@@ -215,3 +215,13 @@ button:disabled{opacity:.65}
  .premium-demo>span{background:ButtonFace;border-color:ButtonText;color:ButtonText}
 }
 @media(prefers-reduced-motion:reduce){.recorded-card,.capture-page .dropzone{transition:none}}
+
+.repair-intake{min-width:0;border:1px solid #526875;background:#121e26;border-radius:14px;padding:24px;margin:28px 0;color:#e8efeb}
+.repair-intake legend{font-size:22px;font-weight:550;letter-spacing:-.025em;padding:0 8px}
+.repair-intake>p{color:#c3d0d9;margin:0 0 20px}
+.capture-page .repair-intake label{display:block;font-size:14px!important;line-height:1.7;margin-top:16px}
+.repair-intake input,.repair-intake textarea{display:block;width:100%;margin-top:8px;padding:12px;resize:vertical}
+.repair-intake>div{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.repair-intake small,.repair-feedback-note{display:block;color:#b9ccd7;line-height:1.8;margin-top:18px;font-size:13px}
+@media(max-width:640px){.repair-intake{padding:20px 16px}.repair-intake>div{grid-template-columns:1fr;gap:0}}
+@media(forced-colors:active){.repair-intake{background:Canvas;color:CanvasText;border-color:CanvasText}.repair-intake>p,.repair-intake small,.repair-feedback-note{color:CanvasText}}

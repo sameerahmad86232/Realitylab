@@ -98,7 +98,7 @@ try {
   assert.equal(scanCalls,1,'Reopening identical photos/context must not POST or consume another call, even offline');
   assert.equal(JSON.parse(payload).meta.requestId,firstRequest);
   await page.getByRole('button',{name:'Edit photos',exact:true}).click();
-  await page.getByRole('textbox').fill('Inspect a different region');
+  await page.getByRole('textbox',{name:/What should we focus on/}).fill('Inspect a different region');
   assert.equal(await page.getByRole('button',{name:'View existing analysis',exact:true}).count(),0);
   assert.equal(await page.getByRole('button',{name:'Analyze object',exact:true}).isDisabled(),true,'Changed context requires a fresh online request');
   await context.setOffline(false);

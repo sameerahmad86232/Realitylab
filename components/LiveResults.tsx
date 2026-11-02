@@ -323,6 +323,7 @@ export default function LiveResults({
       )}
       {analysis.repair_assessment && (
         <RepairAssessment
+          key={meta.requestId}
           analysis={analysis}
           orchestration={meta.orchestration}
           sourceCaseId={meta.requestId}
