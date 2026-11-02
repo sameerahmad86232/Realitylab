@@ -225,3 +225,81 @@ button:disabled{opacity:.65}
 .repair-intake small,.repair-feedback-note{display:block;color:#b9ccd7;line-height:1.8;margin-top:18px;font-size:13px}
 @media(max-width:640px){.repair-intake{padding:20px 16px}.repair-intake>div{grid-template-columns:1fr;gap:0}}
 @media(forced-colors:active){.repair-intake{background:Canvas;color:CanvasText;border-color:CanvasText}.repair-intake>p,.repair-intake small,.repair-feedback-note{color:CanvasText}}
+
+/* Repair studio: action first, supporting evidence second, optional art on demand. */
+.live-results .repair-assessment{padding:32px!important;background:linear-gradient(140deg,#141e24,#0f181e)!important;border-color:#4d606c!important;box-shadow:0 18px 60px #0002}
+.repair-assessment .orchestrator-summary{border-color:#3a4b55;padding-bottom:20px;margin-bottom:22px}
+.repair-assessment .orchestrator-summary strong{font-size:16px;font-weight:500}
+.repair-assessment .repair-answer-head{padding-bottom:26px;border-bottom:1px solid #3b4d58;align-items:center}
+.repair-assessment .repair-answer-head h2{font-size:clamp(30px,3.1vw,44px);max-width:21ch;line-height:1.15}
+.repair-assessment .risk-badge{border-radius:999px;padding:10px 14px;white-space:normal;line-height:1.5;flex-shrink:0;font-size:12px}
+.repair-assessment .risk-badge.low{background:#17372e!important;color:#c7eddb!important;border-color:#5b9381!important}
+.repair-assessment .risk-badge.medium{background:#372e1c!important;color:#f2dab0!important;border-color:#9d8658!important}
+.repair-assessment .risk-badge.high{background:#3a2225!important;color:#ffd0cc!important;border-color:#ba7c79!important}
+.repair-assessment .repair-answer-grid{grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr);gap:32px;margin-top:28px;align-items:start}
+.repair-assessment .repair-cause{padding:24px;background:#15232c;border:1px solid #405664;border-radius:14px;min-width:0}
+.repair-assessment .repair-cause>span,.repair-assessment .repair-tools span{font-size:12px;line-height:1.6;letter-spacing:.08em;color:#c5d2da}
+.repair-assessment .repair-cause h3{font-size:24px;line-height:1.4;margin:12px 0 16px;color:#f1f3ed}
+.repair-assessment .repair-cause>p,.repair-assessment .repair-action p,.repair-assessment .repair-action li{color:#cbd8e0;font-size:15px!important;line-height:1.8}
+.repair-assessment .repair-cause aside{padding:16px;background:#283024;border-color:#7e8961;color:#e1e7cc;line-height:1.75}
+.repair-assessment .repair-cause aside p{color:#e1e7cc!important;margin:0}
+.repair-assessment .repair-components button{min-height:44px;background:#1b303c;color:#e0eaf0;border-color:#698391;border-radius:8px;padding:10px 12px;font-size:13px!important}
+.repair-assessment .repair-action{border:0;padding:0;min-width:0}
+.repair-assessment .repair-tools{border:1px solid #435b68;background:#192a34;padding:16px 18px;border-radius:12px;align-items:flex-start}
+.repair-assessment .repair-tools>svg{color:#ffb895;flex-shrink:0;margin-top:4px}
+.repair-assessment .repair-tools p{margin:4px 0 0;color:#e1e9ec}
+.repair-assessment .step-progress{margin:22px 0 14px;gap:16px}
+.repair-assessment .step-progress span{color:#ffbf9f;white-space:nowrap;letter-spacing:.06em}
+.repair-assessment .step-progress progress{height:6px;border:0;border-radius:99px;overflow:hidden;accent-color:#ff9d75}
+.repair-assessment .guided-step{background:#101d25;border-color:#607786;border-radius:16px}
+.repair-assessment .guided-step-copy{padding:28px}
+.repair-assessment .guided-step-copy>span{display:inline-grid;place-items:center;width:38px;height:38px;border:1px solid #af785c;border-radius:10px;background:#352a23;color:#ffd4b9!important;font-size:14px!important}
+.repair-assessment .guided-step-copy h3{font-size:27px;line-height:1.3;letter-spacing:-.03em;margin:17px 0;color:#f3f3e9;font-weight:550}
+.repair-assessment .guided-step-copy>p:not(.step-purpose){font-size:17px!important;line-height:1.8;color:#e1e8ec}
+.repair-assessment .step-purpose{padding:14px 16px;border-color:#b5986e;border-radius:0 8px 8px 0;background:#1a2c35}
+.repair-assessment .guided-step-copy dl{gap:12px;margin-top:24px}
+.repair-assessment .guided-step-copy dl>div{padding:16px;background:#1a2c37;border-color:#4a6474;border-radius:10px;min-width:0}
+.repair-assessment .guided-step-copy dt{font-size:12px!important;letter-spacing:.04em;color:#c3d4df!important;line-height:1.6}
+.repair-assessment .guided-step-copy dd{font-size:14px!important;line-height:1.75;margin-top:8px;overflow-wrap:anywhere}
+.repair-assessment .guided-step-copy dl>div:last-child{background:#34292a;border-color:#a17b75}
+.repair-assessment .guided-step-copy dl>div:last-child dt{color:#ffd3c9!important}
+.repair-assessment .step-visual-option{border-top:1px solid #4a626f;background:#14242e}
+.step-visual-option summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 22px;font-size:14px!important;line-height:1.6;color:#d6e3eb;list-style-position:inside}
+.step-visual-option[open] summary{border-bottom:1px solid #4a626f}
+.step-visual-option img{display:block;width:100%;max-height:330px;object-fit:contain;background:#f4f3ec}
+.step-visual-option .step-visual-empty{min-height:0;padding:24px;background-image:none;background:#152731}
+.repair-assessment .step-controls{gap:14px;margin-top:18px}
+.repair-assessment .step-controls button{min-height:50px;padding:12px 20px;font-size:14px!important}
+.repair-assessment .repair-followup{margin:30px 0 20px;padding:28px;border-color:#4d6878;border-radius:16px;background:#142631}
+.repair-assessment .repair-followup h3{font-size:25px!important;line-height:1.35;font-weight:550;margin-bottom:14px}
+.repair-assessment .repair-followup>p{max-width:76ch;color:#c4d6e2!important;line-height:1.8}
+.repair-assessment .repair-followup form{gap:12px;margin-top:24px}
+.repair-assessment .repair-followup label{font-size:14px!important;line-height:1.7;margin-top:8px}
+.repair-assessment .repair-followup :is(input:not([type=checkbox]),select,textarea){padding:13px 15px;min-height:48px;border-radius:9px!important;font-size:16px!important}
+.repair-assessment .repair-followup textarea{min-height:110px}
+.repair-assessment .repair-followup .consent{padding:15px;border:1px solid #668291;border-radius:10px;gap:12px;line-height:1.75}
+.repair-assessment .repair-followup .consent input{margin-top:5px;flex-shrink:0}
+.repair-assessment .checkpoint-status{padding:16px 18px;border:1px solid #b08c61;border-radius:10px;background:#302c22;color:#f2dfbc!important;line-height:1.8}
+.repair-assessment .checkpoint-status.matched{background:#1a332c;border-color:#659685;color:#d0eade!important}
+.repair-assessment .followup-result{padding:24px;margin-top:24px;background:#10202a;border:1px solid #526f80;border-radius:12px}
+.repair-assessment .followup-result h4{font-size:17px!important;line-height:1.5;margin-bottom:12px}
+.repair-assessment .followup-result ul{font-size:14px;line-height:1.8}
+.repair-assessment .repair-stop{padding:22px;background:#302629;border:1px solid #8d6b70;border-radius:12px;margin-top:28px}
+.repair-assessment .repair-stop strong{font-size:12px;line-height:1.6;color:#ffd0c6;letter-spacing:.08em}
+.repair-assessment .repair-stop ul{display:grid;gap:12px;padding:0;margin-top:16px}
+.repair-assessment .repair-stop li{font-size:14px;line-height:1.8;color:#f0d5d4;gap:10px}
+.repair-assessment .repair-stop svg{flex-shrink:0;margin-top:6px}
+@media(max-width:900px){.repair-assessment .repair-answer-grid{grid-template-columns:1fr;gap:24px}.repair-assessment .repair-cause{padding:22px}}
+@media(max-width:640px){
+ .live-results .repair-assessment{padding:18px!important}.repair-assessment .repair-answer-head{align-items:flex-start;gap:18px}
+ .repair-assessment .repair-answer-head h2{font-size:31px}.repair-assessment .repair-cause{padding:18px}.repair-assessment .repair-cause h3{font-size:22px}
+ .repair-assessment .guided-step-copy{padding:20px 17px}.repair-assessment .guided-step-copy h3{font-size:25px}
+ .repair-assessment .guided-step-copy dl{grid-template-columns:1fr}.repair-assessment .step-controls button{flex:1;padding:12px 10px}
+ .repair-assessment .repair-followup{padding:22px 16px}.repair-assessment .repair-followup h3{font-size:23px!important}
+ .repair-assessment .followup-result{padding:18px 14px}.repair-assessment .repair-stop{padding:18px}.step-visual-option summary{padding:16px}
+}
+@media(forced-colors:active){
+ .live-results .repair-assessment,.repair-assessment :is(.repair-cause,.repair-tools,.guided-step,.guided-step-copy dl>div,.repair-followup,.followup-result,.checkpoint-status,.repair-stop,.step-visual-option){background:Canvas!important;color:CanvasText!important;border-color:CanvasText!important}
+ .repair-assessment :is(h2,h3,h4,p,span,dt,dd,li,strong,summary),.repair-assessment .guided-step-copy>span{color:CanvasText!important}
+ .repair-assessment .risk-badge,.repair-assessment .repair-components button{background:ButtonFace!important;color:ButtonText!important;border-color:ButtonText!important}
+}
