@@ -217,12 +217,12 @@ async function runScan(request: Request, emit?: (event: StageEvent) => void, req
     flow.event("validation", "completed");
     flow.event("normalization", "running");
     stage = "normalization";
-    const normalizationStart = Date.now(),
-      images: string[] = [];
-    for (const file of files) {
+    const normalizationStart = Date.now();
+    // Independent photos can be normalized concurrently; Promise.all preserves view order.
+    const images = await Promise.all(files.map((file) => {
       signal.throwIfAborted();
-      images.push(await normalize(file as File));
-    }
+      return normalize(file as File);
+    }));
     normalizationMs = Date.now() - normalizationStart;
     signal.throwIfAborted();
     flow.event("normalization", "completed");
@@ -236,8 +236,11 @@ async function runScan(request: Request, emit?: (event: StageEvent) => void, req
     flow.event("analysis", "running");
     flow.reserveCall(signal);
     stage = "inference";
+    // A single view rarely requires the multi-view output budget; keep room
+    // for detailed safety reasoning and preserve the full limit for multiple views.
+    const outputBudget = images.length === 1 ? 4200 : images.length === 2 ? 5200 : SCAN_BUDGET.maxOutputTokens;
     const inferenceStart = Date.now(),
-      result = await analyzePhotos(images, context, signal, SCAN_BUDGET.maxOutputTokens);
+      result = await analyzePhotos(images, context, signal, outputBudget);
     inferenceMs = Date.now() - inferenceStart;
     signal.throwIfAborted();
     flow.event("analysis", "completed");
@@ -278,7 +281,10 @@ async function runScan(request: Request, emit?: (event: StageEvent) => void, req
         photoCount: images.length,
         model: configuration().model,
         tokens: result.usage.totalTokens,
-        orchestration,
+        inputTokens: result.usage.inputTokens,
+        outputTokens: result.usage.outputTokens,
+        safetyDecision: orchestration.safety?.decision,
+        executionStatus: orchestration.status,
       }),
     );
     return json(payload);
