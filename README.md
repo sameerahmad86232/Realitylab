@@ -5,9 +5,9 @@
 
 Built for the **Meta Global AI Developer Hackathon 2026** — **Indie Developer** track · **Build for Your World** theme.
 
-[**Launch live app**](https://realitylab-fix-anything.vercel.app) · [**Open project brief**](https://realitylab-fix-anything.vercel.app/project) · [**Explore recorded demo**](https://realitylab-fix-anything.vercel.app/?demo=1) · [**Judge's guide**](docs/JUDGE_GUIDE.md) · [**Architecture**](docs/ARCHITECTURE.md)
+[**Watch the final demo video**](https://drive.google.com/file/d/1jgVVoAhj1mMxrH_i_uhe8pl4if4mOCLC/view?usp=drivesdk) · [**Launch live app**](https://realitylab-fix-anything.vercel.app) · [**Open project brief**](https://realitylab-fix-anything.vercel.app/project) · [**Explore recorded demo**](https://realitylab-fix-anything.vercel.app/?demo=1) · [**Judge's guide**](docs/JUDGE_GUIDE.md) · [**Architecture**](docs/ARCHITECTURE.md)
 
-> **Demo video:** final MP4 has been exported by the creator. Its public/unlisted viewing URL has not yet been provided; add that link to this README and the submission portal before submitting.
+> **Final demo video:** [Watch on Google Drive](https://drive.google.com/file/d/1jgVVoAhj1mMxrH_i_uhe8pl4if4mOCLC/view?usp=drivesdk). The creator uploaded an MP4; confirm that anyone with the link can view it without signing in before submitting.
 
 ---
 
@@ -106,6 +106,8 @@ Browser tests use locally served fixture responses and need Chromium. GitHub Act
 - **Evidence quality:** recorded cases demonstrate product behavior, not statistically established recognition accuracy or clinical/repair performance. Physical trials and broader user validation remain future work.
 
 ## Hackathon materials
+
+- [Watch the final RealityLab video](https://drive.google.com/file/d/1jgVVoAhj1mMxrH_i_uhe8pl4if4mOCLC/view?usp=drivesdk) — Google Drive MP4; viewer access must be independently confirmed
 
 - [Ready-to-paste submission description and final checklist](docs/HACKATHON_SUBMISSION.md)
 - [Judge's walkthrough and evaluation notes](docs/JUDGE_GUIDE.md)
