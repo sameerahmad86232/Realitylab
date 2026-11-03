@@ -45,7 +45,7 @@ test('independent safety veto removes low-risk model instructions for hazardous 
 });
 test('real handler streams progress while inference is pending, then validates safety trace and budget',async()=>{
  const pending=Promise.withResolvers<Response>();let calls=0;
- globalThis.fetch=async(_url,options)=>{calls++;assert.equal(JSON.parse(options?.body as string).max_tokens,6000);return pending.promise;};
+ globalThis.fetch=async(_url,options)=>{calls++;assert.equal(JSON.parse(options?.body as string).max_tokens,4200);return pending.promise;};
  const response=await handleScan(await request('gas boiler leaking'));
  const events:StageEvent[]=[];const started=Promise.withResolvers<void>();
  const result=readScanResponse(response,event=>{events.push(event);if(event.stage==='analysis'&&event.status==='running')started.resolve();});

@@ -266,6 +266,22 @@ export default function LiveResults({
             : "Token usage unavailable"}
         </span>
       </div>
+      <div className={`analysis-briefing ${analysis.repair_assessment?.risk || "unrated"}`} aria-label="Your analysis at a glance">
+        <div className="analysis-briefing-main">
+          <div className="analysis-briefing-eyebrow"><span className="briefing-pulse" aria-hidden="true" /> {scan.recorded ? "RECORDED CASE" : "ANALYSIS COMPLETE"} <span className="briefing-divider" aria-hidden="true" /> EVIDENCE FIRST</div>
+          <h2>{analysis.repair_assessment?.status === "professional-help" ? "Prioritize safety." : analysis.repair_assessment?.status === "needs-more-evidence" ? "One more observation can help." : analysis.repair_assessment?.status === "guided-inspection" ? "Your next safe step." : "Explore what the image reveals."}</h2>
+          <p>{analysis.repair_assessment?.status === "professional-help" ? "Safety comes first. This case needs a qualified professional rather than DIY steps." : analysis.repair_assessment?.status === "needs-more-evidence" ? "The evidence is not enough for safe repair instructions. Review what is missing before taking action." : analysis.repair_assessment?.status === "guided-inspection" ? "A limited low-risk inspection path is available. Follow the checkpoints, and stop if anything differs." : "Explore observed parts and tentative explanations. Photo evidence alone cannot confirm an internal fault."}</p>
+          <div className="analysis-briefing-actions">
+            {analysis.repair_assessment && <button className="primary" onClick={() => document.getElementById("repair-answer-title")?.scrollIntoView({behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start"})}>Review guidance <ArrowUpRight size={16} /></button>}
+            <button className="secondary" onClick={() => explorer.current?.scrollIntoView({block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth"})}><Layers3 size={16} /> Explore evidence</button>
+          </div>
+        </div>
+        <div className="analysis-briefing-side">
+          <div><span>RISK ESTIMATE</span><strong>{analysis.repair_assessment?.risk || "Unrated"}</strong><small>AI assessment · not verified</small></div>
+          <div><span>VISIBLE FEATURES</span><strong>{observed.toString().padStart(2, "0")}</strong><small>Grounded in the photos</small></div>
+          <div><span>GUIDANCE PATH</span><strong>{analysis.repair_assessment?.status === "guided-inspection" ? "Guided" : analysis.repair_assessment?.status === "professional-help" ? "Professional" : "Review"}</strong><small>Safety-gated next steps</small></div>
+        </div>
+      </div>
       {meta.timing && (
         <details className="timing-breakdown">
           <summary>Request timing and usage</summary>
