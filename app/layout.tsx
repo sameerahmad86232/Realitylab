@@ -13,7 +13,10 @@ import "./kindred-system.css";
 import "./observatory.css";
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.RENDER_EXTERNAL_URL || "https://realitylab.onrender.com",
+    process.env.APP_ORIGIN ||
+      (process.env.VERCEL_PROJECT_PRODUCTION_URL
+        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+        : process.env.RENDER_EXTERNAL_URL || "https://realitylab.onrender.com"),
   ),
   alternates: { canonical: "/" },
   openGraph: {

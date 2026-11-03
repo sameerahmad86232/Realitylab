@@ -25,7 +25,7 @@ export async function GET() {
       status: "ok",
       app: "RealityLab",
       release: "safe-image-readiness-v23",
-      sourceRevision: process.env.RENDER_GIT_COMMIT || null,
+      sourceRevision: process.env.VERCEL_GIT_COMMIT_SHA || process.env.RENDER_GIT_COMMIT || null,
       analysis: {
         configured,
         provider,
