@@ -7,7 +7,7 @@ Built for the **Meta Global AI Developer Hackathon 2026** — **Indie Developer*
 
 [**Launch live app**](https://realitylab-fix-anything.vercel.app) · [**Open project brief**](https://realitylab-fix-anything.vercel.app/project) · [**Explore recorded demo**](https://realitylab-fix-anything.vercel.app/?demo=1) · [**Judge's guide**](docs/JUDGE_GUIDE.md) · [**Architecture**](docs/ARCHITECTURE.md)
 
-> **Demo video:** final MP4 has been exported by the creator. Its public/unlisted viewing URL has not yet been provided; add that link to this README and the submission portal before submitting.
+> **Demo video:** [Watch the RealityLab submission video on Google Drive](https://drive.google.com/file/d/1jgVVoAhj1mMxrH_i_uhe8pl4if4mOCLC/view?usp=drivesdk). The creator uploaded the final MP4; **public viewing permissions have not yet been independently verified**. Confirm that judges can play it while signed out and that the organizer accepts Google Drive links.
 
 ---
 
