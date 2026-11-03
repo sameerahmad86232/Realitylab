@@ -1,6 +1,6 @@
 # Three-minute demo plan
 
-This document is the original recording plan. The creator has now exported a final MP4; its published viewing URL is still needed for the submission. The actual final edit may differ from this plan, so judges should rely on the uploaded video.
+This document is the original recording plan. The final MP4 was exported and [uploaded to Google Drive](https://drive.google.com/file/d/1jgVVoAhj1mMxrH_i_uhe8pl4if4mOCLC/view?usp=drivesdk). Anonymous viewer access still needs checking. The actual final edit may differ from this plan; judges should rely on the uploaded video.
 
 | Time | Show and explain |
 | --- | --- |

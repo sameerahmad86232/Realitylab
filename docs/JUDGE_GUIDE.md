@@ -5,7 +5,7 @@
 **Try the product:** https://realitylab-fix-anything.vercel.app  
 **Inspect the project brief:** https://realitylab-fix-anything.vercel.app/project  
 **Recorded walkthrough:** https://realitylab-fix-anything.vercel.app/?demo=1  
-**Demo video:** final MP4 exported; viewing URL to be added before submission  
+**Demo video:** [RealityLab hackathon demo (Google Drive)](https://drive.google.com/file/d/1jgVVoAhj1mMxrH_i_uhe8pl4if4mOCLC/view?usp=drivesdk) — signed-out accessibility not yet verified  
 **Repository:** https://github.com/sameerahmad86232/Realitylab
 
 ## The one-sentence challenge

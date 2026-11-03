@@ -9,6 +9,6 @@ The final submission copy is maintained in **[HACKATHON_SUBMISSION.md](HACKATHON
 - [Architecture](ARCHITECTURE.md)
 - [README](../README.md)
 
-**Submission status:** Drafts are prepared, but the final exported video URL still needs to be supplied and the submission form completed by the participant. No hackathon submission has been sent automatically.
+**Submission status:** Drafts are prepared, and the [exported submission demo](https://drive.google.com/file/d/1jgVVoAhj1mMxrH_i_uhe8pl4if4mOCLC/view?usp=drivesdk) is on Google Drive. Check anyone-with-link viewer access and submit the URL in the official portal. No hackathon submission has been sent automatically.
 
 See the [official Meta hackathon event page](https://dev.meta.ai/events/global-hackathon) for current deadlines and rules.
