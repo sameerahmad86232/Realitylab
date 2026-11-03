@@ -65,13 +65,13 @@ Next.js, React, TypeScript, Node.js, Sharp, Zod, Three.js, Lucide, Vercel, Upsta
 | README | https://github.com/sameerahmad86232/Realitylab#readme |
 | Judge guide | https://github.com/sameerahmad86232/Realitylab/blob/main/docs/JUDGE_GUIDE.md |
 | Architecture | https://github.com/sameerahmad86232/Realitylab/blob/main/docs/ARCHITECTURE.md |
-| Video | **ACTION REQUIRED — publish exported MP4 and paste its final accessible viewing URL** |
+| Video | https://drive.google.com/file/d/1jgVVoAhj1mMxrH_i_uhe8pl4if4mOCLC/view?usp=drivesdk — **confirm anonymous viewer access and that the portal accepts Google Drive** |
 | Team / eligibility | **ACTION REQUIRED — enter actual approved participant/team details** |
 | Screenshots, if requested by portal | **ACTION REQUIRED — upload screenshots from the actual app, not speculative mockups** |
 
 ## Video upload and verification
 
-The final MP4 has been exported, but its **hosting URL is not yet known**. Publish it on a platform accepted by the official submission portal. If using YouTube, set visibility to **Unlisted** or Public, not Private, and ensure the URL can be viewed without logging into your account. Do not represent this as a Meta-specific video requirement unless the participant dashboard states so.
+The final MP4 is hosted at [this Google Drive link](https://drive.google.com/file/d/1jgVVoAhj1mMxrH_i_uhe8pl4if4mOCLC/view?usp=drivesdk). **Google Drive metadata did not establish anonymous access**, so test the video in a signed-out/incognito browser. If the official submission portal requires a different video platform, publish there and replace this link. Do not assume a shared URL guarantees that every judge can watch.
 
 Before submission, watch the full video on another device. Confirm that it matches the current product, differentiates recorded examples from actual live inference, and identifies edits or skipped waiting periods where applicable. Ensure any background music, photos and footage are authorized for this use.
 
@@ -81,7 +81,7 @@ Before submission, watch the full video on another device. Confirm that it match
 2. Open the project brief, repository, README, and judge guide without a signed-in GitHub session.
 3. Inspect `/api/health` for readiness without interpreting it as proof of diagnostic accuracy.
 4. Confirm that at least one complete recorded case opens even when hourly live credits are temporarily exhausted.
-5. Verify the exported video's **published URL**, playback, audio and description.
+5. Verify the exported video's **Google Drive URL**, anonymous playback, audio and description.
 6. Confirm that only actually implemented Meta tooling is claimed in both the portal and video.
 7. Paste the text/links into the portal, inspect its preview, and **submit**. Save the final confirmation.
 
