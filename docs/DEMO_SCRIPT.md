@@ -1,6 +1,6 @@
 # Three-minute demo plan
 
-This is a recording plan. No final narrated submission video has been recorded or submitted by this change.
+This document is the original recording plan. The creator has now exported a final MP4; its published viewing URL is still needed for the submission. The actual final edit may differ from this plan, so judges should rely on the uploaded video.
 
 | Time | Show and explain |
 | --- | --- |
