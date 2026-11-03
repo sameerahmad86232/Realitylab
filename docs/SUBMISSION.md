@@ -1,35 +1,14 @@
-# Submission draft — RealityLab
+# RealityLab — submission entry point
 
-**Suggested problem statement:** Build for Your World. Choose Indie Developer versus Startup from the team's actual eligibility.
+The final submission copy is maintained in **[HACKATHON_SUBMISSION.md](HACKATHON_SUBMISSION.md)**. This replaces the earlier Render-era draft.
 
-**Pitch:** RealityLab helps makers preparing hands-on demonstrations explain one visible principle in an everyday mechanism. Meta vision and reasoning connect photographed evidence to component roles, a conceptual drawing and a separate craft proposal. The observation journal keeps the model's prediction separate from what the user actually reports.
+- [Live Vercel app](https://realitylab-fix-anything.vercel.app)
+- [Recorded demo](https://realitylab-fix-anything.vercel.app/?demo=1)
+- [Project brief](https://realitylab-fix-anything.vercel.app/project)
+- [Judge's guide](JUDGE_GUIDE.md)
+- [Architecture](ARCHITECTURE.md)
+- [README](../README.md)
 
-**Impact:** Curious makers and learners often recognize an object without understanding its behavior. RealityLab links component roles and working principles back to source photos and makes uncertainty visible. Actual learning outcomes and demand still need user evaluation.
+**Submission status:** Drafts are prepared, but the final exported video URL still needs to be supplied and the submission form completed by the participant. No hackathon submission has been sent automatically.
 
-**Meta tooling:** Server-side vision inference through Baseten using `meta-models/muse-spark-open-1026` produces schema-validated parts, hypotheses and principles. A separate text-only request creates a constrained paper/cardboard analogue or answers scan-grounded questions. No substitute model is silently used.
-
-**Observation loop:** Separate craft steps expose an optional journal comparing the model’s predicted observation with the user’s actual matching/different/unclear result. Reports bind to the exact lesson, stay in tab memory and export with provenance. User reports are not independent validation; no physical test or measured learning improvement has been established.
-
-**Technical execution:** Browser/server image normalization, explicit consent, server-only credentials, bounded inputs, cancellation/timeouts, shared inference limits, strict JSON and HTTP-envelope validation, linked photo/map/blueprint exploration, local marker adjustments, controlled SVG generation, photo-free exports by default, responsive accessible controls and WebGL fallback.
-
-**Product:** https://realitylab.onrender.com
-
-**Project brief and evidence:** https://realitylab.onrender.com/project
-
-**Recorded tour:** https://realitylab.onrender.com/?demo=1 (explicitly recorded; no new inference on opening)
-
-**Code for the deployed implementation:** https://github.com/sameerahmad86232/Realitylab/tree/main
-
-**Release:** The current Next.js implementation is merged into `main`, which Render deploys after CI checks pass. The repository root is the current source entry point. Merged readability and TypeScript hardening: https://github.com/sameerahmad86232/Realitylab/pull/16.
-
-**Video and contributors:** Add the actual three-minute public video URL, contributor names and representative before submission. See DEMO_SCRIPT.md. Nothing has been submitted automatically.
-
-**Original work:** The previous application was intentionally removed; the current Next.js implementation was developed during the hackathon on October 28, 2026. Earlier history remains in Git. Identify current features/commits in the demo rather than representing all repository history as new. Dependencies, fonts and CC0 photos are credited. No external reconstruction repository is represented as our work.
-
-**Limits:** Not universal image-to-CAD, recovered hidden wiring, diagnosis or a manufacturing plan. The procedural 3D fan is prepared geometry. Blueprints are conceptual and not to scale; the LED circuit is separate and app-authored. Generated content can be wrong. Recorded examples are labeled. Physical mobile tests, broader evaluation and production-grade abuse controls remain outstanding.
-
-Before submission, verify repository/video visibility, contributor list, eligibility and deadline against the organizer's current dashboard.
-
-See `JUDGING_READINESS.md` for rubric evidence and remaining human validation. The excluded-project examples make a generic image-analyzer or education-chatbot framing weak; demonstrate the linked engineering investigation and verify eligibility with the organizer.
-
-Phase 1 narrows the intended user/task; it does not establish demand or a learning benefit. See `REMEDIATION_PHASES.md` and `research/PHASE_1_PROTOCOL.md`.
+See the [official Meta hackathon event page](https://dev.meta.ai/events/global-hackathon) for current deadlines and rules.
