@@ -1,38 +1,28 @@
-# RealityLab — judge-ready presentation
+# RealityLab — judging readiness
 
-## Share these entry points
+**Current guide:** [JUDGE_GUIDE.md](JUDGE_GUIDE.md)  
+**Submission materials:** [HACKATHON_SUBMISSION.md](HACKATHON_SUBMISSION.md)  
+**Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md)
 
-- Product and capture: https://realitylab.onrender.com
-- Shareable recorded tour: https://realitylab.onrender.com/?demo=1
-- Project brief and inspectable evidence: https://realitylab.onrender.com/project
-- Public code: https://github.com/sameerahmad86232/Realitylab (current Next.js implementation on `main`; Render deploys after CI checks pass).
+The live Next.js app and Node.js APIs are hosted on **[Vercel](https://realitylab-fix-anything.vercel.app)**, not Render. The [recorded, zero-credit tour](https://realitylab-fix-anything.vercel.app/?demo=1) and [project brief](https://realitylab-fix-anything.vercel.app/project) are useful judge entry points.
 
-## The story
+## Software evidence
 
-A curious maker sees a familiar object but cannot connect each visible part to its job. RealityLab uses Meta vision and reasoning to turn that photograph into an evidence-linked engineering study: parts, principles, conceptual blueprints, typical construction and a separate craft proposal. Users can inspect and question the explanation rather than accepting hidden mechanisms as facts.
+- Source code and a setup guide are available on the public GitHub `main` branch.
+- One live Meta Muse Spark model inference per initial scan, through Baseten, with strict response validation.
+- An independent safety gate can withhold risky or unsupported procedural steps.
+- Photo-linked component views, conceptual diagrams, recorded runs, and optional consented follow-up tools are available.
+- Shared quota controls help bound public demo use; they do not verify provider dollar spending.
+- Automated GitHub CI validates build, TypeScript, security behavior, staged transport, recorded evaluation and browser interactions without paid inference.
 
-The differentiating interaction is the linked investigation, not the mere existence of an image analysis or chatbot. Demonstrate the same component across photograph, evidence inspector, blueprint and construction study. Show the model's uncertainty and a grounded follow-up. The organizer decides whether this sufficiently distinguishes the project from the guide's excluded generic image analyzers and education chatbots; do not represent eligibility as already approved.
+## Remaining human submission tasks
 
-## Rubric evidence
+1. Publish the exported final MP4 to an accessible video URL and watch it from a different signed-out device.
+2. Add the real video URL to the README, submission document and participant portal.
+3. Verify the actual submission form requirements, track, contributors, eligibility and licensing.
+4. If requested, provide genuine screenshots from the deployed app.
+5. Confirm every public link and **submit** before the organizer's deadline. Retain the final confirmation.
 
-| Criterion | What to show | Remaining proof |
-| --- | --- | --- |
-| Impact, 30% | One concrete maker/workshop preparation task and the source-to-study flow | Actual user feedback, demand and measured learning benefit |
-| Meta tooling, 25% | Exact open-weight model and provider; vision scan followed by grounded construction/question request | Optional Meta component/step illustrations are implemented when configured; GPU reconstruction is not implemented |
-| Execution, 20% | Evidence labels, source references, controlled diagrams, exports, validation, cancellation and recovery | Physical device checks and operational verification of shared quotas/provider billing controls |
-| Demo, 25% | Labeled guided recording, one genuinely new scan, one new dossier, useful output | Actual narrated three-minute public video and a physical build demonstration |
+**Truthful demonstration boundaries:** Live model latency varies; 10-second performance has not been established. Repair success, physical test outcomes, recognition accuracy and real CAD reconstruction are not guaranteed. SAM 3.1 is not currently integrated. Recorded examples are clearly identified.
 
-## Ready in the software
-
-The `/project` page explains the problem and workflow, derives part counts and latency from five saved model responses, links original JSON and photo credits, and documents observed failures. It is available without AI calls. The shareable tour opens once, removes its query parameter and hands off to the actual workspace or capture flow. Neither route makes a provider request automatically.
-
-## Final human validation
-
-1. Choose an everyday object with clear visible parts. Inspect it beforehand; take a second view without opening or powering it. Rehearse one fresh scan and one fresh dossier on the actual presentation connection, with genuine consent. Preserve real waits or disclose video cuts.
-2. Build one proposed craft activity physically and record what works and fails. Do not claim a tested build from generated text alone. Change the activity or omit the physical-success claim if it does not work.
-3. Ask a few intended users to complete one specific investigation and describe where the evidence helped or confused them. Record actual observations with permission; do not invent testimonials or percentages.
-4. Test the actual phone camera, browser and presentation device. Automated simulated-camera tests do not cover physical hardware.
-5. Record the three-minute narration using `DEMO_SCRIPT.md`; inspect the final duration and publish the video with public access.
-6. Confirm representative, team members, eligibility, public repository/branch accessibility, new-work boundaries and deadline on the official dashboard. Submit the actual video and product links. No submission, social post or community message has been sent automatically.
-
-The software supports the presentation; it cannot guarantee selection. Highest-value next evidence is a useful real task, a physically checked activity and an honest live demonstration.
+No final submission has been sent by this repository change.
