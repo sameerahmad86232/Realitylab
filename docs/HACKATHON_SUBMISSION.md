@@ -65,13 +65,13 @@ Next.js, React, TypeScript, Node.js, Sharp, Zod, Three.js, Lucide, Vercel, Upsta
 | README | https://github.com/sameerahmad86232/Realitylab#readme |
 | Judge guide | https://github.com/sameerahmad86232/Realitylab/blob/main/docs/JUDGE_GUIDE.md |
 | Architecture | https://github.com/sameerahmad86232/Realitylab/blob/main/docs/ARCHITECTURE.md |
-| Video | **ACTION REQUIRED — publish exported MP4 and paste its final accessible viewing URL** |
+| Video | [RealityLab submission demo on Google Drive](https://drive.google.com/file/d/1jgVVoAhj1mMxrH_i_uhe8pl4if4mOCLC/view?usp=drivesdk) — **verify anyone-with-link viewing and the portal's supported formats** |
 | Team / eligibility | **ACTION REQUIRED — enter actual approved participant/team details** |
 | Screenshots, if requested by portal | **ACTION REQUIRED — upload screenshots from the actual app, not speculative mockups** |
 
 ## Video upload and verification
 
-The final MP4 has been exported, but its **hosting URL is not yet known**. Publish it on a platform accepted by the official submission portal. If using YouTube, set visibility to **Unlisted** or Public, not Private, and ensure the URL can be viewed without logging into your account. Do not represent this as a Meta-specific video requirement unless the participant dashboard states so.
+The final MP4 has been uploaded to [Google Drive](https://drive.google.com/file/d/1jgVVoAhj1mMxrH_i_uhe8pl4if4mOCLC/view?usp=drivesdk). **Its anonymous viewing access has not been independently verified.** Set **General access → Anyone with the link → Viewer**, test playback in an incognito/private window without a Google login, and verify that the official Meta submission portal accepts Google Drive links. If the portal requires a different host, upload the same video there and replace the link before submitting.
 
 Before submission, watch the full video on another device. Confirm that it matches the current product, differentiates recorded examples from actual live inference, and identifies edits or skipped waiting periods where applicable. Ensure any background music, photos and footage are authorized for this use.
 
