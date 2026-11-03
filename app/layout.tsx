@@ -11,6 +11,7 @@ import "./repair.css";
 import "./matrix-hero.css";
 import "./kindred-system.css";
 import "./observatory.css";
+import "./result-cinematic.css";
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.APP_ORIGIN ||
