@@ -17,8 +17,8 @@ The live Next.js app and Node.js APIs are hosted on **[Vercel](https://realityla
 
 ## Remaining human submission tasks
 
-1. Publish the exported final MP4 to an accessible video URL and watch it from a different signed-out device.
-2. Add the real video URL to the README, submission document and participant portal.
+1. Verify the [uploaded Google Drive MP4](https://drive.google.com/file/d/1jgVVoAhj1mMxrH_i_uhe8pl4if4mOCLC/view?usp=drivesdk) plays from a signed-out device, and confirm the portal accepts Drive links.
+2. Paste the video URL into the official participant portal; it is already linked from the README and submission document.
 3. Verify the actual submission form requirements, track, contributors, eligibility and licensing.
 4. If requested, provide genuine screenshots from the deployed app.
 5. Confirm every public link and **submit** before the organizer's deadline. Retain the final confirmation.
